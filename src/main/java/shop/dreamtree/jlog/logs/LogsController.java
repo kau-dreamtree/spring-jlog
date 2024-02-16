@@ -1,6 +1,4 @@
-package shop.dreamtree.jlog.posts;
-
-import java.util.List;
+package shop.dreamtree.jlog.logs;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,19 +14,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("api/log")
 @RestController
-public class PostsController {
-    private final PostsService postsService;
+public class LogsController {
+    private final LogsService logsService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    String save(@RequestBody PostsDto postsDto) {
-        postsService.save(postsDto);
+    String save(@RequestBody LogsDto logsDto) {
+        logsService.save(logsDto);
         return "Log created";
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    List<Posts> get(@RequestParam("uid") String roomUid, @RequestParam("username") String username) {
-        return postsService.find(roomUid, username);
+    LogsResponse get(@RequestParam("room_code") String uid, @RequestParam("username") String username) {
+        return logsService.find(uid, username);
     }
 }

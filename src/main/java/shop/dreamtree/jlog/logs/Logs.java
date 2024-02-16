@@ -1,4 +1,4 @@
-package shop.dreamtree.jlog.posts;
+package shop.dreamtree.jlog.logs;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Posts {
+public class Logs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,7 +41,7 @@ public class Posts {
     private LocalDateTime modifiedDate;
 
     @Builder
-    public Posts(String username, long expense, String roomUid) {
+    public Logs(String username, long expense, String roomUid) {
         this.username = username;
         this.expense = expense;
         this.roomUid = roomUid;

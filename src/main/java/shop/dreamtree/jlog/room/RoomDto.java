@@ -1,5 +1,7 @@
 package shop.dreamtree.jlog.room;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,22 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class RoomDto {
+    @JsonProperty("room_code")
     private String uid;
-    private String firstUsername;
-    private String secondUsername;
+    private String username;
 
     @Builder
-    public RoomDto(String uid, String firstUsername, String secondUsername) {
+    public RoomDto(String uid, String username) {
         this.uid = uid;
-        this.firstUsername = firstUsername;
-        this.secondUsername = secondUsername;
-    }
-
-    public Room toEntity() {
-        return Room.builder()
-                .uid(uid)
-                .firstUsername(firstUsername)
-                .secondUsername(secondUsername)
-                .build();
+        this.username = username;
     }
 }

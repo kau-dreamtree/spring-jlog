@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import shop.dreamtree.jlog.room.response.RoomResponse;
 
 @RequiredArgsConstructor
 @RequestMapping("api/room")
@@ -18,13 +20,13 @@ public class RoomController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    void create(@RequestBody RoomDto roomDto) {
-        roomService.create(roomDto);
+    RoomResponse create(@RequestParam("username") String username) {
+        return new RoomResponse(roomService.create(username));
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    RoomDto join(@RequestBody RoomDto roomDto) {
-        return roomService.join(roomDto);
+    void join(@RequestBody RoomDto roomDto) {
+        roomService.join(roomDto);
     }
 }

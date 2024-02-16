@@ -1,5 +1,8 @@
 package shop.dreamtree.jlog.room;
 
+import java.util.Objects;
+import java.util.UUID;
+
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import shop.dreamtree.jlog.util.Encryptor;
 
 @RequiredArgsConstructor
 @Service
@@ -14,23 +18,22 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     @Transactional
-    void create(RoomDto roomDto) {
-        if (roomRepository.existsByUid(roomDto.getUid())) {
-            throw new EntityExistsException("The uid already exists.");
-        }
-        roomRepository.save(roomDto.toEntity());
+    String create(String username) {
+        String uuid = UUID.randomUUID().toString();
+        String uid = Objects.requireNonNull(Encryptor.hashString(uuid)).substring(0, 8);
+        Room room = Room.builder()
+                .uid(uid)
+                .firstUsername(username)
+                .build();
+        roomRepository.save(room);
+        return uid;
     }
 
     @Transactional
-    RoomDto join(RoomDto roomDto) {
+    void join(RoomDto roomDto) {
         Room room = roomRepository.findByUid(roomDto.getUid())
                 .orElseThrow(() -> new EntityNotFoundException("The uid does not exists."));
-        room.join(roomDto.getSecondUsername());
-        System.out.println(roomDto.getSecondUsername());
-        return RoomDto.builder()
-                .uid(room.getUid())
-                .firstUsername(room.getFirstUsername())
-                .secondUsername(room.getSecondUsername())
-                .build();
+        room.join(roomDto.getUsername());
+        roomRepository.save(room);
     }
 }

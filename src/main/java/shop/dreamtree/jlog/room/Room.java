@@ -1,20 +1,14 @@
 package shop.dreamtree.jlog.room;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import shop.dreamtree.jlog.posts.Posts;
 
 @NoArgsConstructor
 @Getter
@@ -34,10 +28,9 @@ public class Room {
     private String secondUsername;
 
     @Builder
-    public Room(String uid, String firstUsername, String secondUsername) {
+    public Room(String uid, String firstUsername) {
         this.uid = uid;
         this.firstUsername = firstUsername;
-        this.secondUsername = secondUsername;
     }
 
     public void join(String secondUsername) {
