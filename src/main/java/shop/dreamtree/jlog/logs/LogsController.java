@@ -1,6 +1,7 @@
 package shop.dreamtree.jlog.logs;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,5 +37,12 @@ public class LogsController {
     String update(@RequestBody LogsDto logsDto) {
         logsService.update(logsDto);
         return "Log updated";
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    String delete(@RequestBody LogsDto logsDto) {
+        logsService.delete(logsDto);
+        return "Log deleted";
     }
 }
