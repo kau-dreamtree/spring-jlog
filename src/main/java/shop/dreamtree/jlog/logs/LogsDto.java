@@ -21,6 +21,7 @@ public class LogsDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     @JsonProperty("created_at")
     private LocalDateTime createdDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     @JsonProperty("modified_at")
     private LocalDateTime modifiedDate;
 
