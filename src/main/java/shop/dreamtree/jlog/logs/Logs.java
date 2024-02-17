@@ -41,7 +41,8 @@ public class Logs {
     private LocalDateTime modifiedDate;
 
     @Builder
-    public Logs(String username, long expense, String roomUid) {
+    public Logs(Long id, String username, long expense, String roomUid) {
+        this.id = id;
         this.username = username;
         this.expense = expense;
         this.roomUid = roomUid;

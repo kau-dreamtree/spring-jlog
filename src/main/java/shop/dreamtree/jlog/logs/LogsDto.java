@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class LogsDto {
+    @JsonProperty("log_id")
+    private Long id;
     @JsonProperty("room_code")
     private String roomUid;
     private String username;
@@ -27,6 +29,7 @@ public class LogsDto {
 
     public Logs toEntity() {
         return Logs.builder()
+                .id(id)
                 .username(username)
                 .expense(expense)
                 .roomUid(roomUid)
@@ -35,6 +38,7 @@ public class LogsDto {
 
     public static LogsDto from(Logs logs) {
         return new LogsDto(
+                logs.getId(),
                 logs.getRoomUid(),
                 logs.getUsername(),
                 logs.getExpense(),
