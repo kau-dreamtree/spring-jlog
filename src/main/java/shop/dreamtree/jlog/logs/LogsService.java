@@ -39,6 +39,15 @@ public class LogsService {
                 .build();
     }
 
+    @Transactional
+    void update(LogsDto logsDto) {
+        authorize(logsDto.getRoomUid(),  logsDto.getUsername());
+        Logs log = logsRepository.findById(logsDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("No such log exists."));
+        log.updateExpense(logsDto.getExpense());
+        logsRepository.save(log);
+    }
+
     private Map<String, Long> getSum(List<LogsDto> logs) {
         Map<String, Long> sum = new HashMap<>();
         logs.forEach(log -> {

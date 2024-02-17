@@ -47,4 +47,8 @@ public class Logs {
         this.expense = expense;
         this.roomUid = roomUid;
     }
+
+    public void updateExpense(long expense) {
+        this.expense = expense;
+    }
 }
