@@ -27,7 +27,7 @@ public class LogsService {
 
     LogsResponse find(String roomUid, String username) {
         authorize(roomUid, username);
-        List<LogsDto> logs = logsRepository.getAllByRoomUidOrderByCreatedDateAsc(roomUid).stream()
+        List<LogsDto> logs = logsRepository.getAllByRoomUidOrderByCreatedDateDesc(roomUid).stream()
                 .map(LogsDto::from)
                 .toList();
         Map<String, Long> sum = getSum(logs);
