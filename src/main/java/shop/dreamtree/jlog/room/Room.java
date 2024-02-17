@@ -18,7 +18,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 8, nullable = false)
+    @Column(length = 5, nullable = false)
     private String uid;
 
     @Column(length = 10, nullable = false)

@@ -20,7 +20,7 @@ public class RoomService {
     @Transactional
     String create(String username) {
         String uuid = UUID.randomUUID().toString();
-        String uid = Objects.requireNonNull(Encryptor.hashString(uuid)).substring(0, 8);
+        String uid = Objects.requireNonNull(Encryptor.hashString(uuid)).substring(0, 5);
         Room room = Room.builder()
                 .uid(uid)
                 .firstUsername(username)

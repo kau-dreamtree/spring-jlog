@@ -34,9 +34,7 @@ public class LogsService {
         long balance = computeBalance(sum);
         String winner = findWinnerName(sum);
         return LogsResponse.builder()
-                .roomUid(roomUid)
-                .balance(balance)
-                .username(winner)
+                .balance(new Balance(balance, winner))
                 .logsDtos(logs)
                 .build();
     }

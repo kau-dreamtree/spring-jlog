@@ -14,10 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class LogsResponse {
-    @JsonProperty("room_code")
-    private String roomUid;
-    long balance;
-    String username;
+    private Balance balance;
     @JsonProperty("logs")
     List<LogsDto> logsDtos;
 }
