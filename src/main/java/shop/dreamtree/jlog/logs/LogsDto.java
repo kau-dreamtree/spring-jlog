@@ -26,6 +26,7 @@ public class LogsDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     @JsonProperty("modified_at")
     private LocalDateTime modifiedDate;
+    private String memo;
 
     public Logs toEntity() {
         return Logs.builder()
@@ -33,6 +34,7 @@ public class LogsDto {
                 .username(username)
                 .expense(expense)
                 .roomUid(roomUid)
+                .memo(memo)
                 .build();
     }
 
@@ -43,7 +45,8 @@ public class LogsDto {
                 logs.getUsername(),
                 logs.getExpense(),
                 logs.getCreatedDate(),
-                logs.getModifiedDate()
+                logs.getModifiedDate(),
+                logs.getMemo()
         );
     }
 }

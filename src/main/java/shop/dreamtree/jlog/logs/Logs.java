@@ -40,12 +40,16 @@ public class Logs {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+    @Column(nullable = true)
+    private String memo;
+
     @Builder
-    public Logs(Long id, String username, long expense, String roomUid) {
+    public Logs(Long id, String username, long expense, String roomUid, String memo) {
         this.id = id;
         this.username = username;
         this.expense = expense;
         this.roomUid = roomUid;
+        this.memo = memo;
     }
 
     public void updateExpense(long expense) {
