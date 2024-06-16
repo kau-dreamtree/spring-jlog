@@ -2,15 +2,21 @@ package shop.dreamtree.jlog.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
+
+import shop.dreamtree.jlog.exception.JLogException;
 
 public class Encryptor {
 
-    public static String hashString(String input) {
+    public static String randomUniqueString(int length) {
+        String uuid = UUID.randomUUID().toString();
+        return toSHA256(uuid).substring(0, length);
+    }
+
+    private static String toSHA256(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(input.getBytes());
-
-            // Convert byte array to hexadecimal string
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -21,8 +27,7 @@ public class Encryptor {
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null; // or handle the exception accordingly
+            throw new JLogException("Encryption Failure");
         }
     }
-    }
+}

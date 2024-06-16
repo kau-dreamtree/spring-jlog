@@ -11,5 +11,4 @@ public class JLogApplication {
     public static void main(String[] args) {
         SpringApplication.run(JLogApplication.class, args);
     }
-
 }

@@ -1,20 +1,20 @@
-###
+### 방 생성
 POST http://localhost:8080/api/room
 Content-Type: application/json
 
 {"username": ""}
 
-###
-GET http://localhost:8080/api/log?room_code=d8835&username=jisu
+### 방 참여
+PUT http://localhost:8080/api/room
+Content-Type: application/json
 
-###
+{"room_code":"", "username": ""}
+
+### 로그 생성
 POST http://localhost:8080/api/log
 Content-Type: application/json
 
-{"room_code":"", "username": "", "amount": 10000, "memo":  ""}
+{"room_code":"", "username": "", "amount": 10000, "memo": ""}
 
-###
-POST http://localhost:8080/api/log
-Content-Type: application/json
-
-{"room_code":"", "username": "", "amount": 10000}
+### 로그 조회
+GET http://localhost:8080/api/log?room_code=88f4bf01&username=지수
