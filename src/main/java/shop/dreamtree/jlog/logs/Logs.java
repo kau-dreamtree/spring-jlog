@@ -8,6 +8,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
+@Table
 public class Logs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +42,16 @@ public class Logs {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+    @Column(nullable = true)
+    private String memo;
+
     @Builder
-    public Logs(Long id, String username, long expense, String roomUid) {
+    public Logs(Long id, String username, long expense, String roomUid, String memo) {
         this.id = id;
         this.username = username;
         this.expense = expense;
         this.roomUid = roomUid;
+        this.memo = memo;
     }
 
     public void updateExpense(long expense) {
