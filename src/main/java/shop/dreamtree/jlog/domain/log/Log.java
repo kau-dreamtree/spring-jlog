@@ -50,7 +50,8 @@ public class Log {
     protected Log() {
     }
 
-    public Log(Long id,
+    public Log(
+            Long id,
             String username,
             long expense,
             String roomCode,
