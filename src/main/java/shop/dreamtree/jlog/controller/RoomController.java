@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import shop.dreamtree.jlog.dto.LogRequest;
-import shop.dreamtree.jlog.dto.RoomRequest;
+import shop.dreamtree.jlog.dto.RoomCreateRequest;
+import shop.dreamtree.jlog.dto.RoomJoinRequest;
 import shop.dreamtree.jlog.dto.RoomResponse;
 import shop.dreamtree.jlog.service.RoomService;
 
@@ -25,12 +25,13 @@ public class RoomController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RoomResponse create(@RequestBody LogRequest requestBody) {
-        return new RoomResponse(roomService.create(requestBody.username()));
+    public RoomResponse create(@RequestBody RoomCreateRequest request) {
+        String roomCode = roomService.create(request);
+        return new RoomResponse(roomCode);
     }
 
     @PutMapping
-    public void join(@RequestBody RoomRequest request) {
+    public void join(@RequestBody RoomJoinRequest request) {
         roomService.join(request);
     }
 }

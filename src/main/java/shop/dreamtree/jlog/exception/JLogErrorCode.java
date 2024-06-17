@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 
 public enum JLogErrorCode {
 
-    INVALID_EXPENSE_FORMAT(BAD_REQUEST, "Expense can't be less than zero"),
+    ID_MUST_NOT_BE_NULL(BAD_REQUEST, "The given id must not be null"),
+    INVALID_EXPENSE_FORMAT(BAD_REQUEST, "An expense must be a positive integer."),
     UNAUTHORIZED_USERNAME(UNAUTHORIZED, "Unauthorized to join this room."),
     LOG_NOT_EXISTS(NOT_FOUND, "No such log exists"),
     ROOM_NOT_EXISTS(NOT_FOUND, "No such room exists."),
+    OUTPAY_NOT_EXISTS(NOT_FOUND, "No such outpay exists"),
     ROOM_FULL(BAD_REQUEST, "The room has no room."),
     SERVER_ERROR(INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR.getReasonPhrase())
     ;

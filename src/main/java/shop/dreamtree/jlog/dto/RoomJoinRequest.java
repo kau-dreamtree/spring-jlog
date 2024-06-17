@@ -2,7 +2,7 @@ package shop.dreamtree.jlog.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record RoomRequest(
+public record RoomJoinRequest(
         @JsonProperty("room_code") String code,
         String username
 ) {

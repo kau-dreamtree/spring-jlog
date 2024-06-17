@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import shop.dreamtree.jlog.dto.LogDto;
-import shop.dreamtree.jlog.dto.LogResponse;
+import shop.dreamtree.jlog.dto.LogRequest;
+import shop.dreamtree.jlog.dto.LogsWithOutpayResponse;
 import shop.dreamtree.jlog.service.LogService;
 
-@RequestMapping("api/log")
 @RestController
+@RequestMapping("api/log")
 public class LogController {
 
     private final LogService logService;
@@ -27,26 +27,27 @@ public class LogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody LogDto logDto) {
-        logService.save(logDto);
+    public void save(@RequestBody LogRequest request) {
+        logService.createLog(request);
     }
 
     @GetMapping
-    public LogResponse getLogsWithBalance(
+    public LogsWithOutpayResponse getLogsWithOutpay(
             @RequestParam("room_code") String roomCode,
             @RequestParam("username") String username
     ) {
-        return logService.getLogsWithBalance(roomCode, username);
+        return logService.getLogsWithOutpay(roomCode, username);
     }
 
     @PutMapping
-    public void update(@RequestBody LogDto logDto) {
-        logService.update(logDto);
+    public void update(@RequestBody LogRequest request) {
+        logService.update(request);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestBody LogDto logDto) {
-        logService.delete(logDto);
+    public void delete(@RequestBody LogRequest request) {
+        // todo: To work with an id as a path variable and a roomCode as a request parameter.
+        logService.delete(request);
     }
 }

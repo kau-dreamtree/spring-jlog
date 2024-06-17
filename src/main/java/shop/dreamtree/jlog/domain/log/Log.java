@@ -3,6 +3,7 @@ package shop.dreamtree.jlog.domain.log;
 import static shop.dreamtree.jlog.exception.JLogErrorCode.INVALID_EXPENSE_FORMAT;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +30,7 @@ public class Log {
     private String username;
 
     @Column(nullable = false)
-    private String code;
+    private String roomCode;
 
     @Column(nullable = false)
     private long expense;
@@ -42,24 +43,24 @@ public class Log {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+    // todo: @ManyToOne 관계 설정
+    // @ManyToOne(optional = false)
+    // private Room room
+
     protected Log() {
     }
 
     public Log(Long id,
             String username,
             long expense,
-            String code,
-            String memo,
-            LocalDateTime createdDate,
-            LocalDateTime modifiedDate
+            String roomCode,
+            String memo
     ) {
         this.id = id;
         this.username = username;
-        this.code = code;
+        this.roomCode = roomCode;
         this.expense = expense;
         this.memo = memo;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
     }
 
     public static LogBuilder builder() {
@@ -73,6 +74,10 @@ public class Log {
         this.expense = expense;
     }
 
+    public void updateMemo(String memo) {
+        this.memo = Objects.requireNonNullElse(memo, "");
+    }
+
     public Long id() {
         return id;
     }
@@ -81,8 +86,8 @@ public class Log {
         return username;
     }
 
-    public String code() {
-        return code;
+    public String roomCode() {
+        return roomCode;
     }
 
     public long expense() {

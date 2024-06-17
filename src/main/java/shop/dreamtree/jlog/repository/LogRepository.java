@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import shop.dreamtree.jlog.domain.log.Log;
 
 public interface LogRepository extends JpaRepository<Log, Long> {
-    List<Log> getAllByCodeOrderByCreatedDateDesc(String uid);
+    List<Log> findAllByRoomCode(String roomCode);
 }
