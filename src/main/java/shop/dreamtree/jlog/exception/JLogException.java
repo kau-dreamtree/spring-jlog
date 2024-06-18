@@ -24,7 +24,7 @@ public class JLogException extends RuntimeException {
         return () -> new JLogException(errorCode);
     }
 
-    public HttpStatusCode getHttpStatus() {
+    public HttpStatusCode httpStatus() {
         return errorCode.httpStatus();
     }
 }

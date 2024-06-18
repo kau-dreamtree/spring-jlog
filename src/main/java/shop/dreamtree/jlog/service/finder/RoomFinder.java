@@ -4,7 +4,7 @@ import static shop.dreamtree.jlog.exception.JLogErrorCode.ROOM_NOT_EXISTS;
 
 import org.springframework.stereotype.Service;
 
-import shop.dreamtree.jlog.domain.room.Room;
+import shop.dreamtree.jlog.domain.Room;
 import shop.dreamtree.jlog.exception.JLogException;
 import shop.dreamtree.jlog.repository.RoomRepository;
 

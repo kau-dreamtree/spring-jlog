@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import shop.dreamtree.jlog.domain.log.Log;
+import shop.dreamtree.jlog.domain.Log;
 
 public record LogResponse(
 
@@ -33,8 +33,8 @@ public record LogResponse(
         public static LogResponse from(Log log) {
                 return new LogResponse(
                         log.id(),
-                        log.roomCode(),
-                        log.username(),
+                        log.room().code(),
+                        log.member().name(),
                         log.expense(),
                         log.memo(),
                         log.createdDate(),

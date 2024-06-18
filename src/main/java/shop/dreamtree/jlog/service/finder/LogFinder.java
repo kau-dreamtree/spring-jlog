@@ -7,7 +7,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import shop.dreamtree.jlog.domain.log.Log;
+import shop.dreamtree.jlog.domain.Log;
+import shop.dreamtree.jlog.domain.Room;
 import shop.dreamtree.jlog.exception.JLogException;
 import shop.dreamtree.jlog.repository.LogRepository;
 
@@ -27,7 +28,7 @@ public class LogFinder {
         return logRepository.findById(id).orElseThrow(JLogException.getFrom(LOG_NOT_EXISTS));
     }
 
-    public List<Log> findAllByRoomCode(String roomCode) {
-        return logRepository.findAllByRoomCode(roomCode);
+    public List<Log> findAllByRoom(Room room) {
+        return logRepository.findAllByRoom(room);
     }
 }

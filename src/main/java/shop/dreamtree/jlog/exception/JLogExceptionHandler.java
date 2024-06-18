@@ -14,6 +14,6 @@ public class JLogExceptionHandler {
     @ExceptionHandler(JLogException.class)
     public ResponseEntity<String> handleJLogException(JLogException e) {
         logger.error(e.getMessage(), e);
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        return ResponseEntity.status(e.httpStatus()).body(e.getMessage());
     }
 }

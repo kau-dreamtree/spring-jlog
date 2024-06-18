@@ -1,4 +1,4 @@
-package shop.dreamtree.jlog.domain.log;
+package shop.dreamtree.jlog.domain;
 
 import static shop.dreamtree.jlog.exception.JLogErrorCode.INVALID_EXPENSE_FORMAT;
 
@@ -11,6 +11,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -26,11 +27,11 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String username;
+    @ManyToOne(optional = false)
+    private Room room;
 
-    @Column(nullable = false)
-    private String roomCode;
+    @ManyToOne(optional = false)
+    private Member member;
 
     @Column(nullable = false)
     private long expense;
@@ -43,29 +44,25 @@ public class Log {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-    // todo: @ManyToOne 관계 설정
-    // @ManyToOne(optional = false)
-    // private Room room
-
     protected Log() {
     }
 
-    public Log(
+    Log(
             Long id,
-            String username,
+            Room room,
+            Member member,
             long expense,
-            String roomCode,
             String memo
     ) {
         this.id = id;
-        this.username = username;
-        this.roomCode = roomCode;
+        this.room = room;
+        this.member = member;
         this.expense = expense;
         this.memo = memo;
     }
 
-    public static LogBuilder builder() {
-        return new LogBuilder();
+    public static LogBuilder builder(Room room, Member member) {
+        return new LogBuilder(room, member);
     }
 
     public void updateExpense(long expense) {
@@ -83,12 +80,12 @@ public class Log {
         return id;
     }
 
-    public String username() {
-        return username;
+    public Room room() {
+        return room;
     }
 
-    public String roomCode() {
-        return roomCode;
+    public Member member() {
+        return member;
     }
 
     public long expense() {
