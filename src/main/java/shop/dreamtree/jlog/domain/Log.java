@@ -2,26 +2,19 @@ package shop.dreamtree.jlog.domain;
 
 import static shop.dreamtree.jlog.exception.JLogErrorCode.INVALID_EXPENSE_FORMAT;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import shop.dreamtree.jlog.exception.JLogException;
 
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Log {
+public class Log extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +30,6 @@ public class Log {
     private long expense;
 
     private String memo;
-
-    @CreatedDate
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
 
     protected Log() {
     }
@@ -94,13 +81,5 @@ public class Log {
 
     public String memo() {
         return memo;
-    }
-
-    public LocalDateTime createdDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime modifiedDate() {
-        return modifiedDate;
     }
 }

@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(indexes = @Index(name = "si_room_code", columnList = "code"))
-public class Room {
+public class Room extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
