@@ -25,7 +25,7 @@ public class LogFinder {
         if (id == null) {
             throw new JLogException(ID_MUST_NOT_BE_NULL);
         }
-        return logRepository.findById(id).orElseThrow(JLogException.getFrom(LOG_NOT_EXISTS));
+        return logRepository.findById(id).orElseThrow(() -> new JLogException(LOG_NOT_EXISTS));
     }
 
     public List<Log> findAllByRoom(Room room) {

@@ -18,6 +18,6 @@ public class RoomFinder {
     }
 
     public Room getRoomByCode(String code) {
-        return roomRepository.findByCode(code).orElseThrow(JLogException.getFrom(ROOM_NOT_EXISTS));
+        return roomRepository.findByCode(code).orElseThrow(() -> new JLogException(ROOM_NOT_EXISTS));
     }
 }

@@ -96,10 +96,11 @@ public class Members {
     }
 
     public Member findMember(String username) {
+        // todo: Eliminate the risk of access by users with different IDs and the same name
         return members.stream()
                 .filter(member -> member.hasNameOf(username))
                 .findFirst()
-                .orElseThrow(JLogException.getFrom(UNAUTHORIZED_USERNAME));
+                .orElseThrow(() -> new JLogException(UNAUTHORIZED_USERNAME));
     }
 
     public String outpayer() {
