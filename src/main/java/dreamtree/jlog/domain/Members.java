@@ -1,11 +1,13 @@
 package dreamtree.jlog.domain;
 
+import static dreamtree.jlog.exception.JLogErrorCode.MEMBER_NOT_EXISTS;
 import static dreamtree.jlog.exception.JLogErrorCode.ROOM_FULL;
-import static dreamtree.jlog.exception.JLogErrorCode.UNAUTHORIZED_USERNAME;
+import static dreamtree.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER_NAME;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.AttributeOverride;
@@ -45,8 +47,9 @@ public class Members {
     @PostLoad
     public void postLoad() {
         members.add(member1);
-        members.add(member2);
-        log.info("postLoad members: {}", members);
+        if (member2 != null) {
+            members.add(member2);
+        }
     }
 
     public void join(Member member) {
@@ -58,7 +61,7 @@ public class Members {
     }
 
     public boolean cannotJoin(Member member) {
-        return hasNoRoom() && doesNotContain(member);
+        return isFull() && doesNotContain(member);
     }
 
     private void joinIfEmpty(Member member) {
@@ -67,12 +70,12 @@ public class Members {
         }
     }
 
-    public boolean hasNoRoom() {
+    public boolean isFull() {
         return member2 != null;
     }
 
     public boolean hasRoom() {
-        return !hasNoRoom();
+        return !isFull();
     }
 
     public boolean contains(Member member) {
@@ -84,26 +87,28 @@ public class Members {
     }
 
     public void add(Log log) {
-        Member member = findMember(log.member());
+        Member member = getMember(log.member());
         member.addExpense(log.expense());
     }
 
-    public Member findMember(Member member) {
-        if (members.contains(member)) {
-            return member;
-        }
-        throw new JLogException(UNAUTHORIZED_USERNAME);
+    public Member getMember(Member member) {
+        return members.stream()
+                .filter(m -> Objects.equals(m, member))
+                .findFirst()
+                .orElseThrow(() -> new JLogException(MEMBER_NOT_EXISTS));
     }
 
-    public Member findMember(String username) {
-        // todo: Eliminate the risk of access by users with different IDs and the same name
+    public Member getMemberByName(String name) {
         return members.stream()
-                .filter(member -> member.hasNameOf(username))
+                .filter(member -> Objects.equals(member.name(), name))
                 .findFirst()
-                .orElseThrow(() -> new JLogException(UNAUTHORIZED_USERNAME));
+                .orElseThrow(() -> new JLogException(UNAUTHORIZED_MEMBER_NAME));
     }
 
     public String outpayer() {
+        if (outpayAmount() == 0) {
+            return "";
+        }
         return members.stream()
                 .max(Comparator.comparing(Member::expense))
                 .map(Member::name)
@@ -111,6 +116,9 @@ public class Members {
     }
 
     public long outpayAmount() {
+        if (member2 == null) {
+            return member1.expense();
+        }
         return Math.abs(member1.expense() - member2.expense());
     }
 }

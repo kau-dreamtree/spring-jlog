@@ -14,7 +14,6 @@ import dreamtree.jlog.domain.Room;
 import dreamtree.jlog.dto.LogRequest;
 import dreamtree.jlog.dto.LogResponse;
 import dreamtree.jlog.dto.LogsWithOutpayResponse;
-import dreamtree.jlog.dto.OutpayResponse;
 import dreamtree.jlog.repository.LogRepository;
 import dreamtree.jlog.repository.MemberRepository;
 import dreamtree.jlog.repository.RoomRepository;
@@ -48,27 +47,25 @@ public class LogService {
 
     @Transactional
     public void createLog(LogRequest request) {
-        Room room = roomFinder.getRoomByCode(request.code());
-        Member member = room.authenticate(request.username());
-        Log log = Log.builder(room, member)
+        Room room = roomFinder.getRoomByCode(request.roomCode());
+        Member member = room.requireMemberExistsByName(request.username());
+        Log saved = logRepository.save(Log.builder(room, member)
                 .expense(request.expense())
                 .memo(request.memo())
-                .build();
-        Log saved = logRepository.save(log);
+                .build());
         room.addLog(saved);
         roomRepository.save(room);
         // todo: Delete oldest when logs counts over max_count and update outpay
     }
 
-    public LogsWithOutpayResponse getLogsWithOutpay(String roomCode, String username) {
-        Room room = roomFinder.getRoomByCode(roomCode);
-        room.authenticate(username);
-        OutpayResponse outpay = OutpayResponse.from(room);
-        List<LogResponse> responses = findAllLogsByRoomOrderByCreatedDateDesc(room);
-        return new LogsWithOutpayResponse(outpay, responses);
+    public LogsWithOutpayResponse getLogsWithOutpay(LogRequest request) {
+        Room room = roomFinder.getRoomByCode(request.roomCode());
+        room.requireMemberExistsByName(request.username());
+        List<LogResponse> logs = findAllLogsByRoomOrderByCreatedDateDesc(room);
+        return LogsWithOutpayResponse.of(room, logs);
     }
 
-    public List<LogResponse> findAllLogsByRoomOrderByCreatedDateDesc(Room room) {
+    private List<LogResponse> findAllLogsByRoomOrderByCreatedDateDesc(Room room) {
         return logFinder.findAllByRoom(room)
                 .stream()
                 .map(LogResponse::from)
@@ -78,11 +75,11 @@ public class LogService {
 
     @Transactional
     public void update(LogRequest request) {
-        Room room = roomFinder.getRoomByCode(request.code());
-        Member member = room.authenticate(request.username()); // todo: check this member equals to the member in the found log.
+        Room room = roomFinder.getRoomByCode(request.roomCode());
+        Member member = room.requireMemberExistsByName(request.username());
         Log log = logFinder.getLogById(request.id());
-        long difference = request.expense() - log.expense();
-        member.addExpense(difference);
+        log.requireMemberEquals(member);
+        member.addExpense(request.expense() - log.expense());
         log.updateExpense(request.expense());
         log.updateMemo(request.memo());
         logRepository.save(log);
@@ -92,11 +89,11 @@ public class LogService {
 
     @Transactional
     public void delete(LogRequest request) {
-        Room room = roomFinder.getRoomByCode(request.code());
-        Member member = room.authenticate(request.username());
+        Room room = roomFinder.getRoomByCode(request.roomCode());
+        Member member = room.requireMemberExistsByName(request.username());
         Log log = logFinder.getLogById(request.id());
-        long expense = log.expense();
-        member.subtractExpense(expense);
+        log.requireMemberEquals(member);
+        member.subtractExpense(log.expense());
         logRepository.delete(log);
         memberRepository.save(member);
         // todo: Delete oldest when logs counts over max_count and update outpay

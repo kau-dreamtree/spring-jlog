@@ -1,6 +1,7 @@
 package dreamtree.jlog.domain;
 
 import static dreamtree.jlog.exception.JLogErrorCode.INVALID_EXPENSE_FORMAT;
+import static dreamtree.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 
 import java.util.Objects;
 
@@ -50,6 +51,13 @@ public class Log extends BaseEntity {
 
     public static LogBuilder builder(Room room, Member member) {
         return new LogBuilder(room, member);
+    }
+
+    public void requireMemberEquals(Member member) {
+        if (Objects.equals(this.member, member)) {
+            return;
+        }
+        throw new JLogException(UNAUTHORIZED_MEMBER);
     }
 
     public void updateExpense(long expense) {
