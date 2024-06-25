@@ -90,4 +90,20 @@ public class Log extends BaseEntity {
     public String memo() {
         return memo;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        return object instanceof Log other
+                && Objects.equals(id, other.id)
+                && Objects.equals(room, other.room)
+                && Objects.equals(member, other.member);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, room, member);
+    }
 }
