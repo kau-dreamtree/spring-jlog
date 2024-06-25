@@ -15,7 +15,7 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 10)
+    @Column(length = 32)
     private String name;
 
     @Column(nullable = false)
@@ -26,10 +26,6 @@ public class Member extends BaseEntity {
     public Member(String name) {
         this.name = name;
         this.expense = 0;
-    }
-
-    public boolean hasNameOf(String name) {
-        return Objects.equals(this.name, name);
     }
 
     public void addExpense(long expense) {

@@ -21,7 +21,11 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
 
-    public RoomService(RoomFinder roomFinder, RoomRepository roomRepository, MemberRepository memberRepository) {
+    public RoomService(
+            RoomFinder roomFinder,
+            RoomRepository roomRepository,
+            MemberRepository memberRepository
+    ) {
         this.roomFinder = roomFinder;
         this.roomRepository = roomRepository;
         this.memberRepository = memberRepository;
@@ -30,24 +34,22 @@ public class RoomService {
     @Transactional
     public String create(RoomCreateRequest request) {
         String code = Encryptor.randomUniqueString(ROOM_CODE_LENGTH);
-        Member member = new Member(request.username());
-        Member savedMember = memberRepository.save(member);
-        Room room = new Room(code, savedMember);
-        Room savedRoom = roomRepository.save(room);
+        Member savedMember = memberRepository.save(new Member(request.username()));
+        Room savedRoom = roomRepository.save(new Room(code, savedMember));
         return savedRoom.code();
     }
 
     @Transactional
     public void join(RoomJoinRequest request) {
         Room room = roomFinder.getRoomByCode(request.code());
-        if (room.hasNoRoom()) {
-            Member member = room.authenticate(request.username());
-            room.join(member);
-            return;
+        Member member = null;
+        if (room.isFull()) {
+            member = room.requireMemberExistsByName(request.username());
         }
-        Member member = new Member(request.username());
-        Member saved = memberRepository.save(member);
-        room.join(saved);
+        if (room.hasRoom()) {
+            member = memberRepository.save(new Member(request.username()));
+        }
+        room.join(member);
         roomRepository.save(room);
     }
 }
