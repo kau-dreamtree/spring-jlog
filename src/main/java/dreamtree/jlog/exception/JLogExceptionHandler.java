@@ -12,8 +12,10 @@ public class JLogExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @ExceptionHandler(JLogException.class)
-    public ResponseEntity<String> handleJLogException(JLogException e) {
-        logger.error(e.getMessage(), e);
-        return ResponseEntity.status(e.httpStatus()).body(e.getMessage());
+    public ResponseEntity<String> handleJLogException(JLogException exception) {
+        if (exception.errorCode() == JLogErrorCode.SERVER_ERROR) {
+            logger.error(exception.getMessage(), exception);
+        }
+        return ResponseEntity.status(exception.httpStatus()).body(exception.getMessage());
     }
 }

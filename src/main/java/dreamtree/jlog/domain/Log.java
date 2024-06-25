@@ -10,11 +10,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import dreamtree.jlog.exception.JLogException;
 
 @Entity
+@Table(indexes = {
+        @Index(name = "log_created_date_idx", columnList = "created_date"),
+        @Index(name = "log_modified_date_idx", columnList = "modified_date"),
+})
 public class Log extends BaseEntity {
 
     @Id
@@ -68,7 +74,7 @@ public class Log extends BaseEntity {
     }
 
     public void updateMemo(String memo) {
-        this.memo = Objects.requireNonNullElse(memo, "");
+        this.memo = memo;
     }
 
     public Long id() {
@@ -89,5 +95,21 @@ public class Log extends BaseEntity {
 
     public String memo() {
         return memo;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        return object instanceof Log other
+                && Objects.equals(id, other.id)
+                && Objects.equals(room, other.room)
+                && Objects.equals(member, other.member);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, room, member);
     }
 }

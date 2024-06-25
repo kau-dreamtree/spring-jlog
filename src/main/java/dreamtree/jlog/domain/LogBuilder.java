@@ -1,7 +1,5 @@
 package dreamtree.jlog.domain;
 
-import java.util.Objects;
-
 public class LogBuilder {
 
     private final Room room;
@@ -21,7 +19,7 @@ public class LogBuilder {
     }
 
     public LogBuilder memo(String memo) {
-        this.memo = Objects.requireNonNullElse(memo, "");
+        this.memo = memo;
         return this;
     }
 
