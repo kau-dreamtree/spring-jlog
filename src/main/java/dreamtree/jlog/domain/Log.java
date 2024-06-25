@@ -74,7 +74,7 @@ public class Log extends BaseEntity {
     }
 
     public void updateMemo(String memo) {
-        this.memo = Objects.requireNonNullElse(memo, "");
+        this.memo = memo;
     }
 
     public Long id() {
