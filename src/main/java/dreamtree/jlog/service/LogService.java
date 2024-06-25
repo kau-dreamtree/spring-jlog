@@ -45,6 +45,7 @@ public class LogService {
         this.memberRepository = memberRepository;
     }
 
+
     @Transactional
     public void createLog(LogRequest request) {
         Room room = roomFinder.getRoomByCode(request.roomCode());
@@ -66,7 +67,7 @@ public class LogService {
     }
 
     private List<LogResponse> findAllLogsByRoomOrderByCreatedDateDesc(Room room) {
-        return logFinder.findAllByRoom(room)
+        return logRepository.findAllByRoom(room)
                 .stream()
                 .map(LogResponse::from)
                 .sorted(comparing(LogResponse::createdDate, reverseOrder()))
