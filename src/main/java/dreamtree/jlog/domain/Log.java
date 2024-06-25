@@ -10,11 +10,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import dreamtree.jlog.exception.JLogException;
 
 @Entity
+@Table(indexes = {
+        @Index(name = "log_created_date_idx", columnList = "created_date"),
+        @Index(name = "log_modified_date_idx", columnList = "modified_date"),
+})
 public class Log extends BaseEntity {
 
     @Id
