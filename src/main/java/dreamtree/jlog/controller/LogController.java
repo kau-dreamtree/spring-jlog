@@ -1,13 +1,15 @@
 package dreamtree.jlog.controller;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +18,7 @@ import dreamtree.jlog.dto.LogsWithOutpayResponse;
 import dreamtree.jlog.service.LogService;
 
 @RestController
-@RequestMapping("api/log")
+@RequestMapping(path = "api/log", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class LogController {
 
     private final LogService logService;
@@ -25,6 +27,7 @@ public class LogController {
         this.logService = logService;
     }
 
+    // todo: add response body content.
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody LogRequest request) {
@@ -32,7 +35,11 @@ public class LogController {
     }
 
     @GetMapping
-    public LogsWithOutpayResponse getLogsWithOutpay(@ModelAttribute LogRequest request) {
+    public LogsWithOutpayResponse getLogsWithOutpay(
+            @RequestParam("room_code") String roomCode,
+            @RequestParam("username") String username
+    ) {
+        LogRequest request = new LogRequest(roomCode, username);
         return logService.getLogsWithOutpay(request);
     }
 

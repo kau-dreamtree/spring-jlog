@@ -41,7 +41,7 @@ public class Log extends BaseEntity {
     protected Log() {
     }
 
-    Log(
+    public Log(
             Long id,
             Room room,
             Member member,
