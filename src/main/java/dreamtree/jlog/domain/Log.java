@@ -112,4 +112,15 @@ public class Log extends BaseEntity {
     public int hashCode() {
         return Objects.hash(id, room, member);
     }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", room=" + room +
+                ", member=" + member +
+                ", expense=" + expense +
+                ", memo='" + memo + '\'' +
+                '}';
+    }
 }

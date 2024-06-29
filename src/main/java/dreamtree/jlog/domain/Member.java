@@ -24,8 +24,13 @@ public class Member extends BaseEntity {
     protected Member() {}
 
     public Member(String name) {
+        this(null, name, 0);
+    }
+
+    public Member(Long id, String name, long expense) {
+        this.id = id;
         this.name = name;
-        this.expense = 0;
+        this.expense = expense;
     }
 
     public void addExpense(long expense) {
@@ -61,5 +66,14 @@ public class Member extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", expense=" + expense +
+                '}';
     }
 }

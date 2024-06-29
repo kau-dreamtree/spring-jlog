@@ -126,4 +126,12 @@ public class Members {
         }
         return Math.abs(member1.expense() - member2.expense());
     }
+
+    @Override
+    public String toString() {
+        return "Members{" +
+                "member1=" + member1 +
+                ", member2=" + member2 +
+                '}';
+    }
 }

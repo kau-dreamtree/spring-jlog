@@ -93,4 +93,13 @@ public class Room extends BaseEntity {
     public int hashCode() {
         return Objects.hash(id, code);
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", members=" + members +
+                '}';
+    }
 }
