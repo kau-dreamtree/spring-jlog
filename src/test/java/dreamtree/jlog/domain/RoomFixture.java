@@ -9,11 +9,15 @@ public class RoomFixture {
     }
 
     public static Room roomFixture(long id) {
-        return roomFixture(id, id, id + 1L);
+        return roomFixture(id, "room" + id);
     }
 
-    public static Room roomFixture(long id, long member1Id, long member2Id) {
+    public static Room roomFixture(long id, String code) {
+        return roomFixture(id, code, id, id + 1L);
+    }
+
+    public static Room roomFixture(long id, String code, long member1Id, long member2Id) {
         var members = new Members(memberFixture(member1Id), memberFixture(member2Id));
-        return new Room(id, "room" + id, members);
+        return new Room(id, code, members);
     }
 }
