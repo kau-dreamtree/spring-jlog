@@ -11,7 +11,7 @@ public class MemberCollectionRepository implements MemberRepository {
     private final List<Member> members;
 
     public MemberCollectionRepository() {
-        members = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     public MemberCollectionRepository(List<Member> members) {

@@ -13,7 +13,7 @@ public class RoomCollectionRepository implements RoomRepository {
     private final List<Room> rooms;
 
     public RoomCollectionRepository() {
-        this.rooms = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     public RoomCollectionRepository(List<Room> rooms) {
