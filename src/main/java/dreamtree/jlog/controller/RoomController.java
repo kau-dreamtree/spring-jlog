@@ -1,5 +1,7 @@
 package dreamtree.jlog.controller;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,7 +16,7 @@ import dreamtree.jlog.dto.RoomResponse;
 import dreamtree.jlog.service.RoomService;
 
 @RestController
-@RequestMapping("api/room")
+@RequestMapping(path = "api/room", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class RoomController {
 
     private final RoomService roomService;

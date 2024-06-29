@@ -26,8 +26,17 @@ public class Room extends BaseEntity {
 
     public Room(String code, Member member) {
         // todo: Validate username not empty
+        this(code, new Members(member));
+    }
+
+    public Room(String code, Members members) {
+        this(null, code, members);
+    }
+
+    public Room(Long id, String code, Members members) {
+        this.id = id;
         this.code = code;
-        this.members = new Members(member);
+        this.members = members;
     }
 
     public void join(Member member) {

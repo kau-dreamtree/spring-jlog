@@ -36,10 +36,11 @@ class RoomControllerTest {
     private RoomService roomService;
 
     @Nested
-    @DisplayName("방을 생성한다.")
+    @DisplayName("Request to create a room.")
     class Create {
 
         @Test
+        @DisplayName("Request to create a room then respond 200 with a room code in the body.")
         void create() throws Exception {
             var roomCode = "test-room-code";
             var request = new RoomCreateRequest("jlog-name");
@@ -55,18 +56,21 @@ class RoomControllerTest {
         }
 
         @Test
-        @DisplayName("요청 본문이 없으면 예외가 발생한다.")
+        @DisplayName("Request to create a room without body then respond 400.")
         void create_exception() throws Exception {
-            mvc.perform(post("/api/room"))
-                    .andExpect(status().is4xxClientError());
+            mvc.perform(post("/api/room")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
         }
     }
 
     @Nested
-    @DisplayName("방에 참여한다.")
+    @DisplayName("Request to join a room.")
     class Join {
 
         @Test
+        @DisplayName("Request to join a room and respond 200.")
         void join() throws Exception {
             var request = new RoomJoinRequest("12345678", "jlog-name");
             doNothing().when(roomService).join(request);
@@ -79,10 +83,12 @@ class RoomControllerTest {
         }
 
         @Test
-        @DisplayName("요청 본문이 없으면 예외가 발생한다.")
+        @DisplayName("Request to join a room without body and respond 400.")
         void join_exception() throws Exception {
-            mvc.perform(put("/api/room"))
-                    .andExpect(status().is4xxClientError());
+            mvc.perform(put("/api/room")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
         }
     }
 }
