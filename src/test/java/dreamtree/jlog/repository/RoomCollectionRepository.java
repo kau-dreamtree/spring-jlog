@@ -1,4 +1,4 @@
-package dreamtree.jlog.repository.fixture;
+package dreamtree.jlog.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import dreamtree.jlog.domain.Room;
-import dreamtree.jlog.repository.RoomRepository;
 
 public class RoomCollectionRepository implements RoomRepository {
 

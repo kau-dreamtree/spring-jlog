@@ -3,7 +3,7 @@ package dreamtree.jlog.service.finder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import static dreamtree.jlog.domain.RoomFixture.roomFixture;
+import static dreamtree.jlog.fixture.RoomFixture.roomFixture;
 
 import java.util.Arrays;
 
@@ -15,8 +15,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import dreamtree.jlog.domain.Room;
 import dreamtree.jlog.exception.JLogException;
+import dreamtree.jlog.repository.RoomCollectionRepository;
 import dreamtree.jlog.repository.RoomRepository;
-import dreamtree.jlog.repository.fixture.RoomCollectionRepository;
 
 class RoomFinderTest {
 

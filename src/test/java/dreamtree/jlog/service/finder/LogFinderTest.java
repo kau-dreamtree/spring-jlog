@@ -3,7 +3,7 @@ package dreamtree.jlog.service.finder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import static dreamtree.jlog.domain.LogFixture.logFixture;
+import static dreamtree.jlog.fixture.LogFixture.logFixture;
 
 import java.util.Arrays;
 
@@ -15,8 +15,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import dreamtree.jlog.domain.Log;
 import dreamtree.jlog.exception.JLogException;
+import dreamtree.jlog.repository.LogCollectionRepository;
 import dreamtree.jlog.repository.LogRepository;
-import dreamtree.jlog.repository.fixture.LogCollectionRepository;
 
 class LogFinderTest {
 

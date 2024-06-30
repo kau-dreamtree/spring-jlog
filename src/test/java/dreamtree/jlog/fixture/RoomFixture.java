@@ -1,6 +1,9 @@
-package dreamtree.jlog.domain;
+package dreamtree.jlog.fixture;
 
-import static dreamtree.jlog.domain.MemberFixture.memberFixture;
+import static dreamtree.jlog.fixture.MemberFixture.memberFixture;
+
+import dreamtree.jlog.domain.Members;
+import dreamtree.jlog.domain.Room;
 
 public class RoomFixture {
 

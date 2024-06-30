@@ -1,4 +1,6 @@
-package dreamtree.jlog.domain;
+package dreamtree.jlog.fixture;
+
+import dreamtree.jlog.domain.Member;
 
 public class MemberFixture {
 
