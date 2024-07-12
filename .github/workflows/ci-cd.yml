@@ -1,4 +1,4 @@
-name: Java Build with Gradle
+name: Build and Deploy
 
 on:
   push:
