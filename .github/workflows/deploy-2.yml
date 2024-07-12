@@ -1,14 +1,15 @@
 name: Deploy to home server
 
 on:
-  workflow_run:
-    workflows:
-      - "Java Build with Gradle"
-    types:
-      - completed
+  push:
+    branches:
+      - main
+      - feat/**
 
 jobs:
+
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
