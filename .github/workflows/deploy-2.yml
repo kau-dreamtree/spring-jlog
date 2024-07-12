@@ -1,10 +1,10 @@
 name: Deploy to home server
 
 on:
-  push:
-    branches:
-      - main
-      - feat/**
+  workflow_run:
+    workflows: ["Java Build with Gradle"]
+    types:
+      - completed
 
 jobs:
 
@@ -35,6 +35,5 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           script: |
-            pwd
             echo "deploy success" > ~/workspace/tmp/success.log
             echo "deploy success"
