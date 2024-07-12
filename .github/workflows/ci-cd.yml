@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew bootJar
 
       - name: Archive JAR file
         uses: actions/upload-artifact@v4
