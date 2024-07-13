@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           target: '~/workspace/tmp/'
-          source: 'build/libs/*.jar'
+          source: '*.jar'
 
       - name: SSH and run commands on remote server
         uses: appleboy/ssh-action@v1.0.3
