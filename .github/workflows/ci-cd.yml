@@ -39,7 +39,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-jar
-          path: .
+          path: build/libs/
 
       - name: Copy JAR to remote server
         uses: appleboy/scp-action@v0.1.7
@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           target: '~/workspace/tmp/'
-          source: 'build/libs/*.jar'
+          source: '*.jar'
 
       - name: SSH and run commands on remote server
         uses: appleboy/ssh-action@v1.0.3
