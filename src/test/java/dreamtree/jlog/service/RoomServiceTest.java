@@ -45,9 +45,4 @@ class RoomServiceTest {
             assertThat(saved).isNotNull();
         }
     }
-
-    @Test
-    void thr() {
-        throw new RuntimeException("for test");
-    }
 }
