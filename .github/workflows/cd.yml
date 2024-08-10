@@ -1,4 +1,4 @@
-name: CD on main
+name: CD on develop
 
 on:
   push:
