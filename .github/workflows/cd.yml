@@ -1,0 +1,20 @@
+name: CD on develop
+
+on:
+  push:
+    branches:
+      - iteration/**
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    environment: develop
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Boot jar
+        run: |
+          ./gradlew bootJar
+          mv build/libs/*.jar ${{ secrets.ARTIFACT_DIR }}
