@@ -1,17 +1,16 @@
-package dreamtree.jlog.repository.fixture;
+package dreamtree.jlog.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dreamtree.jlog.domain.Member;
-import dreamtree.jlog.repository.MemberRepository;
 
 public class MemberCollectionRepository implements MemberRepository {
 
     private final List<Member> members;
 
     public MemberCollectionRepository() {
-        members = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     public MemberCollectionRepository(List<Member> members) {

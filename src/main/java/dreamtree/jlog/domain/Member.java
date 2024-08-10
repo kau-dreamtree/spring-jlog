@@ -3,6 +3,7 @@ package dreamtree.jlog.domain;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +16,8 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 32)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Column(nullable = false)
     private long expense;
@@ -24,8 +25,13 @@ public class Member extends BaseEntity {
     protected Member() {}
 
     public Member(String name) {
-        this.name = name;
-        this.expense = 0;
+        this(null, name, 0);
+    }
+
+    public Member(Long id, String name, long expense) {
+        this.id = id;
+        this.name = new Name(name);
+        this.expense = expense;
     }
 
     public void addExpense(long expense) {
@@ -41,7 +47,7 @@ public class Member extends BaseEntity {
     }
 
     public String name() {
-        return name;
+        return name.value();
     }
 
     public long expense() {
@@ -61,5 +67,14 @@ public class Member extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", expense=" + expense +
+                '}';
     }
 }

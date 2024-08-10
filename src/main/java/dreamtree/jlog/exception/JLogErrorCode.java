@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 public enum JLogErrorCode {
 
     ID_MUST_NOT_BE_NULL(BAD_REQUEST, "The given id must not be null"),
+    NAME_MUST_NOT_BE_NULL(BAD_REQUEST, "Name must not be null."),
+    INVALID_NAME_FORMAT(BAD_REQUEST, "Name must not contain numbers or special characters."),
     INVALID_EXPENSE_FORMAT(BAD_REQUEST, "An expense must be a positive integer."),
     UNAUTHORIZED_MEMBER_NAME(UNAUTHORIZED, "Unauthorized to join this room."),
     UNAUTHORIZED_MEMBER(UNAUTHORIZED, "Unauthorized to join this room."),

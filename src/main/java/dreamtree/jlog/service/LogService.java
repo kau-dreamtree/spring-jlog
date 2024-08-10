@@ -56,7 +56,6 @@ public class LogService {
                 .build());
         room.addLog(saved);
         roomRepository.save(room);
-        // todo: Delete oldest when logs counts over max_count and update outpay
     }
 
     public LogsWithOutpayResponse getLogsWithOutpay(LogRequest request) {
@@ -85,7 +84,6 @@ public class LogService {
         log.updateMemo(request.memo());
         logRepository.save(log);
         memberRepository.save(member);
-        // todo: Delete oldest when logs counts over max_count and update outpay
     }
 
     @Transactional
@@ -97,6 +95,5 @@ public class LogService {
         member.subtractExpense(log.expense());
         logRepository.delete(log);
         memberRepository.save(member);
-        // todo: Delete oldest when logs counts over max_count and update outpay
     }
 }
