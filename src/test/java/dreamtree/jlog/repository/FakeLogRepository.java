@@ -8,15 +8,15 @@ import java.util.Optional;
 import dreamtree.jlog.domain.Log;
 import dreamtree.jlog.domain.Room;
 
-public class LogCollectionRepository implements LogRepository {
+public class FakeLogRepository implements LogRepository {
 
     private final List<Log> logs;
 
-    public LogCollectionRepository() {
+    public FakeLogRepository() {
         this(new ArrayList<>());
     }
 
-    public LogCollectionRepository(List<Log> logs) {
+    public FakeLogRepository(List<Log> logs) {
         this.logs = logs;
     }
 

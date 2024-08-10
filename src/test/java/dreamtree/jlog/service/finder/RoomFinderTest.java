@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import dreamtree.jlog.domain.Room;
 import dreamtree.jlog.exception.JLogException;
-import dreamtree.jlog.repository.RoomCollectionRepository;
+import dreamtree.jlog.repository.FakeRoomRepository;
 import dreamtree.jlog.repository.RoomRepository;
 
 class RoomFinderTest {
@@ -26,7 +26,7 @@ class RoomFinderTest {
 
     @BeforeEach
     void setUp() {
-        roomRepository = new RoomCollectionRepository();
+        roomRepository = new FakeRoomRepository();
         roomFinder = new RoomFinder(roomRepository);
     }
 

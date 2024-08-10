@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import dreamtree.jlog.domain.Member;
 import dreamtree.jlog.dto.RoomCreateRequest;
+import dreamtree.jlog.repository.FakeMemberRepository;
+import dreamtree.jlog.repository.FakeRoomRepository;
 import dreamtree.jlog.repository.RoomRepository;
-import dreamtree.jlog.repository.fixture.MemberCollectionRepository;
-import dreamtree.jlog.repository.fixture.RoomCollectionRepository;
 import dreamtree.jlog.service.finder.RoomFinder;
 
 class RoomServiceTest {
@@ -22,11 +22,11 @@ class RoomServiceTest {
 
     @BeforeEach
     void setUp() {
-        roomRepository = new RoomCollectionRepository();
+        roomRepository = new FakeRoomRepository();
         roomService = new RoomService(
                 new RoomFinder(roomRepository),
                 roomRepository,
-                new MemberCollectionRepository()
+                new FakeMemberRepository()
         );
     }
 
