@@ -25,17 +25,13 @@ class DbConnectionTest {
     @DisplayName("DB 연결을 확인한다.")
     void getConnection() {
         try (final Connection connection = dataSource.getConnection()) {
-            assertCatalogExists(connection, "jlog");
-            assertTableExists(connection, "member");
-            assertTableExists(connection, "room");
-            assertTableExists(connection, "log");
+            assertThat(connection.getCatalog()).isEqualTo("JLOG");
+            assertTableExists(connection, "MEMBER");
+            assertTableExists(connection, "ROOM");
+            assertTableExists(connection, "LOG");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void assertCatalogExists(Connection connection, String catalogName) throws SQLException {
-        assertThat(connection.getCatalog()).isEqualTo(catalogName);
     }
 
     private void assertTableExists(final Connection connection, String tableName) throws SQLException {

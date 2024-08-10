@@ -27,7 +27,6 @@ public class LogController {
         this.logService = logService;
     }
 
-    // todo: add response body content.
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody LogRequest request) {

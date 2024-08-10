@@ -25,7 +25,6 @@ public class Room extends BaseEntity {
     protected Room() {}
 
     public Room(String code, Member member) {
-        // todo: Validate username not empty
         this(code, new Members(member));
     }
 

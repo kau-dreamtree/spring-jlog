@@ -1,3 +1,9 @@
 spring:
-  profiles:
-    active: local
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:jlog
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
