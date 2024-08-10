@@ -1,9 +1,10 @@
-name: CI
+name: Test with gradle
 
 on:
-  push:
+  pull_request:
     branches:
-      - feat/**
+      - main
+      - iteration/**
 
 jobs:
   build:
@@ -20,10 +21,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
-
-      - name: Archive JAR file
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-jar
-          path: build/libs/*.jar
+        run: ./gradlew test

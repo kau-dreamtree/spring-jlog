@@ -1,45 +1,20 @@
-name: CD
+name: CD on main
 
 on:
-  workflow_run:
-    workflows:
-      - CI
-    types:
-      - completed
+  push:
     branches:
-      - feat/**
+      - iteration/**
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    environment: develop
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_branch }}
 
-      - name: Download JAR artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-jar
-
-      - name: Copy JAR to remote server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          port: ${{ secrets.REMOTE_PORT }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          target: '~/workspace/tmp/'
-          source: '*.jar'
-
-      - name: SSH and run commands on remote server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          port: ${{ secrets.REMOTE_PORT }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          script: |
-            echo "deploy success" > ~/workspace/tmp/success.log
+      - name: Boot jar
+        run: |
+          ./gradlew bootJar
+          mv build/libs/*.jar ${{ secrets.ARTIFACT_DIR }}
