@@ -41,7 +41,12 @@ public class Members {
     protected Members() {}
 
     public Members(Member member) {
-        member1 = member;
+        this(member, null);
+    }
+
+    public Members(Member member1, Member member2) {
+        this.member1 = member1;
+        this.member2 = member2;
     }
 
     @PostLoad
@@ -120,5 +125,13 @@ public class Members {
             return member1.expense();
         }
         return Math.abs(member1.expense() - member2.expense());
+    }
+
+    @Override
+    public String toString() {
+        return "Members{" +
+                "member1=" + member1 +
+                ", member2=" + member2 +
+                '}';
     }
 }
