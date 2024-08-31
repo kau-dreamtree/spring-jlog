@@ -1,7 +1,10 @@
 package dreamtree.jlog.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record LogRequest(
         Long id,
+        @JsonProperty("room_code")
         String roomCode,
         String username,
         Long expense,
