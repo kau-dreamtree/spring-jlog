@@ -7,6 +7,7 @@ public record LogRequest(
         @JsonProperty("room_code")
         String roomCode,
         String username,
+        @JsonProperty("amount")
         Long expense,
         String memo
 ) {
