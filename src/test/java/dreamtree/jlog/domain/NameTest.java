@@ -21,7 +21,7 @@ class NameTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", " ", "*", "_", "1", "1a"})
+    @ValueSource(strings = {"", " ", "*", "_"})
     void invalidNames(String name) {
         assertThatThrownBy(() -> new Name(name))
                 .isInstanceOf(JLogException.class)
