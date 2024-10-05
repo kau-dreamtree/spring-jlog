@@ -15,7 +15,7 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - name: gradle 캐싱
+      - name: Cache gradle
         uses: gradle/actions/setup-gradle@v4
 
       - name: Boot jar
@@ -40,4 +40,4 @@ jobs:
 
       - name: Run artifact
         working-directory: ${{ secrets.PROJECT_DIR }}
-        run: ${{ secrets.RUN_SERVER }}
+        run: docker compose restart
