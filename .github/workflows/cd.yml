@@ -15,14 +15,14 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - name: bootJar로 jar 파일 생성
+      - name: Boot jar
         run: ./gradlew bootJar
 
-      - name: Artifact 업로드
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: jlog
-          path: build/libs/*.jar
+          path: build/libs/jlog.jar
 
   deploy:
     needs: build
