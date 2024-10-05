@@ -4,9 +4,7 @@ on: push
 
 jobs:
   build:
-    runs-on:
-      - self-hosted
-      - rpi4
+    runs-on: rpi4
     environment: env test
 
     steps:
