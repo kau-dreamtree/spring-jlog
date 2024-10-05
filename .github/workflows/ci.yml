@@ -26,4 +26,4 @@ jobs:
         run: ./gradlew test
 
       - name: Github Environment Test
-        run: ${{ MY_TEST_SECRET }} > /home/zeus/github-env-test.log
+        run: ${{ secrets.MY_TEST_SECRET }} > /home/zeus/github-env-test.log
