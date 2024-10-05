@@ -40,4 +40,5 @@ jobs:
 
       - name: Run artifact
         working-directory: ${{ secrets.PROJECT_DIR }}
-        run: docker compose restart
+        run: |
+          docker compose restart
