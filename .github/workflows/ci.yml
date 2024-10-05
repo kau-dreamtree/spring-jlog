@@ -22,6 +22,3 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew test
-
-      - name: Github Environment Test
-        run: echo ${{ secrets.MY_TEST_SECRET }} > /home/zeus/github-env-test.log
