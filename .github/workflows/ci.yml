@@ -2,7 +2,9 @@ name: CI
 
 jobs:
   build:
-    runs-on: rpi4
+    runs-on:
+      - self-hosted
+      - rpi4
     environment: env test
 
     steps:
