@@ -40,4 +40,4 @@ jobs:
 
       - name: Run artifact
         working-directory: ${{ secrets.PROJECT_PATH }}
-        run: ${{ RUN_SERVER }}
+        run: ${{ secrets.RUN_SERVER }}
