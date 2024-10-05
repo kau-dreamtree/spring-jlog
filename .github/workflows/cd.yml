@@ -39,7 +39,7 @@ jobs:
           path: ${{ secrets.SPRING_ARTIFACT_PATH }}
 
       - name: Run artifact
-        working-directory: ${{ secrets.PROJECT_DIR }}
         run: |
           ls -lh
           docker compose restart
+        working-directory: ${{ secrets.PROJECT_DIR }}
