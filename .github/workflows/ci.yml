@@ -11,17 +11,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Setup gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Test with Gradle Wrapper
+      - name: Build with Gradle Wrapper
         run: ./gradlew test
 
       - name: Github Environment Test
-        run: ${{ secrets.MY_TEST_SECRET }} > /home/zeus/github-env-test.log
+        run: echo ${{ secrets.MY_TEST_SECRET }} > /home/zeus/github-env-test.log
