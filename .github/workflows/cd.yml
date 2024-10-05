@@ -2,8 +2,6 @@ name: CD
 
 on: push
 
-environment: deploy test
-
 jobs:
   build:
     runs-on: rpi4
@@ -28,6 +26,7 @@ jobs:
 
   deploy:
     needs: build
+    environment: deploy test
     runs-on: rpi4
     steps:
       - name: Download artifact
