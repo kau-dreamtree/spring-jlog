@@ -32,6 +32,10 @@ jobs:
     environment: deploy test
     runs-on: rpi4
     steps:
+      - name: Copy properties
+        working-directory: src/main/resources/modules
+        run: cp *.yml ${{ secrets.SPRING_ARTIFACT_PATH }}
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
