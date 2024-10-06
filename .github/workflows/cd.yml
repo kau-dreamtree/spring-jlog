@@ -39,8 +39,7 @@ jobs:
           token: ${{ secrets.PRIVATE_REPO_ACCESS }}
 
       - name: Copy properties
-        working-directory: src/main/resources/modules
-        run: cp *.yml ${{ secrets.SPRING_ARTIFACT_PATH }}
+        run: ${{ secrets.RUN_COPY_PROPERTIES }}
 
       - name: Download artifact
         uses: actions/download-artifact@v4
