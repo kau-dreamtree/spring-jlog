@@ -1,0 +1,4 @@
+[submodule "src/main/resources/modules"]
+	path = src/main/resources/modules
+	url = https://github.com/codezap2024/2024-code-zap-private.git
+	branch = test/jlog
