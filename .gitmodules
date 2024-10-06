@@ -1,0 +1,3 @@
+[submodule ".github/modules/private"]
+	path = .github/modules/private
+	url = https://github.com/codezap2024/2024-code-zap-private.git
