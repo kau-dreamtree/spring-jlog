@@ -36,6 +36,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
+          token: ${{ secrets.PRIVATE_REPO_ACCESS }}
 
       - name: Copy properties
         working-directory: src/main/resources/modules
