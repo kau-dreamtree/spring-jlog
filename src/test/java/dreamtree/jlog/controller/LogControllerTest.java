@@ -38,7 +38,7 @@ import dreamtree.jlog.service.LogService;
 @WebMvcTest(LogController.class)
 class LogControllerTest {
 
-    private final String uri = "/api/log";
+    private static final String BASE_URL = "/api/log";
 
     @Autowired
     private MockMvc mvc;
@@ -50,16 +50,16 @@ class LogControllerTest {
     private LogService logService;
 
     @Nested
-    @DisplayName("Request to create a log.")
+    @DisplayName("Request to create a log")
     class Create {
 
         @Test
-        @DisplayName("Request to create a log then respond 201.")
+        @DisplayName("Request to create a log responds 201")
         void create() throws Exception {
             var request = new LogRequest(null, "room_1234", "member1", 1000L, null);
             doNothing().when(logService).createLog(request);
 
-            mvc.perform(post(uri)
+            mvc.perform(post(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))
@@ -67,20 +67,20 @@ class LogControllerTest {
         }
 
         @Test
-        @DisplayName("Request without body then respond 400.")
+        @DisplayName("Request without body responds 400")
         void create_exception() throws Exception {
-            mvc.perform(post(uri)
+            mvc.perform(post(BASE_URL)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
         }
     }
 
     @Nested
-    @DisplayName("Request to get logs.")
+    @DisplayName("Request to get logs")
     class Get {
 
         @Test
-        @DisplayName("Request to get logs with stats then respond 200 with body.")
+        @DisplayName("Request to get logs with outpay responds 200 with body")
         void getLogsWithOutpay() throws Exception {
             var member1 = new Member("zeus");
             var member2 = new Member("lizzy");
@@ -94,7 +94,7 @@ class LogControllerTest {
             doReturn(expect).when(logService).getLogsWithOutpay(any(), any());
 
             var parameters = "?room_code=room_1234&username=zeus";
-            mvc.perform(get(uri + parameters)
+            mvc.perform(get(BASE_URL + parameters)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
@@ -103,9 +103,9 @@ class LogControllerTest {
 
         @ParameterizedTest
         @ValueSource(strings = {"?room_code=room_1234", "?username=zeus", ""})
-        @DisplayName("Request with invalid parameters then respond 400.")
+        @DisplayName("Request with invalid parameters responds 400")
         void getLogsWithOutpay_exception(String parameters) throws Exception {
-            mvc.perform(get(uri + parameters)
+            mvc.perform(get(BASE_URL + parameters)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
@@ -113,14 +113,14 @@ class LogControllerTest {
     }
 
     @Nested
-    @DisplayName("Request to update a log.")
+    @DisplayName("Request to update a log")
     class Update {
 
         @Test
-        @DisplayName("Request to update a log then respond 200.")
+        @DisplayName("Request to update a log responds 200")
         void update() throws Exception {
             var request = new LogRequest(null, "room_1234", "member1", 1000L, "new memo");
-            mvc.perform(put(uri)
+            mvc.perform(put(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))
@@ -128,9 +128,9 @@ class LogControllerTest {
         }
 
         @Test
-        @DisplayName("Request without body then respond 400")
+        @DisplayName("Request without body responds 400")
         void update_exception() throws Exception {
-            mvc.perform(put(uri)
+            mvc.perform(put(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
@@ -138,15 +138,15 @@ class LogControllerTest {
     }
 
     @Nested
-    @DisplayName("Request to delete a log.")
+    @DisplayName("Request to delete a log")
     class Delete {
 
         @Test
-        @DisplayName("Request to delete a log then respond 204.")
+        @DisplayName("Request to delete a log responds 204")
         void delete_success() throws Exception {
             var request = new LogRequest(1L, "room_1234", "username");
             doNothing().when(logService).delete(request);
-            mvc.perform(delete(uri)
+            mvc.perform(delete(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))
@@ -154,9 +154,9 @@ class LogControllerTest {
         }
 
         @Test
-        @DisplayName("Request without body then respond 400")
+        @DisplayName("Request without body responds 400")
         void delete_exception() throws Exception {
-            mvc.perform(delete(uri)
+            mvc.perform(delete(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
