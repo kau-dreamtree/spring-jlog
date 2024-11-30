@@ -37,3 +37,4 @@ out/
 
 ### Customize ###
 .DS_STORE
+application-local.yml
