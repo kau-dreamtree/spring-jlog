@@ -55,7 +55,9 @@ public class LogService {
         log.info("LogService: createLog(): {}", request.toString());
         Room room = roomFinder.getRoomByCode(request.roomCode());
         Member member = room.requireMemberExistsByName(request.username());
-        Log saved = logRepository.save(Log.builder(room, member)
+        Log saved = logRepository.save(Log.builder()
+                .room(room)
+                .member(member)
                 .expense(request.expense())
                 .memo(request.memo())
                 .build());
@@ -63,9 +65,10 @@ public class LogService {
         roomRepository.save(room);
     }
 
-    public LogsWithOutpayResponse getLogsWithOutpay(LogRequest request) {
-        Room room = roomFinder.getRoomByCode(request.roomCode());
-        room.requireMemberExistsByName(request.username());
+    @Transactional(readOnly = true)
+    public LogsWithOutpayResponse getLogsWithOutpay(String roomCode, String username) {
+        Room room = roomFinder.getRoomByCode(roomCode);
+        room.requireMemberExistsByName(username);
         List<LogResponse> logs = findAllLogsByRoomOrderByCreatedDateDesc(room);
         return LogsWithOutpayResponse.of(room, logs);
     }
@@ -84,8 +87,8 @@ public class LogService {
         Room room = roomFinder.getRoomByCode(request.roomCode());
         Member member = room.requireMemberExistsByName(request.username());
         Log log = logFinder.getLogById(request.id());
-        log.requireMemberEquals(member);
-        member.addExpense(request.expense() - log.expense());
+        log.requireEquals(member);
+        member.addExpense(request.expense() - log.getExpense());
         log.updateExpense(request.expense());
         log.updateMemo(request.memo());
         logRepository.save(log);
@@ -98,8 +101,8 @@ public class LogService {
         Room room = roomFinder.getRoomByCode(request.roomCode());
         Member member = room.requireMemberExistsByName(request.username());
         Log log = logFinder.getLogById(request.id());
-        log.requireMemberEquals(member);
-        member.subtractExpense(log.expense());
+        log.requireEquals(member);
+        member.subtractExpense(log.getExpense());
         logRepository.delete(log);
         memberRepository.save(member);
     }

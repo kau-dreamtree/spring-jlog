@@ -28,7 +28,7 @@ public class FakeRoomRepository implements RoomRepository {
     @Override
     public Optional<Room> findByCode(String code) {
         return rooms.stream()
-                .filter(room -> Objects.equals(code, room.code()))
+                .filter(room -> Objects.equals(code, room.getCode()))
                 .findFirst();
     }
 }

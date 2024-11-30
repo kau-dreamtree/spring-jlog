@@ -32,11 +32,11 @@ public record LogResponse(
 ) {
         public static LogResponse from(Log log) {
                 return new LogResponse(
-                        log.id(),
-                        log.room().code(),
-                        log.member().name(),
-                        log.expense(),
-                        log.memo(),
+                        log.getId(),
+                        log.getRoom().getCode(),
+                        log.getMember().getName(),
+                        log.getExpense(),
+                        log.getMemo(),
                         log.createdDate(),
                         log.modifiedDate()
                 );

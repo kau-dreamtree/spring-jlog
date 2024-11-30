@@ -9,7 +9,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode(of = "id", callSuper = false)
+@ToString
 public class Room extends BaseEntity {
 
     @Id
@@ -22,20 +34,12 @@ public class Room extends BaseEntity {
     @Embedded
     private Members members;
 
-    protected Room() {}
-
     public Room(String code, Member member) {
         this(code, new Members(member));
     }
 
     public Room(String code, Members members) {
         this(null, code, members);
-    }
-
-    public Room(Long id, String code, Members members) {
-        this.id = id;
-        this.code = code;
-        this.members = members;
     }
 
     public void join(Member member) {
@@ -64,41 +68,5 @@ public class Room extends BaseEntity {
 
     public long outpayAmount() {
         return members.outpayAmount();
-    }
-
-    public Long id() {
-        return id;
-    }
-
-    public String code() {
-        return code;
-    }
-
-    public Members members() {
-        return members;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        return object instanceof Room other
-                && Objects.equals(id, other.id)
-                && Objects.equals(code, other.code);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, code);
-    }
-
-    @Override
-    public String toString() {
-        return "Room{" +
-                "id=" + id +
-                ", code='" + code + '\'' +
-                ", members=" + members +
-                '}';
     }
 }

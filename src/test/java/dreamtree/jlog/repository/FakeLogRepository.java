@@ -34,14 +34,14 @@ public class FakeLogRepository implements LogRepository {
     @Override
     public Optional<Log> findById(Long id) {
         return logs.stream()
-                .filter(log -> Objects.equals(id, log.id()))
+                .filter(log -> Objects.equals(id, log.getId()))
                 .findFirst();
     }
 
     @Override
     public List<Log> findAllByRoom(Room room) {
         return logs.stream()
-                .filter(log -> Objects.equals(room, log.room()))
+                .filter(log -> Objects.equals(room, log.getRoom()))
                 .toList();
     }
 }

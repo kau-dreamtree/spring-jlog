@@ -43,7 +43,7 @@ class RoomControllerTest {
         @DisplayName("Request to create a room then respond 200 with a room code in the body.")
         void create() throws Exception {
             var roomCode = "test-room-code";
-            var request = new RoomCreateRequest("jlog-name");
+            var request = new RoomCreateRequest("username");
             doReturn(roomCode).when(roomService).create(request);
 
             var expected = objectMapper.writeValueAsString(new RoomResponse(roomCode));

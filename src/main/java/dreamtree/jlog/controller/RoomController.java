@@ -2,6 +2,8 @@ package dreamtree.jlog.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,7 +29,7 @@ public class RoomController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RoomResponse create(@RequestBody RoomCreateRequest request) {
+    public RoomResponse create(@RequestBody @Valid RoomCreateRequest request) {
         String roomCode = roomService.create(request);
         return new RoomResponse(roomCode);
     }

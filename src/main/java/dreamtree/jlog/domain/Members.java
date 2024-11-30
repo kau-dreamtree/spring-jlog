@@ -17,15 +17,21 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.Transient;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import dreamtree.jlog.exception.JLogException;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Getter
+@ToString
 public class Members {
-
-    private static final Logger log = LoggerFactory.getLogger(Members.class);
 
     @Transient
     private final Set<Member> members = new HashSet<>();
@@ -38,15 +44,8 @@ public class Members {
     @AttributeOverride(name = "id", column = @Column(name = "member2_id"))
     private Member member2;
 
-    protected Members() {}
-
     public Members(Member member) {
         this(member, null);
-    }
-
-    public Members(Member member1, Member member2) {
-        this.member1 = member1;
-        this.member2 = member2;
     }
 
     @PostLoad
@@ -62,7 +61,7 @@ public class Members {
             throw new JLogException(ROOM_FULL);
         }
         joinIfEmpty(member);
-        log.info("%s member %s joined".formatted(LocalDateTime.now(), member.name()));
+        log.info("{} member {} joined", LocalDateTime.now(), member.getName());
     }
 
     public boolean cannotJoin(Member member) {
@@ -76,7 +75,7 @@ public class Members {
     }
 
     public boolean isFull() {
-        return member2 != null;
+        return member1 != null && member2 != null;
     }
 
     public boolean hasRoom() {
@@ -92,8 +91,8 @@ public class Members {
     }
 
     public void add(Log log) {
-        Member member = getMember(log.member());
-        member.addExpense(log.expense());
+        Member member = getMember(log.getMember());
+        member.addExpense(log.getExpense());
     }
 
     public Member getMember(Member member) {
@@ -105,7 +104,7 @@ public class Members {
 
     public Member getMemberByName(String name) {
         return members.stream()
-                .filter(member -> Objects.equals(member.name(), name))
+                .filter(member -> Objects.equals(member.getName(), name))
                 .findFirst()
                 .orElseThrow(() -> new JLogException(UNAUTHORIZED_MEMBER_NAME));
     }
@@ -115,23 +114,16 @@ public class Members {
             return "";
         }
         return members.stream()
-                .max(Comparator.comparing(Member::expense))
-                .map(Member::name)
+                .max(Comparator.comparing(Member::getExpense))
+                .map(Member::getName)
                 .orElse("");
     }
 
     public long outpayAmount() {
-        if (member2 == null) {
-            return member1.expense();
+        if (Objects.isNull(member2)) {
+            return member1.getExpense();
         }
-        return Math.abs(member1.expense() - member2.expense());
-    }
-
-    @Override
-    public String toString() {
-        return "Members{" +
-                "member1=" + member1 +
-                ", member2=" + member2 +
-                '}';
+        long diff = Math.subtractExact(member1.getExpense(), member2.getExpense());
+        return Math.abs(diff);
     }
 }

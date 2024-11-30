@@ -1,4 +1,11 @@
 package dreamtree.jlog.dto;
 
-public record RoomCreateRequest(String username) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record RoomCreateRequest(
+        @NotBlank
+        @Size(min = 2, max = 16)
+        String username
+) {
 }

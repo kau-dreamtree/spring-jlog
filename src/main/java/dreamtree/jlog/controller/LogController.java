@@ -38,8 +38,7 @@ public class LogController {
             @RequestParam("room_code") String roomCode,
             @RequestParam("username") String username
     ) {
-        LogRequest request = new LogRequest(roomCode, username);
-        return logService.getLogsWithOutpay(request);
+        return logService.getLogsWithOutpay(roomCode, username);
     }
 
     @PutMapping

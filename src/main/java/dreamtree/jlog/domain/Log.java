@@ -15,12 +15,24 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import dreamtree.jlog.exception.JLogException;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(indexes = {
         @Index(name = "log_created_date_idx", columnList = "created_date"),
         @Index(name = "log_modified_date_idx", columnList = "modified_date"),
 })
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Getter
+@EqualsAndHashCode(of = "id", callSuper = false)
+@ToString
 public class Log extends BaseEntity {
 
     @Id
@@ -38,32 +50,15 @@ public class Log extends BaseEntity {
 
     private String memo;
 
-    protected Log() {
+    @Builder
+    public Log(Room room, Member member, long expense, String memo) {
+        this(null, room, member, expense, memo);
     }
 
-    public Log(
-            Long id,
-            Room room,
-            Member member,
-            long expense,
-            String memo
-    ) {
-        this.id = id;
-        this.room = room;
-        this.member = member;
-        this.expense = expense;
-        this.memo = memo;
-    }
-
-    public static LogBuilder builder(Room room, Member member) {
-        return new LogBuilder(room, member);
-    }
-
-    public void requireMemberEquals(Member member) {
-        if (Objects.equals(this.member, member)) {
-            return;
+    public void requireEquals(Member member) {
+        if (!Objects.equals(this.member, member)) {
+            throw new JLogException(UNAUTHORIZED_MEMBER);
         }
-        throw new JLogException(UNAUTHORIZED_MEMBER);
     }
 
     public void updateExpense(long expense) {
@@ -75,52 +70,5 @@ public class Log extends BaseEntity {
 
     public void updateMemo(String memo) {
         this.memo = memo;
-    }
-
-    public Long id() {
-        return id;
-    }
-
-    public Room room() {
-        return room;
-    }
-
-    public Member member() {
-        return member;
-    }
-
-    public long expense() {
-        return expense;
-    }
-
-    public String memo() {
-        return memo;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        return object instanceof Log other
-                && Objects.equals(id, other.id)
-                && Objects.equals(room, other.room)
-                && Objects.equals(member, other.member);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, room, member);
-    }
-
-    @Override
-    public String toString() {
-        return "Log{" +
-                "id=" + id +
-                ", room=" + room +
-                ", member=" + member +
-                ", expense=" + expense +
-                ", memo='" + memo + '\'' +
-                '}';
     }
 }

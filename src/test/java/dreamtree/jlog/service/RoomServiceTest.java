@@ -37,7 +37,7 @@ class RoomServiceTest {
         @DisplayName("Create a room.")
         void create() {
             var member = new Member("member1");
-            var request = new RoomCreateRequest(member.name());
+            var request = new RoomCreateRequest(member.getName());
 
             var code = roomService.create(request);
             var saved = roomRepository.findByCode(code);

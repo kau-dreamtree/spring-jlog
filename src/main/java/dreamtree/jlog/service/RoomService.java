@@ -36,7 +36,7 @@ public class RoomService {
         String code = randomUniqueString();
         Member savedMember = memberRepository.save(new Member(request.username()));
         Room savedRoom = roomRepository.save(new Room(code, savedMember));
-        return savedRoom.code();
+        return savedRoom.getCode();
     }
 
     @Transactional

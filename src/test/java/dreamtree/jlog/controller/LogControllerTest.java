@@ -87,11 +87,11 @@ class LogControllerTest {
             var members = new Members(member1, member2);
             var room = new Room(1L, "room_1234", members);
             var logResponses = List.of(
-                    new LogResponse(1L, room.code(), member1.name(), 1000L, "memo1", now(), now()),
-                    new LogResponse(2L, room.code(), member2.name(), 2000L, "memo2", now(), now())
+                    new LogResponse(1L, room.getCode(), member1.getName(), 1000L, "memo1", now(), now()),
+                    new LogResponse(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
             );
             var expect = LogsWithOutpayResponse.of(room, logResponses);
-            doReturn(expect).when(logService).getLogsWithOutpay(any());
+            doReturn(expect).when(logService).getLogsWithOutpay(any(), any());
 
             var parameters = "?room_code=room_1234&username=zeus";
             mvc.perform(get(uri + parameters)
@@ -143,7 +143,7 @@ class LogControllerTest {
 
         @Test
         @DisplayName("Request to delete a log then respond 204.")
-        void delete_() throws Exception {
+        void delete_success() throws Exception {
             var request = new LogRequest(1L, "room_1234", "username");
             doNothing().when(logService).delete(request);
             mvc.perform(delete(uri)
