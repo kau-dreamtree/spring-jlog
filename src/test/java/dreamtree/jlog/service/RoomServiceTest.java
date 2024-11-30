@@ -12,7 +12,6 @@ import dreamtree.jlog.dto.RoomCreateRequest;
 import dreamtree.jlog.repository.FakeMemberRepository;
 import dreamtree.jlog.repository.FakeRoomRepository;
 import dreamtree.jlog.repository.RoomRepository;
-import dreamtree.jlog.service.finder.RoomFinder;
 
 class RoomServiceTest {
 
@@ -23,11 +22,7 @@ class RoomServiceTest {
     @BeforeEach
     void setUp() {
         roomRepository = new FakeRoomRepository();
-        roomService = new RoomService(
-                new RoomFinder(roomRepository),
-                roomRepository,
-                new FakeMemberRepository()
-        );
+        roomService = new RoomService(roomRepository, new FakeMemberRepository());
     }
 
     @Nested

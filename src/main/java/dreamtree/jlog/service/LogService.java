@@ -3,6 +3,8 @@ package dreamtree.jlog.service;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.reverseOrder;
 
+import static dreamtree.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,45 +18,27 @@ import dreamtree.jlog.domain.Room;
 import dreamtree.jlog.dto.LogRequest;
 import dreamtree.jlog.dto.LogResponse;
 import dreamtree.jlog.dto.LogsWithOutpayResponse;
+import dreamtree.jlog.exception.JLogException;
 import dreamtree.jlog.repository.LogRepository;
 import dreamtree.jlog.repository.MemberRepository;
 import dreamtree.jlog.repository.RoomRepository;
-import dreamtree.jlog.service.finder.LogFinder;
-import dreamtree.jlog.service.finder.RoomFinder;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class LogService {
 
     private static final Logger log = LoggerFactory.getLogger(LogService.class);
 
-    private final LogFinder logFinder;
     private final LogRepository logRepository;
-
-    private final RoomFinder roomFinder;
     private final RoomRepository roomRepository;
-
     private final MemberRepository memberRepository;
-
-    public LogService(
-            LogFinder logFinder,
-            LogRepository logRepository,
-            RoomFinder roomFinder,
-            RoomRepository roomRepository,
-            MemberRepository memberRepository
-    ) {
-        this.logFinder = logFinder;
-        this.logRepository = logRepository;
-        this.roomFinder = roomFinder;
-        this.roomRepository = roomRepository;
-        this.memberRepository = memberRepository;
-    }
-
 
     @Transactional
     public void createLog(LogRequest request) {
         log.info("LogService: createLog(): {}", request.toString());
-        Room room = roomFinder.getRoomByCode(request.roomCode());
-        Member member = room.requireMemberExistsByName(request.username());
+        Room room = roomRepository.fetchByCode(request.roomCode());
+        Member member = room.getMemberByName(request.username());
         Log saved = logRepository.save(Log.builder()
                 .room(room)
                 .member(member)
@@ -67,8 +51,8 @@ public class LogService {
 
     @Transactional(readOnly = true)
     public LogsWithOutpayResponse getLogsWithOutpay(String roomCode, String username) {
-        Room room = roomFinder.getRoomByCode(roomCode);
-        room.requireMemberExistsByName(username);
+        Room room = roomRepository.fetchByCode(roomCode);
+        room.getMemberByName(username);
         List<LogResponse> logs = findAllLogsByRoomOrderByCreatedDateDesc(room);
         return LogsWithOutpayResponse.of(room, logs);
     }
@@ -84,10 +68,10 @@ public class LogService {
     @Transactional
     public void update(LogRequest request) {
         log.info("LogService: update(): {}", request.toString());
-        Room room = roomFinder.getRoomByCode(request.roomCode());
-        Member member = room.requireMemberExistsByName(request.username());
-        Log log = logFinder.getLogById(request.id());
-        log.requireEquals(member);
+        Room room = roomRepository.fetchByCode(request.roomCode());
+        Member member = room.getMemberByName(request.username());
+        Log log = logRepository.fetchById(request.id());
+        validateLogOwner(log, member);
         member.addExpense(request.expense() - log.getExpense());
         log.updateExpense(request.expense());
         log.updateMemo(request.memo());
@@ -98,12 +82,18 @@ public class LogService {
     @Transactional
     public void delete(LogRequest request) {
         log.info("LogService: delete(): {}", request.toString());
-        Room room = roomFinder.getRoomByCode(request.roomCode());
-        Member member = room.requireMemberExistsByName(request.username());
-        Log log = logFinder.getLogById(request.id());
-        log.requireEquals(member);
+        Room room = roomRepository.fetchByCode(request.roomCode());
+        Member member = room.getMemberByName(request.username());
+        Log log = logRepository.fetchById(request.id());
+        validateLogOwner(log, member);
         member.subtractExpense(log.getExpense());
         logRepository.delete(log);
         memberRepository.save(member);
+    }
+
+    private void validateLogOwner(Log log, Member member) {
+        if (!log.ownedBy(member)) {
+            throw new JLogException(UNAUTHORIZED_MEMBER);
+        }
     }
 }
