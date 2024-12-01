@@ -1,5 +1,7 @@
 package dreamtree.jlog.domain;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +35,10 @@ public class Member extends BaseEntity {
 
     public Member(String name) {
         this(null, name, 0L);
+    }
+
+    public boolean matchName(String name) {
+        return Objects.equals(this.name, name);
     }
 
     public void addExpense(long expense) {

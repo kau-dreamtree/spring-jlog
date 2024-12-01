@@ -1,6 +1,6 @@
 package dreamtree.jlog.domain;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +23,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString
+@Slf4j
 public class Room extends BaseEntity {
 
     @Id
@@ -43,23 +45,34 @@ public class Room extends BaseEntity {
     }
 
     public void join(Member member) {
-        members.join(Objects.requireNonNull(member));
+        log.info("{} member {} requested to join", LocalDateTime.now(), member.getName());
+        if (exists(member)) {
+            return;
+        }
+        if (!isFull()) {
+            members = new Members(members.getMember1(), member);
+        }
+        throw new IllegalStateException("Room %s is full".formatted(code));
     }
 
-    public Member requireMemberExistsByName(String name) {
-        return members.getMemberByName(name);
-    }
-
-    public void addLog(Log log) {
-        members.add(log);
+    private boolean exists(Member member) {
+        return members.exists(member);
     }
 
     public boolean isFull() {
         return members.isFull();
     }
 
-    public boolean hasRoom() {
-        return members.hasRoom();
+    public Member getMemberByName(String name) {
+        return members.getMemberByName(name);
+    }
+
+    public boolean existsByName(String name) {
+        return members.existsByName(name);
+    }
+
+    public void addLog(Log log) {
+        members.addLog(log);
     }
 
     public String outpayer() {

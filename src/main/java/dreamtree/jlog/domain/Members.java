@@ -1,23 +1,14 @@
 package dreamtree.jlog.domain;
 
-import static dreamtree.jlog.exception.JLogErrorCode.MEMBER_NOT_EXISTS;
-import static dreamtree.jlog.exception.JLogErrorCode.ROOM_FULL;
-import static dreamtree.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER_NAME;
-
-import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
+import java.util.stream.Stream;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.Transient;
 
-import dreamtree.jlog.exception.JLogException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,9 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 public class Members {
 
-    @Transient
-    private final Set<Member> members = new HashSet<>();
-
     @OneToOne(optional = false)
     @AttributeOverride(name = "id", column = @Column(name = "member1_id"))
     private Member member1;
@@ -48,72 +36,38 @@ public class Members {
         this(member, null);
     }
 
-    @PostLoad
-    public void postLoad() {
-        members.add(member1);
-        if (member2 != null) {
-            members.add(member2);
-        }
-    }
-
-    public void join(Member member) {
-        if (cannotJoin(member)) {
-            throw new JLogException(ROOM_FULL);
-        }
-        joinIfEmpty(member);
-        log.info("{} member {} joined", LocalDateTime.now(), member.getName());
-    }
-
-    public boolean cannotJoin(Member member) {
-        return isFull() && doesNotContain(member);
-    }
-
-    private void joinIfEmpty(Member member) {
-        if (hasRoom() && doesNotContain(member)) {
-            member2 = member;
-        }
+    public boolean exists(Member member) {
+        return member1.equals(member) || member2.equals(member);
     }
 
     public boolean isFull() {
         return member1 != null && member2 != null;
     }
 
-    public boolean hasRoom() {
-        return !isFull();
-    }
-
-    public boolean contains(Member member) {
-        return members.contains(member);
-    }
-
-    public boolean doesNotContain(Member member) {
-        return !contains(member);
-    }
-
-    public void add(Log log) {
-        Member member = getMember(log.getMember());
-        member.addExpense(log.getExpense());
-    }
-
-    public Member getMember(Member member) {
-        return members.stream()
-                .filter(m -> Objects.equals(m, member))
-                .findFirst()
-                .orElseThrow(() -> new JLogException(MEMBER_NOT_EXISTS));
-    }
-
     public Member getMemberByName(String name) {
-        return members.stream()
+        return stream()
                 .filter(member -> Objects.equals(member.getName(), name))
                 .findFirst()
-                .orElseThrow(() -> new JLogException(UNAUTHORIZED_MEMBER_NAME));
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public boolean existsByName(String name) {
+        return stream().anyMatch(m -> Objects.equals(m.getName(), name));
+    }
+
+    public void addLog(Log log) {
+        Member member = stream()
+                .filter(m -> Objects.equals(m, log.getMember()))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        member.addExpense(log.getExpense());
     }
 
     public String outpayer() {
         if (outpayAmount() == 0) {
             return "";
         }
-        return members.stream()
+        return stream()
                 .max(Comparator.comparing(Member::getExpense))
                 .map(Member::getName)
                 .orElse("");
@@ -125,5 +79,9 @@ public class Members {
         }
         long diff = Math.subtractExact(member1.getExpense(), member2.getExpense());
         return Math.abs(diff);
+    }
+
+    private Stream<Member> stream() {
+        return Stream.of(member1, member2);
     }
 }
