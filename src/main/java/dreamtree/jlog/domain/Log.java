@@ -1,8 +1,5 @@
 package dreamtree.jlog.domain;
 
-import static dreamtree.jlog.exception.JLogErrorCode.INVALID_EXPENSE_FORMAT;
-import static dreamtree.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
-
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -14,7 +11,6 @@ import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import dreamtree.jlog.exception.JLogException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,15 +51,13 @@ public class Log extends BaseEntity {
         this(null, room, member, expense, memo);
     }
 
-    public void requireEquals(Member member) {
-        if (!Objects.equals(this.member, member)) {
-            throw new JLogException(UNAUTHORIZED_MEMBER);
-        }
+    public boolean ownedBy(Member member) {
+        return Objects.equals(this.member, member);
     }
 
     public void updateExpense(long expense) {
         if (expense < 0L) {
-            throw new JLogException(INVALID_EXPENSE_FORMAT);
+            throw new IllegalStateException("An expense must be a positive integer.");
         }
         this.expense = expense;
     }

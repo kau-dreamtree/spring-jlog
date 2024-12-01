@@ -41,7 +41,7 @@ public class Members {
     }
 
     public boolean isFull() {
-        return member1 != null && member2 != null;
+        return Objects.nonNull(member1) && Objects.nonNull(member2);
     }
 
     public Member getMemberByName(String name) {
@@ -52,7 +52,7 @@ public class Members {
     }
 
     public boolean existsByName(String name) {
-        return stream().anyMatch(m -> Objects.equals(m.getName(), name));
+        return stream().anyMatch(m -> m.matchName(name));
     }
 
     public void addLog(Log log) {

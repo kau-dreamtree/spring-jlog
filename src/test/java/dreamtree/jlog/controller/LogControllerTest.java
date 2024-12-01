@@ -57,7 +57,7 @@ class LogControllerTest {
         @DisplayName("Request to create a log responds 201")
         void create() throws Exception {
             var request = new LogRequest(null, "room_1234", "member1", 1000L, null);
-            doNothing().when(logService).createLog(request);
+            doNothing().when(logService).create(request);
 
             mvc.perform(post(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
@@ -91,7 +91,7 @@ class LogControllerTest {
                     new LogResponse(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
             );
             var expect = LogsWithOutpayResponse.of(room, logResponses);
-            doReturn(expect).when(logService).getLogsWithOutpay(any(), any());
+            doReturn(expect).when(logService).findAll(any(), any());
 
             var parameters = "?room_code=room_1234&username=zeus";
             mvc.perform(get(BASE_URL + parameters)

@@ -7,8 +7,6 @@ import static dreamtree.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,20 +21,21 @@ import dreamtree.jlog.repository.LogRepository;
 import dreamtree.jlog.repository.MemberRepository;
 import dreamtree.jlog.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LogService {
 
-    private static final Logger log = LoggerFactory.getLogger(LogService.class);
 
     private final LogRepository logRepository;
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void createLog(LogRequest request) {
-        log.info("LogService: createLog(): {}", request.toString());
+    public void create(LogRequest request) {
+        log.info("create() {}", request.toString());
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
         Log saved = logRepository.save(Log.builder()
@@ -46,11 +45,10 @@ public class LogService {
                 .memo(request.memo())
                 .build());
         room.addLog(saved);
-        roomRepository.save(room);
     }
 
     @Transactional(readOnly = true)
-    public LogsWithOutpayResponse getLogsWithOutpay(String roomCode, String username) {
+    public LogsWithOutpayResponse findAll(String roomCode, String username) {
         Room room = roomRepository.fetchByCode(roomCode);
         room.getMemberByName(username);
         List<LogResponse> logs = findAllLogsByRoomOrderByCreatedDateDesc(room);

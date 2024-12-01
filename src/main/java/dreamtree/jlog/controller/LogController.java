@@ -30,7 +30,7 @@ public class LogController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody LogRequest request) {
-        logService.createLog(request);
+        logService.create(request);
     }
 
     @GetMapping
@@ -38,7 +38,7 @@ public class LogController {
             @RequestParam("room_code") String roomCode,
             @RequestParam("username") String username
     ) {
-        return logService.getLogsWithOutpay(roomCode, username);
+        return logService.findAll(roomCode, username);
     }
 
     @PutMapping
