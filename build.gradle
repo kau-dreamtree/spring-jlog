@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'dreamtree'
-version = '1.1-' + new Date().format('yyyy-MM-dd-HHmm')
+version = '1.1'
 
 java {
     sourceCompatibility = '17'
@@ -53,4 +53,8 @@ asciidoctor {
     inputs.dir snippetsDir
     configurations 'asciidoctorExt'
     dependsOn test
+}
+
+test {
+    failFast = true
 }
