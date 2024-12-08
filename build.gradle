@@ -23,36 +23,25 @@ configurations {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
 
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.4.0'
     runtimeOnly 'com.h2database:h2'
 
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'io.rest-assured:rest-assured:5.4.0'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 jar {
     enabled = false
-}
-
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
-
-test {
-    useJUnitPlatform()
-    outputs.dir snippetsDir
-}
-
-asciidoctor {
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    dependsOn test
 }
 
 test {
