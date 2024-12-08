@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import dreamtree.jlog.domain.Log;
 import dreamtree.jlog.exception.JLogException;
-import dreamtree.jlog.repository.LogCollectionRepository;
+import dreamtree.jlog.repository.FakeLogRepository;
 import dreamtree.jlog.repository.LogRepository;
 
 class LogFinderTest {
@@ -26,7 +26,7 @@ class LogFinderTest {
 
     @BeforeEach
     void setUp() {
-        logRepository = new LogCollectionRepository();
+        logRepository = new FakeLogRepository();
         logFinder = new LogFinder(logRepository);
     }
 

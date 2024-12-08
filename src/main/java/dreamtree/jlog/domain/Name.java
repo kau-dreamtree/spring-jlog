@@ -13,7 +13,7 @@ import dreamtree.jlog.exception.JLogException;
 @Embeddable
 public class Name {
 
-    private static final String PATTERN = "^(?!\\d)[^\\W_]{1,16}$";
+    private static final String PATTERN = "^[\\p{L}\\p{N}]{1,16}$";
 
     @Column(name = "name", length = 16)
     private String value;

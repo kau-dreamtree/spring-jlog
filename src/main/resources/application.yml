@@ -1,4 +1,6 @@
 spring:
   profiles:
     active: local
-#    active: prod
+  output:
+    ansi:
+      enabled: always

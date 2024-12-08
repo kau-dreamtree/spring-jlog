@@ -5,15 +5,15 @@ import java.util.List;
 
 import dreamtree.jlog.domain.Member;
 
-public class MemberCollectionRepository implements MemberRepository {
+public class FakeMemberRepository implements MemberRepository {
 
     private final List<Member> members;
 
-    public MemberCollectionRepository() {
+    public FakeMemberRepository() {
         this(new ArrayList<>());
     }
 
-    public MemberCollectionRepository(List<Member> members) {
+    public FakeMemberRepository(List<Member> members) {
         this.members = members;
     }
 

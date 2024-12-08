@@ -5,6 +5,8 @@ import static java.util.Comparator.reverseOrder;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,8 @@ import dreamtree.jlog.service.finder.RoomFinder;
 
 @Service
 public class LogService {
+
+    private static final Logger log = LoggerFactory.getLogger(LogService.class);
 
     private final LogFinder logFinder;
     private final LogRepository logRepository;
@@ -48,6 +52,7 @@ public class LogService {
 
     @Transactional
     public void createLog(LogRequest request) {
+        log.info("LogService: createLog(): {}", request.toString());
         Room room = roomFinder.getRoomByCode(request.roomCode());
         Member member = room.requireMemberExistsByName(request.username());
         Log saved = logRepository.save(Log.builder(room, member)
@@ -75,6 +80,7 @@ public class LogService {
 
     @Transactional
     public void update(LogRequest request) {
+        log.info("LogService: update(): {}", request.toString());
         Room room = roomFinder.getRoomByCode(request.roomCode());
         Member member = room.requireMemberExistsByName(request.username());
         Log log = logFinder.getLogById(request.id());
@@ -88,6 +94,7 @@ public class LogService {
 
     @Transactional
     public void delete(LogRequest request) {
+        log.info("LogService: delete(): {}", request.toString());
         Room room = roomFinder.getRoomByCode(request.roomCode());
         Member member = room.requireMemberExistsByName(request.username());
         Log log = logFinder.getLogById(request.id());

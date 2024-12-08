@@ -7,15 +7,15 @@ import java.util.Optional;
 
 import dreamtree.jlog.domain.Room;
 
-public class RoomCollectionRepository implements RoomRepository {
+public class FakeRoomRepository implements RoomRepository {
 
     private final List<Room> rooms;
 
-    public RoomCollectionRepository() {
+    public FakeRoomRepository() {
         this(new ArrayList<>());
     }
 
-    public RoomCollectionRepository(List<Room> rooms) {
+    public FakeRoomRepository(List<Room> rooms) {
         this.rooms = rooms;
     }
 

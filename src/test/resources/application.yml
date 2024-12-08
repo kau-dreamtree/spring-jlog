@@ -7,3 +7,6 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  output:
+    ansi:
+      enabled: always
