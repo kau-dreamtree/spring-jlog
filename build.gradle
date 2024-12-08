@@ -54,3 +54,7 @@ asciidoctor {
     configurations 'asciidoctorExt'
     dependsOn test
 }
+
+test {
+    failFast = true
+}
