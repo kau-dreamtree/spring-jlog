@@ -37,8 +37,8 @@ public record LogResponse(
                         log.getMember().getName(),
                         log.getExpense(),
                         log.getMemo(),
-                        log.createdDate(),
-                        log.modifiedDate()
+                        log.getCreatedDate(),
+                        log.getModifiedDate()
                 );
         }
 }
