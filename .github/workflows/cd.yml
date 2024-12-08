@@ -44,7 +44,7 @@ jobs:
           path: /home/zeus/jlog/spring/test
 
       - name: Run artifact
-        working-directory: /home/zeus/jlog/spring/test
+        working-directory: /home/zeus/jlog
         run: |
-          mv jlog*.jar jlog.jar
+          mv /home/zeus/jlog/spring/test/jlog*.jar /home/zeus/jlog/spring/test/jlog.jar
           docker compose restart jlog-test
