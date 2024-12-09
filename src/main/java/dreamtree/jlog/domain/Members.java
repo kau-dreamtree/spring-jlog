@@ -37,7 +37,7 @@ public class Members {
     }
 
     public boolean exists(Member member) {
-        return member1.equals(member) || member2.equals(member);
+        return member.equals(member1) || member.equals(member2);
     }
 
     public boolean isFull() {
@@ -82,6 +82,6 @@ public class Members {
     }
 
     private Stream<Member> stream() {
-        return Stream.of(member1, member2);
+        return Stream.of(member1, member2).filter(Objects::nonNull);
     }
 }
