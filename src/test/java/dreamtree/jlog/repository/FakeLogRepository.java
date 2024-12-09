@@ -25,6 +25,9 @@ public class FakeLogRepository implements LogRepository {
 
     @Override
     public Log save(Log log) {
+        if (Objects.nonNull(log.getId())) {
+            return log;
+        }
         long id = counter.getAndIncrement();
         log = new Log(id, log.getRoom(), log.getMember(), log.getExpense(), log.getMemo());
         logs.add(log);

@@ -2,6 +2,7 @@ package dreamtree.jlog.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 import dreamtree.jlog.domain.Member;
@@ -22,7 +23,10 @@ public class FakeMemberRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        long id = counter.incrementAndGet();
+        if (Objects.nonNull(member.getId())) {
+            return member;
+        }
+        long id = counter.getAndIncrement();
         member = new Member(id, member.getName(), member.getExpense());
         members.add(member);
         return member;
