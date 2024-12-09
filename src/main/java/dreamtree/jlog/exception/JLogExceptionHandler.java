@@ -1,22 +1,26 @@
 package dreamtree.jlog.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@RestControllerAdvice
-public class JLogExceptionHandler extends ResponseEntityExceptionHandler {
+import lombok.extern.slf4j.Slf4j;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+@RestControllerAdvice
+@Slf4j
+public class JLogExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(JLogException.class)
     public ResponseEntity<String> handleJLogException(JLogException exception) {
-        if (exception.errorCode() == JLogErrorCode.SERVER_ERROR) {
-            logger.error(exception.getMessage(), exception);
+        var status = exception.httpStatus();
+        var message = exception.getMessage();
+        if (status.is4xxClientError()) {
+            log.warn(message);
         }
-        return ResponseEntity.status(exception.httpStatus()).body(exception.getMessage());
+        if (status.is5xxServerError()) {
+            log.error(message, exception);
+        }
+        return ResponseEntity.status(status).body(message);
     }
 }
