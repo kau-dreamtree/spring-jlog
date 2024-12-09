@@ -26,6 +26,8 @@ import dreamtree.jlog.service.RoomService;
 @WebMvcTest(RoomController.class)
 class RoomControllerTest {
 
+    private static final String BASE_URL = "/api/room";
+
     @Autowired
     private MockMvc mvc;
 
@@ -47,7 +49,7 @@ class RoomControllerTest {
             doReturn(roomCode).when(roomService).create(request);
 
             var expected = objectMapper.writeValueAsString(new RoomResponse(roomCode));
-            mvc.perform(post("/api/room")
+            mvc.perform(post(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))
@@ -58,7 +60,7 @@ class RoomControllerTest {
         @Test
         @DisplayName("Request to create a room without body then respond 400.")
         void create_exception() throws Exception {
-            mvc.perform(post("/api/room")
+            mvc.perform(post(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
@@ -75,7 +77,7 @@ class RoomControllerTest {
             var request = new RoomJoinRequest("12345678", "jlog-name");
             doNothing().when(roomService).join(request);
 
-            mvc.perform(put("/api/room")
+            mvc.perform(put(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))
@@ -85,7 +87,7 @@ class RoomControllerTest {
         @Test
         @DisplayName("Request to join a room without body and respond 400.")
         void join_exception() throws Exception {
-            mvc.perform(put("/api/room")
+            mvc.perform(put(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
