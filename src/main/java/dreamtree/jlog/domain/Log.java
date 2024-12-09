@@ -25,7 +25,7 @@ import lombok.ToString;
         @Index(name = "log_modified_date_idx", columnList = "modified_date"),
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString

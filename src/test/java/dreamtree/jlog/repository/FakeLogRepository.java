@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import dreamtree.jlog.domain.Log;
 import dreamtree.jlog.domain.Room;
 
 public class FakeLogRepository implements LogRepository {
+
+    private static final AtomicLong counter = new AtomicLong(1);
 
     private final List<Log> logs;
 
@@ -22,6 +25,8 @@ public class FakeLogRepository implements LogRepository {
 
     @Override
     public Log save(Log log) {
+        long id = counter.getAndIncrement();
+        log = new Log(id, log.getRoom(), log.getMember(), log.getExpense(), log.getMemo());
         logs.add(log);
         return log;
     }
