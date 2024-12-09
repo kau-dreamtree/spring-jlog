@@ -59,7 +59,7 @@ class RoomCreateRequestTest {
     @DisplayName("실패: 16글자 초과")
     @Test
     void username_too_short() {
-        var username = RandomStringUtils.randomAlphanumeric(17);
+        var username = RandomStringUtils.secure().nextAlphanumeric(17);
         sut = new RoomCreateRequest(username);
 
         var violations = validator.validate(sut);
