@@ -51,6 +51,7 @@ public class Room extends BaseEntity {
         }
         if (!isFull()) {
             members = new Members(members.getMember1(), member);
+            return;
         }
         throw new IllegalStateException("Room %s is full".formatted(code));
     }
