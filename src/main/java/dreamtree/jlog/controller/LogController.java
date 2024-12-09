@@ -16,16 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import dreamtree.jlog.dto.LogRequest;
 import dreamtree.jlog.dto.LogsWithOutpayResponse;
 import dreamtree.jlog.service.LogService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(path = "api/log", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class LogController {
 
     private final LogService logService;
-
-    public LogController(LogService logService) {
-        this.logService = logService;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

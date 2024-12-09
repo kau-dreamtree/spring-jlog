@@ -16,16 +16,14 @@ import dreamtree.jlog.dto.RoomCreateRequest;
 import dreamtree.jlog.dto.RoomJoinRequest;
 import dreamtree.jlog.dto.RoomResponse;
 import dreamtree.jlog.service.RoomService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(path = "api/room", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class RoomController {
 
     private final RoomService roomService;
-
-    public RoomController(RoomService roomService) {
-        this.roomService = roomService;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
