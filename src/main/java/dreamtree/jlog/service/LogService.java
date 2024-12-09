@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LogService {
 
-
     private final LogRepository logRepository;
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
