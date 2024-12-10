@@ -34,7 +34,7 @@ public class LogService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void create(LogRequest request) {
+    public long create(LogRequest request) {
         log.info("create() {}", request.toString());
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
@@ -45,6 +45,7 @@ public class LogService {
                 .memo(request.memo())
                 .build());
         room.addLog(saved);
+        return saved.getId();
     }
 
     @Transactional(readOnly = true)
