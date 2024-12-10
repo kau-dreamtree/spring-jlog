@@ -1,7 +1,7 @@
 package com.jlog.repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -11,24 +11,19 @@ public class FakeMemberRepository implements MemberRepository {
 
     private static final AtomicLong counter = new AtomicLong(1);
 
-    private final List<Member> members;
+    private final Map<Long, Member> members;
 
     public FakeMemberRepository() {
-        this(new ArrayList<>());
-    }
-
-    public FakeMemberRepository(List<Member> members) {
-        this.members = members;
+        members = new HashMap<>();
     }
 
     @Override
     public Member save(Member member) {
-        if (Objects.nonNull(member.getId())) {
-            return member;
+        if (Objects.isNull(member.getId())) {
+            long id = counter.getAndIncrement();
+            member = new Member(id, member.getName(), member.getExpense());
         }
-        long id = counter.getAndIncrement();
-        member = new Member(id, member.getName(), member.getExpense());
-        members.add(member);
+        members.put(member.getId(), member);
         return member;
     }
 }

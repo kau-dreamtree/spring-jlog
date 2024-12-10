@@ -1,7 +1,8 @@
 package com.jlog.repository;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -13,42 +14,36 @@ public class FakeLogRepository implements LogRepository {
 
     private static final AtomicLong counter = new AtomicLong(1);
 
-    private final List<Log> logs;
+    private final Map<Long, Log> logs;
 
     public FakeLogRepository() {
-        this(new ArrayList<>());
-    }
-
-    public FakeLogRepository(List<Log> logs) {
-        this.logs = logs;
+        logs = new HashMap<>();
     }
 
     @Override
     public Log save(Log log) {
-        if (Objects.nonNull(log.getId())) {
-            return log;
+        if (Objects.isNull(log.getId())) {
+            long id = counter.getAndIncrement();
+            log = new Log(id, log.getRoom(), log.getMember(), log.getExpense(), log.getMemo());
         }
-        long id = counter.getAndIncrement();
-        log = new Log(id, log.getRoom(), log.getMember(), log.getExpense(), log.getMemo());
-        logs.add(log);
+        logs.put(log.getId(), log);
         return log;
     }
 
     @Override
     public void delete(Log log) {
-        logs.remove(log);
+        logs.remove(log.getId());
     }
 
     @Override
     public Optional<Log> findById(Long id) {
-        return logs.stream()
-                .filter(log -> Objects.equals(id, log.getId()))
-                .findFirst();
+        return Optional.of(logs.get(id));
     }
 
     @Override
     public List<Log> findAllByRoom(Room room) {
-        return logs.stream()
+        return logs.values()
+                .stream()
                 .filter(log -> Objects.equals(room, log.getRoom()))
                 .toList();
     }
