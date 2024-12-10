@@ -14,9 +14,11 @@ import com.jlog.repository.MemberRepository;
 import com.jlog.repository.RoomRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RoomService {
 
     private static final int ROOM_CODE_LENGTH = 8;
@@ -29,6 +31,7 @@ public class RoomService {
         String code = RandomStringUtils.secure().nextAlphanumeric(ROOM_CODE_LENGTH);
         Member savedMember = memberRepository.save(new Member(request.username()));
         Room savedRoom = roomRepository.save(new Room(code, savedMember));
+        log.info("Room created: {}", savedRoom);
         return savedRoom.getCode();
     }
 

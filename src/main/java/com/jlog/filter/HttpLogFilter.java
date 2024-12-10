@@ -28,23 +28,24 @@ public class HttpLogFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws IOException, ServletException {
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
-        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
+        var requestWrapper = new ContentCachingRequestWrapper(request);
+        var responseWrapper = new ContentCachingResponseWrapper(response);
         logRequest(requestWrapper);
         long startTime = System.currentTimeMillis();
         filterChain.doFilter(requestWrapper, responseWrapper);
         long duration = System.currentTimeMillis() - startTime;
         logResponse(response, duration);
+        responseWrapper.copyBodyToResponse();
     }
 
     private void logRequest(HttpServletRequest request) {
-        String requestLog = String.format(REQUEST_LOG_FORMAT, request.getMethod(), request.getRequestURI());
+        var requestLog = String.format(REQUEST_LOG_FORMAT, request.getMethod(), request.getRequestURI());
         logger.info(requestLog);
     }
 
     private void logResponse(HttpServletResponse response, long duration) {
-        String responseLog = String.format(RESPONSE_LOG_FORMAT, response.getStatus(), duration);
-        HttpStatusCode httpStatusCode = HttpStatusCode.valueOf(response.getStatus());
+        var responseLog = String.format(RESPONSE_LOG_FORMAT, response.getStatus(), duration);
+        var httpStatusCode = HttpStatusCode.valueOf(response.getStatus());
         if (httpStatusCode.is5xxServerError()) {
             logger.error(responseLog);
             return;
