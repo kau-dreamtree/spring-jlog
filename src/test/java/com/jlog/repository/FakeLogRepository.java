@@ -37,7 +37,7 @@ public class FakeLogRepository implements LogRepository {
 
     @Override
     public Optional<Log> findById(Long id) {
-        return Optional.of(logs.get(id));
+        return Optional.ofNullable(logs.get(id));
     }
 
     @Override
