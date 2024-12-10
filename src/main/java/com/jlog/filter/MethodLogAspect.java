@@ -29,7 +29,7 @@ public class MethodLogAspect {
         long executionTimeMillis = endTime - startTime;
 
         Signature signature = joinPoint.getSignature();
-        String className = signature.getDeclaringTypeName();
+        String className = signature.getDeclaringType().getSimpleName();
         String methodName = signature.getName();
 
         log.info("{}.{}() {}ms", className, methodName, executionTimeMillis);
