@@ -3,7 +3,6 @@ package com.jlog.controller;
 import static java.time.LocalDateTime.now;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -56,12 +55,11 @@ class LogControllerTest {
         @DisplayName("Request to create a log responds 201")
         void create() throws Exception {
             var request = new LogRequest(null, "room_1234", "member1", 1000L, null);
-            doNothing().when(logService).create(request);
 
             mvc.perform(post(BASE_URL)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(request)))
                     .andExpect(status().isCreated());
         }
 
@@ -69,7 +67,7 @@ class LogControllerTest {
         @DisplayName("Request without body responds 400")
         void create_exception() throws Exception {
             mvc.perform(post(BASE_URL)
-                    .contentType(MediaType.APPLICATION_JSON))
+                            .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
         }
     }
@@ -94,8 +92,8 @@ class LogControllerTest {
 
             var parameters = "?room_code=room_1234&username=zeus";
             mvc.perform(get(BASE_URL + parameters)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().json(objectMapper.writeValueAsString(expect)));
         }
@@ -105,8 +103,8 @@ class LogControllerTest {
         @DisplayName("Request with invalid parameters responds 400")
         void getLogsWithOutpay_exception(String parameters) throws Exception {
             mvc.perform(get(BASE_URL + parameters)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
         }
     }
@@ -120,9 +118,9 @@ class LogControllerTest {
         void update() throws Exception {
             var request = new LogRequest(null, "room_1234", "member1", 1000L, "new memo");
             mvc.perform(put(BASE_URL)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(request)))
                     .andExpect(status().isOk());
         }
 
@@ -130,8 +128,8 @@ class LogControllerTest {
         @DisplayName("Request without body responds 400")
         void update_exception() throws Exception {
             mvc.perform(put(BASE_URL)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
         }
     }
@@ -144,11 +142,11 @@ class LogControllerTest {
         @DisplayName("Request to delete a log responds 204")
         void delete_success() throws Exception {
             var request = new LogRequest(1L, "room_1234", "username");
-            doNothing().when(logService).delete(request);
+
             mvc.perform(delete(BASE_URL)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(request)))
                     .andExpect(status().isNoContent());
         }
 
@@ -156,8 +154,8 @@ class LogControllerTest {
         @DisplayName("Request without body responds 400")
         void delete_exception() throws Exception {
             mvc.perform(delete(BASE_URL)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
         }
     }
