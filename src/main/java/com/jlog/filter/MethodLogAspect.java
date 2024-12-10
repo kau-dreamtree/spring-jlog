@@ -1,4 +1,4 @@
-package dreamtree.jlog.filter;
+package com.jlog.filter;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -14,9 +14,9 @@ public class MethodLogAspect {
 
     private static final Logger log = LoggerFactory.getLogger(MethodLogAspect.class);
 
-    @Around("execution(* dreamtree.jlog..*(..)) && " +
-            "!within(dreamtree.jlog.filter.*) && " +
-            "!within(dreamtree.jlog.exception.*)")
+    @Around("execution(* com.jlog..*(..)) && " +
+            "!within(com.jlog.filter.*) && " +
+            "!within(com.jlog.exception.*)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         if (!log.isInfoEnabled()) {
             return joinPoint.proceed();
