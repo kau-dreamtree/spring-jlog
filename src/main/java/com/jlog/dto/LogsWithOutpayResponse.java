@@ -15,4 +15,12 @@ public record LogsWithOutpayResponse(
         var outpay = new OutpayResponse(room.outpayAmount(), room.outpayer());
         return new LogsWithOutpayResponse(outpay, logs);
     }
+
+    public long outpayAmount() {
+        return outpayResponse.amount;
+    }
+
+    public String outpayer() {
+        return outpayResponse.username;
+    }
 }
