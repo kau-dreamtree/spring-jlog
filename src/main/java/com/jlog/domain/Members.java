@@ -9,8 +9,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToOne;
 
+import com.jlog.exception.JLogErrorCode;
+import com.jlog.exception.JLogException;
+
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -19,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 @ToString
 public class Members {
@@ -36,6 +37,14 @@ public class Members {
         this(member, null);
     }
 
+    public Members(Member member1, Member member2) {
+        this.member1 = member1;
+        this.member2 = member2;
+        if (Objects.nonNull(member2) && Objects.equals(member1.getName(), member2.getName())) {
+            throw new JLogException(JLogErrorCode.DUPLICATE_NAME);
+        }
+    }
+
     public boolean exists(Member member) {
         return member.equals(member1) || member.equals(member2);
     }
@@ -48,7 +57,7 @@ public class Members {
         return stream()
                 .filter(member -> Objects.equals(member.getName(), name))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElse(null);
     }
 
     public boolean existsByName(String name) {
