@@ -1,4 +1,4 @@
-package com.jlog.service;
+package com.jlog.domain.log;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -8,19 +8,13 @@ import static com.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.jlog.domain.log.Log;
-import com.jlog.domain.log.LogRepository;
-import com.jlog.domain.log.LogRequest;
-import com.jlog.domain.log.LogService;
-import com.jlog.domain.log.LogsWithOutpayResponse;
+import com.jlog.domain.member.FakeMemberRepository;
 import com.jlog.domain.member.Member;
 import com.jlog.domain.member.MemberRepository;
+import com.jlog.domain.room.FakeRoomRepository;
 import com.jlog.domain.room.Room;
 import com.jlog.domain.room.RoomRepository;
 import com.jlog.exception.JLogException;
-import com.jlog.repository.FakeLogRepository;
-import com.jlog.repository.FakeMemberRepository;
-import com.jlog.repository.FakeRoomRepository;
 
 class LogServiceTest {
 

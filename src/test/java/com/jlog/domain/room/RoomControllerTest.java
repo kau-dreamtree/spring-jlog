@@ -1,4 +1,4 @@
-package com.jlog.controller;
+package com.jlog.domain.room;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -17,11 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jlog.domain.room.RoomController;
-import com.jlog.domain.room.RoomCreateRequest;
-import com.jlog.domain.room.RoomCreateResponse;
-import com.jlog.domain.room.RoomJoinRequest;
-import com.jlog.domain.room.RoomService;
 
 @WebMvcTest(RoomController.class)
 class RoomControllerTest {

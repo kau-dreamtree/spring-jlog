@@ -1,4 +1,4 @@
-package com.jlog.service;
+package com.jlog.domain.room;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -10,17 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.jlog.domain.member.FakeMemberRepository;
 import com.jlog.domain.member.Member;
 import com.jlog.domain.member.MemberRepository;
 import com.jlog.domain.member.Members;
-import com.jlog.domain.room.Room;
-import com.jlog.domain.room.RoomCreateRequest;
-import com.jlog.domain.room.RoomJoinRequest;
-import com.jlog.domain.room.RoomRepository;
-import com.jlog.domain.room.RoomService;
 import com.jlog.exception.JLogException;
-import com.jlog.repository.FakeMemberRepository;
-import com.jlog.repository.FakeRoomRepository;
 
 class RoomServiceTest {
 

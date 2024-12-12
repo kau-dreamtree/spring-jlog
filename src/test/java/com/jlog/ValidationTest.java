@@ -1,4 +1,4 @@
-package com.jlog.dto;
+package com.jlog;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -7,7 +7,7 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
-abstract class ValidationTest {
+public abstract class ValidationTest {
 
     protected static ValidatorFactory validatorFactory;
     protected static Validator validator;

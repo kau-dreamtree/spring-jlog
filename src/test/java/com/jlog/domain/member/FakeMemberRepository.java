@@ -1,12 +1,9 @@
-package com.jlog.repository;
+package com.jlog.domain.member;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
-
-import com.jlog.domain.member.Member;
-import com.jlog.domain.member.MemberRepository;
 
 public class FakeMemberRepository implements MemberRepository {
 

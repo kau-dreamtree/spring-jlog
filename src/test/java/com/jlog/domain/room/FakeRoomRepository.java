@@ -1,13 +1,10 @@
-package com.jlog.repository;
+package com.jlog.domain.room;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
-
-import com.jlog.domain.room.Room;
-import com.jlog.domain.room.RoomRepository;
 
 public class FakeRoomRepository implements RoomRepository {
 

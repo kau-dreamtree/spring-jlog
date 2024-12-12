@@ -1,4 +1,4 @@
-package com.jlog.dto;
+package com.jlog.domain.room;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
-import com.jlog.domain.room.RoomCreateRequest;
+import com.jlog.ValidationTest;
 
 class RoomCreateRequestTest extends ValidationTest {
 

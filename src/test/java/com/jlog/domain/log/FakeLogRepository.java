@@ -1,4 +1,4 @@
-package com.jlog.repository;
+package com.jlog.domain.log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.jlog.domain.log.Log;
-import com.jlog.domain.log.LogRepository;
 import com.jlog.domain.room.Room;
 
 public class FakeLogRepository implements LogRepository {
