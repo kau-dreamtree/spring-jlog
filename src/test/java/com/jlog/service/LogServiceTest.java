@@ -155,7 +155,7 @@ class LogServiceTest {
 
         long id = sut.create(createRequest);
 
-        var deleteRequest = new LogRequest(id, roomCode, username1);
+        var deleteRequest = new LogRequest(id, roomCode, username1, 1000L, "Memo1");
 
         // when
         sut.delete(deleteRequest);
@@ -179,7 +179,7 @@ class LogServiceTest {
 
         long id = sut.create(createRequest);
 
-        var deleteRequest = new LogRequest(id, roomCode, username2);
+        var deleteRequest = new LogRequest(id, roomCode, username2, 1000L, "Memo1");
 
         // when
         assertThatExceptionOfType(JLogException.class)

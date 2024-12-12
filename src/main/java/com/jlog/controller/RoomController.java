@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jlog.dto.RoomCreateRequest;
+import com.jlog.dto.RoomCreateResponse;
 import com.jlog.dto.RoomJoinRequest;
-import com.jlog.dto.RoomResponse;
 import com.jlog.service.RoomService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,9 @@ public class RoomController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RoomResponse create(@RequestBody @Valid RoomCreateRequest request) {
+    public RoomCreateResponse create(@RequestBody @Valid RoomCreateRequest request) {
         String roomCode = roomService.create(request);
-        return new RoomResponse(roomCode);
+        return new RoomCreateResponse(roomCode);
     }
 
     @PutMapping

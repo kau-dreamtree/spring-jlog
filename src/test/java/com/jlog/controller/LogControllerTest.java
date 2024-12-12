@@ -141,7 +141,7 @@ class LogControllerTest {
         @Test
         @DisplayName("Request to delete a log responds 204")
         void delete_success() throws Exception {
-            var request = new LogRequest(1L, "room_1234", "username");
+            var request = new LogRequest(1L, "room_1234", "username", 1000L, "memo");
 
             mvc.perform(delete(BASE_URL)
                             .accept(MediaType.APPLICATION_JSON)
