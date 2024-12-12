@@ -25,13 +25,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jlog.domain.Member;
-import com.jlog.domain.Members;
-import com.jlog.domain.Room;
-import com.jlog.dto.LogRequest;
-import com.jlog.dto.LogResponse;
-import com.jlog.dto.LogsWithOutpayResponse;
-import com.jlog.service.LogService;
+import com.jlog.domain.log.LogController;
+import com.jlog.domain.log.LogRequest;
+import com.jlog.domain.log.LogResponse;
+import com.jlog.domain.log.LogService;
+import com.jlog.domain.log.LogsWithOutpayResponse;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.Members;
+import com.jlog.domain.room.Room;
 
 @WebMvcTest(LogController.class)
 class LogControllerTest {

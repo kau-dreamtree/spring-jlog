@@ -10,16 +10,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.jlog.domain.Member;
-import com.jlog.domain.Members;
-import com.jlog.domain.Room;
-import com.jlog.dto.RoomCreateRequest;
-import com.jlog.dto.RoomJoinRequest;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.MemberRepository;
+import com.jlog.domain.member.Members;
+import com.jlog.domain.room.Room;
+import com.jlog.domain.room.RoomCreateRequest;
+import com.jlog.domain.room.RoomJoinRequest;
+import com.jlog.domain.room.RoomRepository;
+import com.jlog.domain.room.RoomService;
 import com.jlog.exception.JLogException;
 import com.jlog.repository.FakeMemberRepository;
 import com.jlog.repository.FakeRoomRepository;
-import com.jlog.repository.MemberRepository;
-import com.jlog.repository.RoomRepository;
 
 class RoomServiceTest {
 

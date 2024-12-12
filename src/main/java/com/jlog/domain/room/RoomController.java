@@ -1,4 +1,4 @@
-package com.jlog.controller;
+package com.jlog.domain.room;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.jlog.dto.RoomCreateRequest;
-import com.jlog.dto.RoomCreateResponse;
-import com.jlog.dto.RoomJoinRequest;
-import com.jlog.service.RoomService;
 
 import lombok.RequiredArgsConstructor;
 

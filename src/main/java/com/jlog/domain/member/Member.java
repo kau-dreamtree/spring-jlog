@@ -1,4 +1,4 @@
-package com.jlog.domain;
+package com.jlog.domain.member;
 
 import java.util.Objects;
 
@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import com.jlog.domain.BaseEntity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

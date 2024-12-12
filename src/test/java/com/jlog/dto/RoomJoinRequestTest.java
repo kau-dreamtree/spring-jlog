@@ -14,6 +14,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.jlog.domain.room.RoomJoinRequest;
+
 class RoomJoinRequestTest extends ValidationTest {
 
     private static final String roomCode = "roomCode";

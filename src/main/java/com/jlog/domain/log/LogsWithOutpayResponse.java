@@ -1,9 +1,9 @@
-package com.jlog.dto;
+package com.jlog.domain.log;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jlog.domain.Room;
+import com.jlog.domain.room.Room;
 
 public record LogsWithOutpayResponse(
         @JsonProperty("balance") OutpayResponse outpayResponse,

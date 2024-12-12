@@ -1,4 +1,4 @@
-package com.jlog.controller;
+package com.jlog.domain.log;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.jlog.dto.LogRequest;
-import com.jlog.dto.LogsWithOutpayResponse;
-import com.jlog.service.LogService;
 
 import lombok.RequiredArgsConstructor;
 

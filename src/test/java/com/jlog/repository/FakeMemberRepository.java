@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.jlog.domain.Member;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.MemberRepository;
 
 public class FakeMemberRepository implements MemberRepository {
 

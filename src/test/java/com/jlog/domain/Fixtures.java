@@ -1,5 +1,10 @@
 package com.jlog.domain;
 
+import com.jlog.domain.log.Log;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.Members;
+import com.jlog.domain.room.Room;
+
 public class Fixtures {
 
     public static Member member() {

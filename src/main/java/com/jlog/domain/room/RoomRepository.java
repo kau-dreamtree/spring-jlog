@@ -1,10 +1,9 @@
-package com.jlog.repository;
+package com.jlog.domain.room;
 
 import static com.jlog.exception.JLogErrorCode.ROOM_NOT_EXISTS;
 
 import java.util.Optional;
 
-import com.jlog.domain.Room;
 import com.jlog.exception.JLogException;
 
 public interface RoomRepository {

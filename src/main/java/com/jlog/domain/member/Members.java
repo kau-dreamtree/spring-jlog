@@ -1,4 +1,4 @@
-package com.jlog.domain;
+package com.jlog.domain.member;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToOne;
 
+import com.jlog.domain.log.Log;
 import com.jlog.exception.JLogErrorCode;
 import com.jlog.exception.JLogException;
 

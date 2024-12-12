@@ -13,6 +13,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
+import com.jlog.domain.room.RoomCreateRequest;
+
 class RoomCreateRequestTest extends ValidationTest {
 
     private RoomCreateRequest sut;

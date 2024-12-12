@@ -1,4 +1,4 @@
-package com.jlog.dto;
+package com.jlog.domain.log;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

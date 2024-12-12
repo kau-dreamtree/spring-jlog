@@ -7,8 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.jlog.domain.Log;
-import com.jlog.domain.Room;
+import com.jlog.domain.log.Log;
+import com.jlog.domain.log.LogRepository;
+import com.jlog.domain.room.Room;
 
 public class FakeLogRepository implements LogRepository {
 

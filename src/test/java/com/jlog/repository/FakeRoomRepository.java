@@ -6,7 +6,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.jlog.domain.Room;
+import com.jlog.domain.room.Room;
+import com.jlog.domain.room.RoomRepository;
 
 public class FakeRoomRepository implements RoomRepository {
 

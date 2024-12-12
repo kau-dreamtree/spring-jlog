@@ -1,17 +1,13 @@
-package com.jlog.service;
+package com.jlog.domain.room;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jlog.domain.Member;
-import com.jlog.domain.Room;
-import com.jlog.dto.RoomCreateRequest;
-import com.jlog.dto.RoomJoinRequest;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.MemberRepository;
 import com.jlog.exception.JLogErrorCode;
 import com.jlog.exception.JLogException;
-import com.jlog.repository.MemberRepository;
-import com.jlog.repository.RoomRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.jlog.filter;
+package com.jlog.logger;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -15,7 +15,7 @@ public class MethodLogAspect {
     private static final Logger log = LoggerFactory.getLogger(MethodLogAspect.class);
 
     @Around("execution(* com.jlog..*(..)) && " +
-            "!within(com.jlog.filter.*) && " +
+            "!within(com.jlog.logger.*) && " +
             "!within(com.jlog.exception.*)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         if (!log.isInfoEnabled()) {

@@ -1,12 +1,11 @@
-package com.jlog.repository;
+package com.jlog.domain.log;
 
 import static com.jlog.exception.JLogErrorCode.LOG_NOT_EXISTS;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.jlog.domain.Log;
-import com.jlog.domain.Room;
+import com.jlog.domain.room.Room;
 import com.jlog.exception.JLogException;
 
 public interface LogRepository {

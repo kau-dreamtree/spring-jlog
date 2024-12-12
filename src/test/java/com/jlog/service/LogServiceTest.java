@@ -8,18 +8,19 @@ import static com.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.jlog.domain.Log;
-import com.jlog.domain.Member;
-import com.jlog.domain.Room;
-import com.jlog.dto.LogRequest;
-import com.jlog.dto.LogsWithOutpayResponse;
+import com.jlog.domain.log.Log;
+import com.jlog.domain.log.LogRepository;
+import com.jlog.domain.log.LogRequest;
+import com.jlog.domain.log.LogService;
+import com.jlog.domain.log.LogsWithOutpayResponse;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.MemberRepository;
+import com.jlog.domain.room.Room;
+import com.jlog.domain.room.RoomRepository;
 import com.jlog.exception.JLogException;
 import com.jlog.repository.FakeLogRepository;
 import com.jlog.repository.FakeMemberRepository;
 import com.jlog.repository.FakeRoomRepository;
-import com.jlog.repository.LogRepository;
-import com.jlog.repository.MemberRepository;
-import com.jlog.repository.RoomRepository;
 
 class LogServiceTest {
 

@@ -1,4 +1,4 @@
-package com.jlog.domain;
+package com.jlog.domain.log;
 
 import java.util.Objects;
 
@@ -10,6 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import com.jlog.domain.BaseEntity;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.room.Room;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

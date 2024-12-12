@@ -1,6 +1,4 @@
-package com.jlog.repository;
-
-import com.jlog.domain.Member;
+package com.jlog.domain.member;
 
 public interface MemberRepository {
     Member save(Member member);

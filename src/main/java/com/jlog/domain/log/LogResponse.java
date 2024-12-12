@@ -1,10 +1,9 @@
-package com.jlog.dto;
+package com.jlog.domain.log;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jlog.domain.Log;
 
 public record LogResponse(
 

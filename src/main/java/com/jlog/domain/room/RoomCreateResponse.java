@@ -1,4 +1,4 @@
-package com.jlog.dto;
+package com.jlog.domain.room;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

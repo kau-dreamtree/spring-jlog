@@ -17,10 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jlog.dto.RoomCreateRequest;
-import com.jlog.dto.RoomCreateResponse;
-import com.jlog.dto.RoomJoinRequest;
-import com.jlog.service.RoomService;
+import com.jlog.domain.room.RoomController;
+import com.jlog.domain.room.RoomCreateRequest;
+import com.jlog.domain.room.RoomCreateResponse;
+import com.jlog.domain.room.RoomJoinRequest;
+import com.jlog.domain.room.RoomService;
 
 @WebMvcTest(RoomController.class)
 class RoomControllerTest {

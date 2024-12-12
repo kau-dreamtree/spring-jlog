@@ -1,4 +1,4 @@
-package com.jlog.service;
+package com.jlog.domain.log;
 
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.reverseOrder;
@@ -10,16 +10,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jlog.domain.Log;
-import com.jlog.domain.Member;
-import com.jlog.domain.Room;
-import com.jlog.dto.LogRequest;
-import com.jlog.dto.LogResponse;
-import com.jlog.dto.LogsWithOutpayResponse;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.MemberRepository;
+import com.jlog.domain.room.Room;
+import com.jlog.domain.room.RoomRepository;
 import com.jlog.exception.JLogException;
-import com.jlog.repository.LogRepository;
-import com.jlog.repository.MemberRepository;
-import com.jlog.repository.RoomRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
