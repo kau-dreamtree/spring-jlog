@@ -12,26 +12,56 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-class RoomCreateRequestTest extends ValidationTest {
+class RoomJoinRequestTest extends ValidationTest {
 
-    private RoomCreateRequest sut;
+    private static final String roomCode = "roomCode";
+    private static final String username = "username";
+
+    private RoomJoinRequest sut;
 
     @DisplayName("성공")
     @Test
-    void username() {
-        sut = new RoomCreateRequest("username");
+    void success() {
+        sut = new RoomJoinRequest(roomCode, username);
 
         var violations = validator.validate(sut);
 
         assertThat(violations).isEmpty();
     }
 
+    @DisplayName("실패: code null or empty")
+    @ParameterizedTest
+    @NullAndEmptySource
+    void code_null(String code) {
+        sut = new RoomJoinRequest(code, username);
+
+        var violations = validator.validate(sut);
+
+        assertThat(violations).isNotEmpty()
+                .extracting(ConstraintViolation::getMessage)
+                .containsAnyOf("must not be blank", "size must be between 8 and 8");
+    }
+
+    @DisplayName("실패: invalid code length")
+    @ParameterizedTest
+    @ValueSource(strings = {"length7", "length009"})
+    void invalid_code_length(String code) {
+        sut = new RoomJoinRequest(code, username);
+
+        var violations = validator.validate(sut);
+
+        assertThat(violations).isNotEmpty()
+                .extracting(ConstraintViolation::getMessage)
+                .containsOnly("size must be between 8 and 8");
+    }
+
     @DisplayName("실패: username null or empty")
     @ParameterizedTest
     @NullAndEmptySource
     void username_blank(String username) {
-        sut = new RoomCreateRequest(username);
+        sut = new RoomJoinRequest(roomCode, username);
 
         var violations = validator.validate(sut);
 
@@ -44,7 +74,7 @@ class RoomCreateRequestTest extends ValidationTest {
     @ParameterizedTest
     @MethodSource
     void invalid_username_length(String username) {
-        sut = new RoomCreateRequest(username);
+        sut = new RoomJoinRequest(roomCode, username);
 
         var violations = validator.validate(sut);
 

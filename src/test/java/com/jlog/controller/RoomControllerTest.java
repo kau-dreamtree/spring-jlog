@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jlog.dto.RoomCreateRequest;
+import com.jlog.dto.RoomCreateResponse;
 import com.jlog.dto.RoomJoinRequest;
-import com.jlog.dto.RoomResponse;
 import com.jlog.service.RoomService;
 
 @WebMvcTest(RoomController.class)
@@ -47,7 +47,7 @@ class RoomControllerTest {
             var request = new RoomCreateRequest("username");
             doReturn(roomCode).when(roomService).create(request);
 
-            var expected = objectMapper.writeValueAsString(new RoomResponse(roomCode));
+            var expected = objectMapper.writeValueAsString(new RoomCreateResponse(roomCode));
             mvc.perform(post(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
