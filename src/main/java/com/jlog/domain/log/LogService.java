@@ -32,7 +32,7 @@ public class LogService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public long create(LogRequest request) {
+    public long create(LogDto request) {
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
         Objects.requireNonNull(member);
@@ -73,7 +73,7 @@ public class LogService {
     }
 
     @Transactional
-    public void update(LogRequest request) {
+    public void update(LogDto request) {
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
         Log log = logRepository.fetchById(request.id());
@@ -86,7 +86,7 @@ public class LogService {
     }
 
     @Transactional
-    public void delete(LogRequest request) {
+    public void delete(LogDto request) {
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
         Log log = logRepository.fetchById(request.id());

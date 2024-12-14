@@ -5,15 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public record LogRequestV1(
 
-public record LogRequest(
-
-        @JsonProperty("log_id")
         @NotNull
-        @Positive Long id,
+        @Positive
+        Long id,
 
-        @JsonProperty("room_code")
         @NotBlank
         @Size(min = 8, max = 8)
         String roomCode,
@@ -22,12 +19,11 @@ public record LogRequest(
         @Size(min = 2, max = 16)
         String username,
 
-        @JsonProperty("amount")
         @NotNull
+        @Positive
         Long expense,
 
         @Size(max = 255)
         String memo
-
 ) implements LogDto {
 }

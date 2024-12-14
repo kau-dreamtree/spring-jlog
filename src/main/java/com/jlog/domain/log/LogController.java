@@ -39,6 +39,23 @@ public class LogController {
         return logService.findAll(roomCode, username);
     }
 
+    @PutMapping(path = "/api/log")
+    public void update(@RequestBody LogRequest request) {
+        logService.update(request);
+    }
+
+    @DeleteMapping(path = "/api/log")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@RequestBody LogRequest request) {
+        logService.delete(request);
+    }
+
+    @PostMapping(path = "/api/v1/logs")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveV1(@RequestBody LogRequestV1 request) {
+        logService.create(request);
+    }
+
     @GetMapping(path = "/api/v1/logs")
     public Slice<LogResponseV1> getLogs(
             @RequestParam("room_code") String roomCode,
@@ -48,14 +65,13 @@ public class LogController {
         return logService.findByRoom(roomCode, username, pageable);
     }
 
-    @PutMapping(path = "/api/log")
-    public void update(@RequestBody LogRequest request) {
+    @PutMapping(path = "/api/v1/logs")
+    public void updateV1(@RequestBody LogRequestV1 request) {
         logService.update(request);
     }
 
-    @DeleteMapping(path = "/api/log")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestBody LogRequest request) {
+    @DeleteMapping(path = "/api/v1/logs")
+    public void deleteV1(@RequestBody LogRequestV1 request) {
         logService.delete(request);
     }
 }
