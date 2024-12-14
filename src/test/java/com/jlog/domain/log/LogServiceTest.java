@@ -7,6 +7,8 @@ import static com.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 
 import com.jlog.domain.member.FakeMemberRepository;
 import com.jlog.domain.member.Member;
@@ -85,6 +87,32 @@ class LogServiceTest {
     }
 
     @Test
+    void findByRoom() {
+        // given
+        String roomCode = "ROOM1234";
+        String username = "john";
+
+        Member member = memberRepository.save(new Member(username));
+        Room room = roomRepository.save(new Room(roomCode, member));
+
+        var request1 = new LogRequest(null, roomCode, username, 1000L, "Memo1");
+        var request2 = new LogRequest(null, roomCode, username, 2000L, "Memo2");
+
+        sut.create(request1);
+        sut.create(request2);
+
+        var pageRequest = PageRequest.of(0, 10);
+
+        // when
+        Slice<LogResponseV1> response = sut.findByRoom(roomCode, username, pageRequest);
+
+        // then
+        assertThat(response).isNotNull();
+        assertThat(response.getContent()).isNotEmpty();
+        assertThat(response.getContent().size()).isEqualTo(2);
+    }
+
+    @Test
     void update() {
         // given
         String roomCode = "ROOM1234";
@@ -101,9 +129,9 @@ class LogServiceTest {
 
         // when
         sut.update(updateRequest);
+        Log actual = logRepository.fetchById(id);
 
         // then
-        Log actual = logRepository.fetchById(id);
         assertThat(actual).isNotNull();
         assertThat(actual.getId()).isEqualTo(id);
         assertThat(actual.getRoom()).isEqualTo(room);
@@ -129,7 +157,7 @@ class LogServiceTest {
 
         var updateRequest = new LogRequest(id, roomCode, username2, 2000L, "Memo2");
 
-        // when
+        // when & then
         assertThatExceptionOfType(JLogException.class)
                 .isThrownBy(() -> sut.update(updateRequest))
                 .withMessage(UNAUTHORIZED_MEMBER.message());
@@ -176,7 +204,7 @@ class LogServiceTest {
 
         var deleteRequest = new LogRequest(id, roomCode, username2, 1000L, "Memo1");
 
-        // when
+        // when & then
         assertThatExceptionOfType(JLogException.class)
                 .isThrownBy(() -> sut.delete(deleteRequest))
                 .withMessage(UNAUTHORIZED_MEMBER.message());

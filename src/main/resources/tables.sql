@@ -5,8 +5,8 @@ create table log
     member_id     bigint not null,
     room_id       bigint not null,
     memo          varchar(255),
-    created_date  datetime(6),
-    modified_date datetime(6),
+    created_at  datetime(6),
+    modified_at datetime(6),
     primary key (id)
 ) engine = InnoDB;
 
@@ -15,8 +15,8 @@ create table member
     id            bigint not null auto_increment,
     name          varchar(16),
     expense       bigint not null,
-    created_date  datetime(6),
-    modified_date datetime(6),
+    created_at  datetime(6),
+    modified_at datetime(6),
     primary key (id)
 ) engine = InnoDB;
 
@@ -26,14 +26,14 @@ create table room
     member1_id    bigint     not null,
     member2_id    bigint,
     code          varchar(8) not null,
-    created_date  datetime(6),
-    modified_date datetime(6),
+    created_at  datetime(6),
+    modified_at datetime(6),
     primary key (id)
 ) engine = InnoDB;
 
-create index log_created_date_idx on log (created_date);
+create index log_created_at_idx on log (created_at);
 
-create index log_modified_date_idx on log (modified_date);
+create index log_modified_at_idx on log (modified_at);
 
 alter table if exists room
     add constraint UKarevbfcloncxciyi0vbx1m4he unique (code);

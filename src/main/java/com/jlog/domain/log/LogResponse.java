@@ -22,11 +22,11 @@ public record LogResponse(
 
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
         @JsonProperty("created_at")
-        LocalDateTime createdDate,
+        LocalDateTime createdAt,
 
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
         @JsonProperty("modified_at")
-        LocalDateTime modifiedDate
+        LocalDateTime modifiedAt
 ) {
         public static LogResponse from(Log log) {
                 return new LogResponse(
@@ -35,8 +35,8 @@ public record LogResponse(
                         log.getMember().getName(),
                         log.getExpense(),
                         log.getMemo(),
-                        log.getCreatedDate(),
-                        log.getModifiedDate()
+                        log.getCreatedAt(),
+                        log.getModifiedAt()
                 );
         }
 }

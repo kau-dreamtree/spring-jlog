@@ -2,6 +2,7 @@ package com.jlog.domain.room;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -86,6 +87,25 @@ class RoomControllerTest {
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
+        }
+    }
+
+    @Nested
+    @DisplayName("Request to get balance")
+    class Balance {
+
+        @Test
+        void balance() throws Exception {
+            var response = new RoomBalanceResponse(1000L, "username");
+            doReturn(response).when(roomService).getBalance("roomCode", "username");
+
+            mvc.perform(get("/api/v1/rooms")
+                    .param("roomCode", "roomCode")
+                    .param("username", "username")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(objectMapper.writeValueAsString(response)));
         }
     }
 }
