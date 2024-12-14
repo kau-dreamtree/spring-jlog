@@ -2,6 +2,8 @@ package com.jlog.domain.log;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,19 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(path = "api/log", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class LogController {
 
     private final LogService logService;
 
-    @PostMapping
+    @PostMapping(path = "/api/log")
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody LogRequest request) {
         logService.create(request);
     }
 
-    @GetMapping
+    @Deprecated(forRemoval = true)
+    @GetMapping(path = "/api/log")
     public LogsWithOutpayResponse getLogsWithOutpay(
             @RequestParam("room_code") String roomCode,
             @RequestParam("username") String username
@@ -36,12 +39,21 @@ public class LogController {
         return logService.findAll(roomCode, username);
     }
 
-    @PutMapping
+    @GetMapping(path = "/api/v1/logs")
+    public Slice<LogResponseV1> getLogs(
+            @RequestParam("room_code") String roomCode,
+            @RequestParam("username") String username,
+            Pageable pageable
+    ) {
+        return logService.findByRoom(roomCode, username, pageable);
+    }
+
+    @PutMapping(path = "/api/log")
     public void update(@RequestBody LogRequest request) {
         logService.update(request);
     }
 
-    @DeleteMapping
+    @DeleteMapping(path = "/api/log")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@RequestBody LogRequest request) {
         logService.delete(request);
