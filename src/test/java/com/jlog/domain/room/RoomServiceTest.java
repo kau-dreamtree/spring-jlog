@@ -99,4 +99,24 @@ class RoomServiceTest {
         }
     }
 
+    @Nested
+    class GetBalance {
+
+        @Test
+        void getBalance_success() {
+            // given
+            var member1 = memberRepository.save(new Member(null, "member1", 1000L));
+            var member2 = memberRepository.save(new Member(null, "member2", 1500L));
+            var members = new Members(member1, member2);
+            var room = roomRepository.save(new Room("roomcode", members));
+
+            // when
+            RoomBalanceResponse response = sut.getBalance(room.getCode(), "member1");
+
+            // then
+            assertThat(response).isNotNull();
+            assertThat(response.outpayAmount()).isEqualTo(500L);
+            assertThat(response.outpayer()).isEqualTo("member2");
+        }
+    }
 }
