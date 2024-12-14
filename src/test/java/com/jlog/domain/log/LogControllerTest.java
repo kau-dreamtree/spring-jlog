@@ -44,7 +44,7 @@ class LogControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private LogService logService;
+    private LogServiceImpl logService;
 
     @Nested
     @DisplayName("Request to create a log")
@@ -121,7 +121,7 @@ class LogControllerTest {
                     new LogResponseV1(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
             );
             var expect = new SliceImpl<>(logResponses);
-            doReturn(expect).when(logService).findByRoom(any(), any(), any());
+            doReturn(expect).when(logService).findByRoom(any(), any());
 
             mvc.perform(get(parameters)
                             .accept(MediaType.APPLICATION_JSON)

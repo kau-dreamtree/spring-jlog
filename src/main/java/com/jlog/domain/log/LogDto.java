@@ -1,8 +1,6 @@
 package com.jlog.domain.log;
 
-import java.io.Serializable;
-
-public interface LogDto extends Serializable {
+public interface LogDto {
 
     Long id();
 

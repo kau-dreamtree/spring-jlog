@@ -31,7 +31,7 @@ class LogServiceTest {
         memberRepository = new FakeMemberRepository();
         roomRepository = new FakeRoomRepository();
         logRepository = new FakeLogRepository();
-        sut = new LogService(logRepository, roomRepository, memberRepository);
+        sut = new LogServiceImpl(logRepository, roomRepository, memberRepository);
     }
 
     @Test
@@ -49,12 +49,11 @@ class LogServiceTest {
         var request = new LogRequest(null, roomCode, username, expense, memo);
 
         // when
-        long id = sut.create(request);
+        var actual = sut.create(request);
 
         // then
-        Log actual = logRepository.fetchById(id);
         assertThat(actual).isNotNull();
-        assertThat(actual.getId()).isEqualTo(id);
+        assertThat(actual.getId()).isEqualTo(1);
         assertThat(actual.getRoom()).isEqualTo(room);
         assertThat(actual.getMember()).isEqualTo(member);
         assertThat(actual.getExpense()).isEqualTo(expense);
@@ -93,18 +92,19 @@ class LogServiceTest {
         String username = "john";
 
         Member member = memberRepository.save(new Member(username));
-        Room room = roomRepository.save(new Room(roomCode, member));
+        roomRepository.save(new Room(roomCode, member));
 
-        var request1 = new LogRequest(null, roomCode, username, 1000L, "Memo1");
-        var request2 = new LogRequest(null, roomCode, username, 2000L, "Memo2");
+        var request1 = new LogRequestV1(null, roomCode, username, 1000L, "Memo1");
+        var request2 = new LogRequestV1(null, roomCode, username, 2000L, "Memo2");
 
         sut.create(request1);
         sut.create(request2);
 
+        var logRequest = new LogRequestV1(null, roomCode, username, null, null);
         var pageRequest = PageRequest.of(0, 10);
 
         // when
-        Slice<LogResponseV1> response = sut.findByRoom(roomCode, username, pageRequest);
+        Slice<LogResponseV1> response = sut.findByRoom(logRequest, pageRequest);
 
         // then
         assertThat(response).isNotNull();
@@ -123,17 +123,16 @@ class LogServiceTest {
 
         var createRequest = new LogRequest(null, roomCode, username, 1000L, "Memo1");
 
-        long id = sut.create(createRequest);
+        var actual = sut.create(createRequest);
 
-        var updateRequest = new LogRequest(id, roomCode, username, 2000L, "Memo2");
+        var updateRequest = new LogRequest(actual.getId(), roomCode, username, 2000L, "Memo2");
 
         // when
         sut.update(updateRequest);
-        Log actual = logRepository.fetchById(id);
 
         // then
         assertThat(actual).isNotNull();
-        assertThat(actual.getId()).isEqualTo(id);
+        assertThat(actual.getId()).isEqualTo(1);
         assertThat(actual.getRoom()).isEqualTo(room);
         assertThat(actual.getMember()).isEqualTo(member);
         assertThat(actual.getExpense()).isEqualTo(2000L);
@@ -153,9 +152,9 @@ class LogServiceTest {
 
         var createRequest = new LogRequest(null, roomCode, username1, 1000L, "Memo1");
 
-        long id = sut.create(createRequest);
+        var actual = sut.create(createRequest);
 
-        var updateRequest = new LogRequest(id, roomCode, username2, 2000L, "Memo2");
+        var updateRequest = new LogRequest(actual.getId(), roomCode, username2, 2000L, "Memo2");
 
         // when & then
         assertThatExceptionOfType(JLogException.class)
@@ -176,15 +175,15 @@ class LogServiceTest {
 
         var createRequest = new LogRequest(null, roomCode, username1, 1000L, "Memo1");
 
-        long id = sut.create(createRequest);
+        var actual = sut.create(createRequest);
 
-        var deleteRequest = new LogRequest(id, roomCode, username1, 1000L, "Memo1");
+        var deleteRequest = new LogRequest(actual.getId(), roomCode, username1, 1000L, "Memo1");
 
         // when
         sut.delete(deleteRequest);
 
         // then
-        assertThat(logRepository.findById(id)).isEmpty();
+        assertThat(logRepository.findById(actual.getId())).isEmpty();
     }
 
     @Test
@@ -200,9 +199,9 @@ class LogServiceTest {
 
         var createRequest = new LogRequest(null, roomCode, username1, 1000L, "Memo1");
 
-        long id = sut.create(createRequest);
+        var actual = sut.create(createRequest);
 
-        var deleteRequest = new LogRequest(id, roomCode, username2, 1000L, "Memo1");
+        var deleteRequest = new LogRequest(actual.getId(), roomCode, username2, 1000L, "Memo1");
 
         // when & then
         assertThatExceptionOfType(JLogException.class)

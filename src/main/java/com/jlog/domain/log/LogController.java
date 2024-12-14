@@ -7,6 +7,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogController {
 
-    private final LogService logService;
+    private final LogServiceImpl logService;
 
     @PostMapping(path = "/api/log")
     @ResponseStatus(HttpStatus.CREATED)
@@ -52,26 +53,46 @@ public class LogController {
 
     @PostMapping(path = "/api/v1/logs")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveV1(@RequestBody LogRequestV1 request) {
-        logService.create(request);
+    public LogResponseV1 createV1(
+            @RequestParam("roomCode") String roomCode,
+            @RequestParam("username") String username,
+            @RequestBody LogRequestV1 request
+    ) {
+        request = LogRequestV1.of(roomCode, username, request.expense(), request.memo());
+        Log log = logService.create(request);
+        return LogResponseV1.from(log);
     }
 
     @GetMapping(path = "/api/v1/logs")
     public Slice<LogResponseV1> getLogs(
-            @RequestParam("room_code") String roomCode,
+            @RequestParam("roomCode") String roomCode,
             @RequestParam("username") String username,
             Pageable pageable
     ) {
-        return logService.findByRoom(roomCode, username, pageable);
+        var request = LogRequestV1.of(roomCode, username);
+        return logService.findByRoom(request, pageable);
     }
 
-    @PutMapping(path = "/api/v1/logs")
-    public void updateV1(@RequestBody LogRequestV1 request) {
-        logService.update(request);
+    @PutMapping(path = "/api/v1/logs/{id}")
+    public LogResponseV1 updateV1(
+            @PathVariable Long id,
+            @RequestParam("roomCode") String roomCode,
+            @RequestParam("username") String username,
+            @RequestBody LogRequestV1 request
+    ) {
+        request = new LogRequestV1(id, roomCode, username, request.expense(), request.memo());
+        Log log = logService.update(request);
+        return LogResponseV1.from(log);
     }
 
-    @DeleteMapping(path = "/api/v1/logs")
-    public void deleteV1(@RequestBody LogRequestV1 request) {
+    @DeleteMapping(path = "/api/v1/logs/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteV1(
+            @PathVariable Long id,
+            @RequestParam("roomCode") String roomCode,
+            @RequestParam("username") String username
+    ) {
+        var request = LogRequestV1.of(id, roomCode, username);
         logService.delete(request);
     }
 }
