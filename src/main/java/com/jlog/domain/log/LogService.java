@@ -6,7 +6,10 @@ import static java.util.Comparator.reverseOrder;
 import static com.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 
 import java.util.List;
+import java.util.Objects;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +33,9 @@ public class LogService {
 
     @Transactional
     public long create(LogRequest request) {
-        log.info("create() {}", request.toString());
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
+        Objects.requireNonNull(member);
         Log saved = logRepository.save(Log.builder()
                 .room(room)
                 .member(member)
@@ -46,7 +49,8 @@ public class LogService {
     @Transactional(readOnly = true)
     public LogsWithOutpayResponse findAll(String roomCode, String username) {
         Room room = roomRepository.fetchByCode(roomCode);
-        room.getMemberByName(username);
+        Member member = room.getMemberByName(username);
+        Objects.requireNonNull(member);
         List<LogResponse> logs = findAllLogsByRoomOrderByCreatedDateDesc(room);
         return LogsWithOutpayResponse.of(room, logs);
     }
@@ -55,13 +59,21 @@ public class LogService {
         return logRepository.findAllByRoom(room)
                 .stream()
                 .map(LogResponse::from)
-                .sorted(comparing(LogResponse::createdDate, reverseOrder()))
+                .sorted(comparing(LogResponse::createdAt, reverseOrder()))
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Slice<LogResponseV1> findByRoom(String roomCode, String username, Pageable pageable) {
+        Room room = roomRepository.fetchByCode(roomCode);
+        Member member = room.getMemberByName(username);
+        Objects.requireNonNull(member);
+        Slice<Log> logs = logRepository.findByRoom(room, pageable);
+        return logs.map(LogResponseV1::from);
     }
 
     @Transactional
     public void update(LogRequest request) {
-        log.info("LogService: update(): {}", request.toString());
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
         Log log = logRepository.fetchById(request.id());
@@ -75,7 +87,6 @@ public class LogService {
 
     @Transactional
     public void delete(LogRequest request) {
-        log.info("LogService: delete(): {}", request.toString());
         Room room = roomRepository.fetchByCode(request.roomCode());
         Member member = room.getMemberByName(request.username());
         Log log = logRepository.fetchById(request.id());
