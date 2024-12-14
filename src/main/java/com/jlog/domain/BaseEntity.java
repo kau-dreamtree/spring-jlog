@@ -21,16 +21,16 @@ public abstract class BaseEntity {
         this(LocalDateTime.now());
     }
 
-    private BaseEntity(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-        this.modifiedDate = createdDate;
+    private BaseEntity(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+        this.modifiedAt = createdAt;
     }
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(nullable = false)
-    private LocalDateTime modifiedDate;
+    private LocalDateTime modifiedAt;
 }

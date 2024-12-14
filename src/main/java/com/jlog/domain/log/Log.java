@@ -24,10 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(indexes = {
-        @Index(name = "log_created_date_idx", columnList = "created_date"),
-        @Index(name = "log_modified_date_idx", columnList = "modified_date"),
-})
+@Table(indexes = @Index(name = "log_created_at_idx", columnList = "created_at"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
