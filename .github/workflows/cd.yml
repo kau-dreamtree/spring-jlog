@@ -46,7 +46,7 @@ jobs:
       - name: Run artifact
         working-directory: /home/zeus/jlog
         run: |
-          mv /home/zeus/jlog/spring/test/jlog-1.1.jar /home/zeus/jlog/spring/test/jlog.jar
+          mv /home/zeus/jlog/spring/test/jlog-1.2.jar /home/zeus/jlog/spring/test/jlog.jar
           docker compose restart jlog-test
 
   deploy-prod:
@@ -64,5 +64,5 @@ jobs:
       - name: Run artifact
         working-directory: /home/zeus/jlog
         run: |
-          mv /home/zeus/jlog/spring/prod/jlog-1.1.jar /home/zeus/jlog/spring/prod/jlog.jar
+          mv /home/zeus/jlog/spring/prod/jlog-1.2.jar /home/zeus/jlog/spring/prod/jlog.jar
           docker compose restart jlog-production
