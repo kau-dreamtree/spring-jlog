@@ -32,7 +32,7 @@ public class MethodLogAspect {
         String className = signature.getDeclaringType().getSimpleName();
         String methodName = signature.getName();
 
-        log.info("{}.{}() {}ms", className, methodName, executionTimeMillis);
+        log.debug("{}.{}() {}ms", className, methodName, executionTimeMillis);
 
         return result;
     }
