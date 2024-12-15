@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogController {
 
-    private final LogServiceImpl logService;
+    private final LogService logService;
 
     @Deprecated(forRemoval = true)
     @PostMapping(path = "/api/log")
