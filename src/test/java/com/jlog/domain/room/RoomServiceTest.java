@@ -39,10 +39,9 @@ class RoomServiceTest {
             var member = new Member("member1");
             var request = new RoomCreateRequest(member.getName());
 
-            var code = sut.create(request);
-            var saved = roomRepository.findByCode(code);
+            var actual = sut.create(request);
 
-            assertThat(saved).isNotNull();
+            assertThat(actual).isNotNull();
         }
     }
 

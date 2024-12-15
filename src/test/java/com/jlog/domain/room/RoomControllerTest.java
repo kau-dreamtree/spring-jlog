@@ -42,7 +42,8 @@ class RoomControllerTest {
         void create() throws Exception {
             var roomCode = "test-room-code";
             var request = new RoomCreateRequest("username");
-            doReturn(roomCode).when(roomService).create(request);
+            var room = new Room(null, roomCode, null);
+            doReturn(room).when(roomService).create(request);
 
             var expected = objectMapper.writeValueAsString(new RoomCreateResponse(roomCode));
             mvc.perform(post(BASE_URL)

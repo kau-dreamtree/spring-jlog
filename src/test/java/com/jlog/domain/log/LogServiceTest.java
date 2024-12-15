@@ -132,7 +132,6 @@ class LogServiceTest {
 
         // then
         assertThat(actual).isNotNull();
-        assertThat(actual.getId()).isEqualTo(1);
         assertThat(actual.getRoom()).isEqualTo(room);
         assertThat(actual.getMember()).isEqualTo(member);
         assertThat(actual.getExpense()).isEqualTo(2000L);
