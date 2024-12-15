@@ -25,6 +25,7 @@ public class LogController {
 
     private final LogServiceImpl logService;
 
+    @Deprecated(forRemoval = true)
     @PostMapping(path = "/api/log")
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody LogRequest request) {
@@ -40,11 +41,13 @@ public class LogController {
         return logService.findAll(roomCode, username);
     }
 
+    @Deprecated(forRemoval = true)
     @PutMapping(path = "/api/log")
     public void update(@RequestBody LogRequest request) {
         logService.update(request);
     }
 
+    @Deprecated(forRemoval = true)
     @DeleteMapping(path = "/api/log")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@RequestBody LogRequest request) {

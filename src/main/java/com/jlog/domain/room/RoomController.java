@@ -23,7 +23,7 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     @PostMapping(path = "/api/room")
     @ResponseStatus(HttpStatus.CREATED)
     public RoomCreateResponse create(@RequestBody @Valid RoomCreateRequest request) {
@@ -31,7 +31,7 @@ public class RoomController {
         return new RoomCreateResponse(room.getCode());
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     @PutMapping(path = "/api/room")
     public void join(@RequestBody @Valid RoomJoinRequest request) {
         roomService.join(request);
