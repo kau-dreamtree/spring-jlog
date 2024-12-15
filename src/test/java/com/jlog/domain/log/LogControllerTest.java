@@ -44,7 +44,7 @@ class LogControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private LogServiceImpl logService;
+    private LogService logService;
 
     @Nested
     @DisplayName("Request to create a log")
