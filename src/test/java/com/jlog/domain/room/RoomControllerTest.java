@@ -1,6 +1,5 @@
 package com.jlog.domain.room;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jlog.domain.member.Member;
+import com.jlog.domain.member.Members;
 
 @WebMvcTest(RoomController.class)
 class RoomControllerTest {
@@ -42,7 +43,8 @@ class RoomControllerTest {
         void create() throws Exception {
             var roomCode = "test-room-code";
             var request = new RoomCreateRequest("username");
-            doReturn(roomCode).when(roomService).create(request);
+            var room = new Room(null, roomCode, null);
+            doReturn(room).when(roomService).create(request);
 
             var expected = objectMapper.writeValueAsString(new RoomCreateResponse(roomCode));
             mvc.perform(post(BASE_URL)
@@ -70,8 +72,11 @@ class RoomControllerTest {
         @Test
         @DisplayName("Request to join a room and respond 200.")
         void join() throws Exception {
-            var request = new RoomJoinRequest("12345678", "jlog-name");
-            doNothing().when(roomService).join(request);
+            var member1 = new Member("zeus");
+            var member2 = new Member("lizzy");
+            var room = new Room("roomcode", member1);
+            var request = new RoomJoinRequest("roomcode", member2.getName());
+            doReturn(room).when(roomService).join(request);
 
             mvc.perform(put(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
@@ -96,12 +101,18 @@ class RoomControllerTest {
 
         @Test
         void balance() throws Exception {
-            var response = new RoomBalanceResponse(1000L, "username");
-            doReturn(response).when(roomService).getBalance("roomCode", "username");
+            var member1 = new Member("zeus");
+            member1.addExpense(1_000L);
+            var member2 = new Member("lizzy");
+            var members = new Members(member1, member2);
+            var room = new Room("roomCode", members);
+            var request = new RoomRequestV1(room.getCode(), member1.getName());
+            doReturn(room).when(roomService).get(request);
 
+            var response = RoomResponse.from(room);
             mvc.perform(get("/api/v1/rooms")
-                    .param("roomCode", "roomCode")
-                    .param("username", "username")
+                    .param("roomCode", room.getCode())
+                    .param("username", member1.getName())
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())

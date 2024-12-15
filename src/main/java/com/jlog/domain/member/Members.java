@@ -91,7 +91,7 @@ public class Members {
         return Math.abs(diff);
     }
 
-    private Stream<Member> stream() {
+    public Stream<Member> stream() {
         return Stream.of(member1, member2).filter(Objects::nonNull);
     }
 }

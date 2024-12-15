@@ -44,7 +44,7 @@ class LogControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private LogService logService;
+    private LogServiceImpl logService;
 
     @Nested
     @DisplayName("Request to create a log")
@@ -121,7 +121,7 @@ class LogControllerTest {
                     new LogResponseV1(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
             );
             var expect = new SliceImpl<>(logResponses);
-            doReturn(expect).when(logService).findByRoom(any(), any(), any());
+            doReturn(expect).when(logService).findByRoom(any(), any());
 
             mvc.perform(get(parameters)
                             .accept(MediaType.APPLICATION_JSON)
@@ -132,10 +132,10 @@ class LogControllerTest {
         }
 
         static Stream<String> getLogs() {
-            var param1 = "/api/v1/logs?room_code=room_1234&username=zeus";
-            var param2 = "/api/v1/logs?room_code=room_1234&username=zeus&page=0";
-            var param3 = "/api/v1/logs?room_code=room_1234&username=zeus&page=0&size=10&sort=createdAt";
-            var param4 = "/api/v1/logs?room_code=room_1234&username=zeus&page=0&size=10&sort=createdAt,desc";
+            var param1 = "/api/v1/logs?roomCode=room_1234&username=zeus";
+            var param2 = "/api/v1/logs?roomCode=room_1234&username=zeus&page=0";
+            var param3 = "/api/v1/logs?roomCode=room_1234&username=zeus&page=0&size=10&sort=createdAt";
+            var param4 = "/api/v1/logs?roomCode=room_1234&username=zeus&page=0&size=10&sort=createdAt,desc";
             return Stream.of(param1, param2, param3, param4);
         }
     }

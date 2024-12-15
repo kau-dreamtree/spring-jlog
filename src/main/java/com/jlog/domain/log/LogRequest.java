@@ -11,8 +11,7 @@ public record LogRequest(
 
         @JsonProperty("log_id")
         @NotNull
-        @Positive
-        Long id,
+        @Positive Long id,
 
         @JsonProperty("room_code")
         @NotBlank
@@ -29,5 +28,6 @@ public record LogRequest(
 
         @Size(max = 255)
         String memo
-) {
+
+) implements LogDto {
 }
