@@ -25,12 +25,12 @@ public class RoomService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public String create(RoomCreateRequest request) {
+    public Room create(RoomCreateRequest request) {
         String code = RandomStringUtils.secure().nextAlphanumeric(ROOM_CODE_LENGTH);
-        Member savedMember = memberRepository.save(new Member(request.username()));
-        Room savedRoom = roomRepository.save(new Room(code, savedMember));
-        log.info("Room created: {}", savedRoom);
-        return savedRoom.getCode();
+        Member member = memberRepository.save(new Member(request.username()));
+        Room room = roomRepository.save(new Room(code, member));
+        log.info("Room created: {}", room);
+        return room;
     }
 
     @Transactional
@@ -52,10 +52,10 @@ public class RoomService {
     }
 
     @Transactional(readOnly = true)
-    public RoomBalanceResponse getBalance(String roomCode, String username) {
+    public RoomOutpaymentResponse getOutpayment(String roomCode, String username) {
         Room room = roomRepository.fetchByCode(roomCode);
         requireExists(room, username);
-        return RoomBalanceResponse.from(room);
+        return RoomOutpaymentResponse.from(room);
     }
 
     private void requireExists(Room room, String username) {

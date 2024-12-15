@@ -111,7 +111,7 @@ class RoomServiceTest {
             var room = roomRepository.save(new Room("roomcode", members));
 
             // when
-            RoomBalanceResponse response = sut.getBalance(room.getCode(), "member1");
+            RoomOutpaymentResponse response = sut.getOutpayment(room.getCode(), "member1");
 
             // then
             assertThat(response).isNotNull();

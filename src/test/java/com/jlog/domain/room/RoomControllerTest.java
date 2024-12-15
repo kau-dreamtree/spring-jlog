@@ -96,8 +96,8 @@ class RoomControllerTest {
 
         @Test
         void balance() throws Exception {
-            var response = new RoomBalanceResponse(1000L, "username");
-            doReturn(response).when(roomService).getBalance("roomCode", "username");
+            var response = new RoomOutpaymentResponse(1000L, "username");
+            doReturn(response).when(roomService).getOutpayment("roomCode", "username");
 
             mvc.perform(get("/api/v1/rooms")
                     .param("roomCode", "roomCode")

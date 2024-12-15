@@ -23,23 +23,41 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @PostMapping(path = "api/room")
+    @Deprecated
+    @PostMapping(path = "/api/room")
     @ResponseStatus(HttpStatus.CREATED)
     public RoomCreateResponse create(@RequestBody @Valid RoomCreateRequest request) {
-        String roomCode = roomService.create(request);
-        return new RoomCreateResponse(roomCode);
+        Room room = roomService.create(request);
+        return new RoomCreateResponse(room.getCode());
     }
 
-    @PutMapping(path = "api/room")
+    @Deprecated
+    @PutMapping(path = "/api/room")
     public void join(@RequestBody RoomJoinRequest request) {
         roomService.join(request);
     }
 
-    @GetMapping(path = "api/v1/rooms")
-    public RoomBalanceResponse balance(
+    @PostMapping(path = "api/v1/rooms")
+    @ResponseStatus(HttpStatus.CREATED)
+    public RoomCreateResponse createV1(@RequestBody @Valid RoomCreateRequest request) {
+        Room room = roomService.create(request);
+        return new RoomCreateResponse(room.getCode());
+    }
+
+    @PutMapping(path = "/api/v1/rooms")
+    public void joinV1(
+            @RequestParam("roomCode") String roomCode,
+            @RequestBody RoomJoinRequest request
+    ) {
+        request = new RoomJoinRequest(roomCode, request.username());
+        roomService.join(request);
+    }
+
+    @GetMapping(path = "/api/v1/rooms")
+    public RoomOutpaymentResponse outpayment(
             @RequestParam("roomCode") String roomCode,
             @RequestParam("username") String username
     ) {
-        return roomService.getBalance(roomCode, username);
+        return roomService.getOutpayment(roomCode, username);
     }
 }
