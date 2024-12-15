@@ -1,7 +1,5 @@
 package com.jlog.domain.room;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -50,7 +48,6 @@ public class Room extends BaseEntity {
     }
 
     public void join(Member member) {
-        log.info("{} member {} requested to join", LocalDateTime.now(), member.getName());
         if (exists(member)) {
             return;
         }

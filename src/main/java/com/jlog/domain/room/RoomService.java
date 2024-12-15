@@ -29,12 +29,13 @@ public class RoomService {
         String code = RandomStringUtils.secure().nextAlphanumeric(ROOM_CODE_LENGTH);
         Member member = memberRepository.save(new Member(request.username()));
         Room room = roomRepository.save(new Room(code, member));
-        log.info("Room created: {}", room);
+        log.info("Room {} created by {}", room.getCode(), member.getName());
         return room;
     }
 
     @Transactional
     public Room join(RoomRequest request) {
+        log.info("Member {} requested to join", request.username());
         Room room = roomRepository.fetchByCode(request.roomCode());
         if (room.existsByName(request.username())) {
             return room;
