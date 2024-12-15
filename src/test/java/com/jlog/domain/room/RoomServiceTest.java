@@ -108,14 +108,15 @@ class RoomServiceTest {
             var member2 = memberRepository.save(new Member(null, "member2", 1500L));
             var members = new Members(member1, member2);
             var room = roomRepository.save(new Room("roomcode", members));
+            var request = new RoomRequestV1(room.getCode(), member1.getName());
 
             // when
-            RoomOutpaymentResponse response = sut.getOutpayment(room.getCode(), "member1");
+            Room actual = sut.get(request);
 
             // then
-            assertThat(response).isNotNull();
-            assertThat(response.outpayAmount()).isEqualTo(500L);
-            assertThat(response.outpayer()).isEqualTo("member2");
+            assertThat(actual).isNotNull();
+            assertThat(actual.outpayAmount()).isEqualTo(500L);
+            assertThat(actual.outpayer()).isEqualTo("member2");
         }
     }
 }
