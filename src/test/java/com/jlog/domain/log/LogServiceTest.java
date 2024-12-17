@@ -31,7 +31,7 @@ class LogServiceTest {
         memberRepository = new FakeMemberRepository();
         roomRepository = new FakeRoomRepository();
         logRepository = new FakeLogRepository();
-        sut = new LogService(logRepository, roomRepository, memberRepository);
+        sut = new LogService(logRepository, roomRepository);
     }
 
     @Test
@@ -104,7 +104,7 @@ class LogServiceTest {
         var pageRequest = PageRequest.of(0, 10);
 
         // when
-        Slice<LogResponseV1> response = sut.findByRoom(logRequest, pageRequest);
+        Slice<Log> response = sut.findByRoom(logRequest, pageRequest);
 
         // then
         assertThat(response).isNotNull();
