@@ -34,9 +34,7 @@ public class LogService {
     @Transactional
     public Log create(LogDto request) {
         Room room = roomRepository.fetchByCode(request.roomCode());
-        System.out.println(room);
         Member member = room.getMemberByName(request.username());
-        System.out.println(member);
         Objects.requireNonNull(member);
         Log saved = logRepository.save(Log.builder()
                 .room(room)
