@@ -31,7 +31,7 @@ class LogServiceTest {
         memberRepository = new FakeMemberRepository();
         roomRepository = new FakeRoomRepository();
         logRepository = new FakeLogRepository();
-        sut = new LogServiceImpl(logRepository, roomRepository, memberRepository);
+        sut = new LogService(logRepository, roomRepository, memberRepository);
     }
 
     @Test
