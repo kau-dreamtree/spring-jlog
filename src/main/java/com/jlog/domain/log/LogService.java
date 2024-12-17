@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jlog.domain.member.Member;
-import com.jlog.domain.member.MemberRepository;
 import com.jlog.domain.room.Room;
 import com.jlog.domain.room.RoomRepository;
 import com.jlog.exception.JLogException;
@@ -29,7 +28,6 @@ public class LogService {
 
     private final LogRepository logRepository;
     private final RoomRepository roomRepository;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public Log create(LogDto request) {
@@ -42,7 +40,7 @@ public class LogService {
                 .expense(request.expense())
                 .memo(request.memo())
                 .build());
-        room.addLog(saved);
+        member.addExpense(saved.getExpense());
         return saved;
     }
 
@@ -64,12 +62,11 @@ public class LogService {
     }
 
     @Transactional(readOnly = true)
-    public Slice<LogResponseV1> findByRoom(LogDto logDto, Pageable pageable) {
+    public Slice<Log> findByRoom(LogDto logDto, Pageable pageable) {
         Room room = roomRepository.fetchByCode(logDto.roomCode());
         Member member = room.getMemberByName(logDto.username());
         Objects.requireNonNull(member);
-        Slice<Log> logs = logRepository.findByRoom(room, pageable);
-        return logs.map(LogResponseV1::from);
+        return logRepository.findByRoom(room, pageable);
     }
 
     @Transactional
@@ -81,8 +78,7 @@ public class LogService {
         member.addExpense(request.expense() - log.getExpense());
         log.updateExpense(request.expense());
         log.updateMemo(request.memo());
-        memberRepository.save(member);
-        return logRepository.save(log);
+        return log;
     }
 
     @Transactional
@@ -93,7 +89,6 @@ public class LogService {
         validateLogOwner(log, member);
         member.subtractExpense(log.getExpense());
         logRepository.delete(log);
-        memberRepository.save(member);
     }
 
     private void validateLogOwner(Log log, Member member) {

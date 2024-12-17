@@ -43,7 +43,7 @@ public class RoomService {
         requireNotFull(room);
         Member member = memberRepository.save(new Member(request.username()));
         room.join(member);
-        return roomRepository.save(room);
+        return room;
     }
 
     private void requireNotFull(Room room) {

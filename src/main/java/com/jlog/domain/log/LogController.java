@@ -73,7 +73,8 @@ public class LogController {
             Pageable pageable
     ) {
         var request = LogRequestV1.of(roomCode, username);
-        return logService.findByRoom(request, pageable);
+        var logs = logService.findByRoom(request, pageable);
+        return logs.map(LogResponseV1::from);
     }
 
     @PutMapping(path = "/api/v1/logs/{id}")
