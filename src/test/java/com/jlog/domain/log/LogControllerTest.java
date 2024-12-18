@@ -116,19 +116,18 @@ class LogControllerTest {
             var member2 = new Member("lizzy");
             var members = new Members(member1, member2);
             var room = new Room(1L, "room_1234", members);
-            var logResponses = List.of(
-                    new LogResponseV1(1L, room.getCode(), member1.getName(), 1000L, "memo1", now(), now()),
-                    new LogResponseV1(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
-            );
-            var expect = new SliceImpl<>(logResponses);
-            doReturn(expect).when(logService).findByRoom(any(), any());
+            var log1 = new Log(1L, room, member1, 1000L, "memo1");
+            var log2 = new Log(2L, room, member2, 2000L, "memo2");
+            var logs = new SliceImpl<>(List.of(log1, log2));
+            var response = new SliceImpl<>(List.of(LogResponseV1.from(log1), LogResponseV1.from(log2)));
+            doReturn(logs).when(logService).findByRoom(any(), any());
 
             mvc.perform(get(parameters)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                    .andExpect(content().json(objectMapper.writeValueAsString(expect)));
+                    .andExpect(content().json(objectMapper.writeValueAsString(response)));
         }
 
         static Stream<String> getLogs() {

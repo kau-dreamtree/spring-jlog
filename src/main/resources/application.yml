@@ -1,6 +1,9 @@
 spring:
   profiles:
-    active: local
+    group:
+      default: local, actuator
+      dev: db, actuator
+      prod: db, actuator
   output:
     ansi:
       enabled: always
