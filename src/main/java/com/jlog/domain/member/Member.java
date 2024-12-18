@@ -48,6 +48,9 @@ public class Member extends BaseEntity {
     }
 
     public void subtractExpense(long expense) {
+        if (expense > this.expense) {
+            throw new IllegalStateException("Expense can't be less than 0");
+        }
         this.expense -= expense;
     }
 }
