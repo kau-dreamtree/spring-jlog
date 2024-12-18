@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: actuator
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
