@@ -57,17 +57,21 @@ public class FakeLogRepository implements LogRepository {
 
     @Override
     public Slice<Log> findByRoom(Room room, Pageable pageable) {
-        int pageNumber = pageable.getPageNumber();
-        int pageSize = pageable.getPageSize();
         Comparator<Log> comparator = comparator(pageable);
         List<Log> contents = logs.values()
                 .stream()
-                .filter(log -> pageNumber * pageSize <= log.getRoom().getId().intValue())
+                .filter(log -> pageNumberFilter(log, pageable))
                 .filter(log -> Objects.equals(log.getRoom(), room))
                 .sorted(comparator)
-                .limit(pageSize)
                 .toList();
         return new SliceImpl<>(contents);
+    }
+
+    private boolean pageNumberFilter(Log log, Pageable pageable) {
+        int pageNumber = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
+        int id = log.getId().intValue();
+        return pageNumber * pageSize <= id && id <= (pageNumber + 1) * pageSize;
     }
 
     private Comparator<Log> comparator(Pageable pageable) {
