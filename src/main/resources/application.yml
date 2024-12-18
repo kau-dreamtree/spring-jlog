@@ -1,6 +1,9 @@
 spring:
   profiles:
-    active: local
+    group:
+      default: local
+      dev: db
+      prod: db
   output:
     ansi:
       enabled: always
