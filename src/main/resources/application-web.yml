@@ -1,0 +1,8 @@
+spring:
+  config:
+    activate:
+      on-profile: web
+
+server:
+  compression:
+    enabled: true
