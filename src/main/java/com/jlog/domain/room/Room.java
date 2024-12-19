@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import com.jlog.domain.BaseEntity;
-import com.jlog.domain.log.Log;
 import com.jlog.domain.member.Member;
 import com.jlog.domain.member.Members;
 
@@ -72,10 +71,6 @@ public class Room extends BaseEntity {
 
     public boolean existsByName(String name) {
         return members.existsByName(name);
-    }
-
-    public void addLog(Log log) {
-        members.addLog(log);
     }
 
     public String outpayer() {
