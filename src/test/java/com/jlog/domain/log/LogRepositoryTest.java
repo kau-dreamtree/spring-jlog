@@ -1,6 +1,7 @@
 package com.jlog.domain.log;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import com.jlog.domain.member.Member;
 import com.jlog.domain.member.MemberRepository;
 import com.jlog.domain.room.Room;
 import com.jlog.domain.room.RoomRepository;
+import com.jlog.exception.JLogException;
 
 @DataJpaTest
 class LogRepositoryTest {
@@ -49,5 +51,12 @@ class LogRepositoryTest {
         assertThat(actual).hasSize(2);
         assertThat(actual.get(0).getExpense()).isEqualTo(3000L);
         assertThat(actual.get(1).getExpense()).isEqualTo(2000L);
+    }
+
+    @Test
+    void fetchById() {
+        assertThatExceptionOfType(JLogException.class)
+                .isThrownBy(() -> logRepository.fetchById(1L))
+                .withMessage("No such log exists");
     }
 }

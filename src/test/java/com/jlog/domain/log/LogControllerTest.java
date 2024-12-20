@@ -87,7 +87,7 @@ class LogControllerTest {
                     new LogResponse(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
             );
             var expect = LogsWithOutpayResponse.of(room, logResponses);
-            doReturn(expect).when(logService).findAll(any(), any());
+            doReturn(expect).when(logService).findAll(room.getCode(), member1.getName());
 
             var parameters = "?room_code=room_1234&username=zeus";
             mvc.perform(get(BASE_URL + parameters)
