@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort.Direction;
 
 import com.jlog.domain.member.Member;
@@ -29,7 +28,7 @@ class LogRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
-    void findByRoom() {
+    void findLogsByRoomAndLastId() {
         // given
         Member member = memberRepository.save(new Member("Lizzy"));
         Room room = roomRepository.save(new Room("roomCode", member));
@@ -41,11 +40,10 @@ class LogRepositoryTest {
         logRepository.save(log2);
         logRepository.save(log3);
 
-        var pageRequest = PageRequest.of(0, 2, Direction.DESC, "createdAt");
+        var pageRequest = PageRequest.of(0, 20, Direction.DESC, "createdAt");
 
         // when
-        Slice<Log> slice = logRepository.findByRoom(room, pageRequest);
-        List<Log> actual = slice.getContent();
+        List<Log> actual = logRepository.findLogsByRoomAndLastId(room, 1L, pageRequest);
 
         // then
         assertThat(actual).hasSize(2);

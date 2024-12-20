@@ -9,11 +9,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 
 import com.jlog.domain.room.Room;
 
@@ -56,30 +51,13 @@ public class FakeLogRepository implements LogRepository {
     }
 
     @Override
-    public Slice<Log> findByRoom(Room room, Pageable pageable) {
-        Comparator<Log> comparator = comparator(pageable);
-        List<Log> contents = logs.values()
+    public List<Log> findLogsByRoomAndLastId(Room room, Long lastId, Pageable pageable) {
+        return logs.values()
                 .stream()
-                .filter(log -> pageNumberFilter(log, pageable))
                 .filter(log -> Objects.equals(log.getRoom(), room))
-                .sorted(comparator)
+                .filter(log -> log.getId() > lastId)
+                .limit(pageable.getPageSize())
+                .sorted(Comparator.comparing(Log::getCreatedAt).reversed())
                 .toList();
-        return new SliceImpl<>(contents);
-    }
-
-    private boolean pageNumberFilter(Log log, Pageable pageable) {
-        int pageNumber = pageable.getPageNumber();
-        int pageSize = pageable.getPageSize();
-        int id = log.getId().intValue();
-        return pageNumber * pageSize <= id && id <= (pageNumber + 1) * pageSize;
-    }
-
-    private Comparator<Log> comparator(Pageable pageable) {
-        Sort sort = pageable.getSort();
-        String property = "createdAt";
-        Order order = Objects.requireNonNullElse(sort.getOrderFor(property), Order.by(property));
-        Direction direction = order.getDirection();
-        Comparator<Log> comparator = Comparator.comparing(Log::getCreatedAt);
-        return direction == Direction.ASC ? comparator : comparator.reversed();
     }
 }
