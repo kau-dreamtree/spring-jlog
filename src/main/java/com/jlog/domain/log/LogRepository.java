@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 
 import com.jlog.domain.room.Room;
 import com.jlog.exception.JLogException;
@@ -21,7 +20,7 @@ public interface LogRepository {
 
     List<Log> findAllByRoom(Room room);
 
-    Slice<Log> findByRoom(Room room, Pageable pageable);
+    List<Log> findLogsByRoomAndLastId(Room room, Long lastId, Pageable pageable);
 
     default Log fetchById(long id) {
         return findById(id).orElseThrow(() -> new JLogException(LOG_NOT_EXISTS));

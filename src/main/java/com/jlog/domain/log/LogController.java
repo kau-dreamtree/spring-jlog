@@ -2,8 +2,8 @@ package com.jlog.domain.log;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,14 +67,14 @@ public class LogController {
     }
 
     @GetMapping(path = "/api/v1/logs")
-    public Slice<LogResponseV1> getLogs(
+    public List<LogResponseV1> getLogs(
             @RequestParam("roomCode") String roomCode,
             @RequestParam("username") String username,
-            Pageable pageable
+            @RequestParam(value = "lastId", defaultValue = "0") Long lastId
     ) {
-        var request = LogRequestV1.of(roomCode, username);
-        var logs = logService.findByRoom(request, pageable);
-        return logs.map(LogResponseV1::from);
+        var request = LogRequestV1.of(lastId, roomCode, username);
+        var logs = logService.findLogsByRoomAndLastId(request);
+        return logs.stream().map(LogResponseV1::from).toList();
     }
 
     @PutMapping(path = "/api/v1/logs/{id}")
