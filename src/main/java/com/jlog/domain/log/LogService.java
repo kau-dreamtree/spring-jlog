@@ -8,8 +8,9 @@ import static com.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class LogService {
+
+    private static final int DEFAULT_CONTENT_SIZE = 20;
+    private static final Sort DEFAULT_SORT = Sort.by(Order.desc("createdAt"));
 
     private final LogRepository logRepository;
     private final RoomRepository roomRepository;
@@ -62,11 +66,12 @@ public class LogService {
     }
 
     @Transactional(readOnly = true)
-    public Slice<Log> findByRoom(LogDto logDto, Pageable pageable) {
-        Room room = roomRepository.fetchByCode(logDto.roomCode());
-        Member member = room.getMemberByName(logDto.username());
+    public List<Log> findLogsByRoomAndLastId(LogDto request) {
+        Room room = roomRepository.fetchByCode(request.roomCode());
+        Member member = room.getMemberByName(request.username());
         Objects.requireNonNull(member);
-        return logRepository.findByRoom(room, pageable);
+        PageRequest pageRequest = PageRequest.of(0, DEFAULT_CONTENT_SIZE, DEFAULT_SORT);
+        return logRepository.findLogsByRoomAndLastId(room, request.id(), pageRequest);
     }
 
     @Transactional

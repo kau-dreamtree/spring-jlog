@@ -23,7 +23,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -118,9 +117,11 @@ class LogControllerTest {
             var room = new Room(1L, "room_1234", members);
             var log1 = new Log(1L, room, member1, 1000L, "memo1");
             var log2 = new Log(2L, room, member2, 2000L, "memo2");
-            var logs = new SliceImpl<>(List.of(log1, log2));
-            var response = new SliceImpl<>(List.of(LogResponseV1.from(log1), LogResponseV1.from(log2)));
-            doReturn(logs).when(logService).findByRoom(any(), any());
+            var logs = List.of(log1, log2);
+
+            doReturn(logs).when(logService).findLogsByRoomAndLastId(any());
+
+            var response = List.of(LogResponseV1.from(log1), LogResponseV1.from(log2));
 
             mvc.perform(get(parameters)
                             .accept(MediaType.APPLICATION_JSON)

@@ -5,10 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import static com.jlog.exception.JLogErrorCode.UNAUTHORIZED_MEMBER;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 
 import com.jlog.domain.member.FakeMemberRepository;
 import com.jlog.domain.member.Member;
@@ -86,7 +86,7 @@ class LogServiceTest {
     }
 
     @Test
-    void findByRoom() {
+    void findLogsByRoomAndLastId() {
         // given
         String roomCode = "ROOM1234";
         String username = "john";
@@ -100,16 +100,13 @@ class LogServiceTest {
         sut.create(request1);
         sut.create(request2);
 
-        var logRequest = new LogRequestV1(null, roomCode, username, null, null);
-        var pageRequest = PageRequest.of(0, 10);
+        var logRequest = new LogRequestV1(0L, roomCode, username, null, null);
 
         // when
-        Slice<Log> response = sut.findByRoom(logRequest, pageRequest);
+        List<Log> response = sut.findLogsByRoomAndLastId(logRequest);
 
         // then
-        assertThat(response).isNotNull();
-        assertThat(response.getContent()).isNotEmpty();
-        assertThat(response.getContent().size()).isEqualTo(2);
+        assertThat(response).hasSize(2);
     }
 
     @Test
