@@ -71,10 +71,10 @@ public class LogController {
     public List<LogResponseV1> getLogs(
             @RequestParam("roomCode") String roomCode,
             @RequestParam("username") String username,
-            @RequestParam(value = "lastId", defaultValue = "0") Long lastId
+            @RequestParam(value = "lastId", required = false) Long lastId
     ) {
         var request = LogRequestV1.of(lastId, roomCode, username);
-        var logs = logService.findLogsByRoomAndLastId(request);
+        var logs = logService.findLogsByRoomAfterId(request);
         return logs.stream().map(LogResponseV1::from).toList();
     }
 

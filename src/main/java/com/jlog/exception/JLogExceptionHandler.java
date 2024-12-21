@@ -30,7 +30,6 @@ public class JLogExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleExceptionInternal(
             @NonNull Exception exception,
             @Nullable Object body,
