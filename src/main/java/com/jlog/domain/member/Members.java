@@ -9,29 +9,30 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToOne;
 
-import com.jlog.domain.log.Log;
 import com.jlog.exception.JLogErrorCode;
 import com.jlog.exception.JLogException;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 public class Members {
 
     @OneToOne(optional = false)
     @AttributeOverride(name = "id", column = @Column(name = "member1_id"))
+    @EqualsAndHashCode.Include
     private Member member1;
 
     @OneToOne
     @AttributeOverride(name = "id", column = @Column(name = "member2_id"))
+    @EqualsAndHashCode.Include
     private Member member2;
 
     public Members(Member member) {
@@ -63,14 +64,6 @@ public class Members {
 
     public boolean existsByName(String name) {
         return stream().anyMatch(m -> m.matchName(name));
-    }
-
-    public void addLog(Log log) {
-        Member member = stream()
-                .filter(m -> Objects.equals(m, log.getMember()))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
-        member.addExpense(log.getExpense());
     }
 
     public String outpayer() {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+@SuppressWarnings("removal")
 @RestController
 @RequestMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class RoomController {
     @PostMapping(path = "/api/room")
     @ResponseStatus(HttpStatus.CREATED)
     public RoomCreateResponse create(@RequestBody @Valid RoomCreateRequest request) {
-        Room room = roomService.create(request);
+        var room = roomService.create(request);
         return new RoomCreateResponse(room.getCode());
     }
 
@@ -40,7 +41,7 @@ public class RoomController {
     @PostMapping(path = "api/v1/rooms")
     @ResponseStatus(HttpStatus.CREATED)
     public RoomResponse createV1(@RequestBody @Valid RoomRequestV1 request) {
-        Room room = roomService.create(request);
+        var room = roomService.create(request);
         return RoomResponse.from(room);
     }
 
@@ -50,7 +51,7 @@ public class RoomController {
             @RequestBody @Valid RoomRequestV1 request
     ) {
         request = new RoomRequestV1(roomCode, request.username());
-        Room room = roomService.join(request);
+        var room = roomService.join(request);
         return RoomResponse.from(room);
     }
 
@@ -60,7 +61,7 @@ public class RoomController {
             @RequestParam("username") String username
     ) {
         var request = new RoomRequestV1(roomCode, username);
-        Room room = roomService.get(request);
+        var room = roomService.get(request);
         return RoomResponse.from(room);
     }
 }

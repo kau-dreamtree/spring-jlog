@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jlog.domain.member.Member;
-import com.jlog.domain.room.Room;
 import com.jlog.domain.room.RoomRepository;
 import com.jlog.exception.JLogException;
 
@@ -35,50 +34,49 @@ public class LogService {
 
     @Transactional
     public Log create(LogDto request) {
-        Room room = roomRepository.fetchByCode(request.roomCode());
-        Member member = room.getMemberByName(request.username());
+        var room = roomRepository.fetchByCode(request.roomCode());
+        var member = room.getMemberByName(request.username());
         Objects.requireNonNull(member);
-        Log saved = logRepository.save(Log.builder()
+        var log = Log.builder()
                 .room(room)
                 .member(member)
                 .expense(request.expense())
                 .memo(request.memo())
-                .build());
+                .build();
+        var saved = logRepository.save(log);
         member.addExpense(saved.getExpense());
         return saved;
     }
 
+    @SuppressWarnings({"removal", "DeprecatedIsStillUsed"})
+    @Deprecated(forRemoval = true)
     @Transactional(readOnly = true)
     public LogsWithOutpayResponse findAll(String roomCode, String username) {
-        Room room = roomRepository.fetchByCode(roomCode);
-        Member member = room.getMemberByName(username);
+        var room = roomRepository.fetchByCode(roomCode);
+        var member = room.getMemberByName(username);
         Objects.requireNonNull(member);
-        List<LogResponse> logs = findAllLogsByRoomOrderByCreatedDateDesc(room);
-        return LogsWithOutpayResponse.of(room, logs);
-    }
-
-    private List<LogResponse> findAllLogsByRoomOrderByCreatedDateDesc(Room room) {
-        return logRepository.findAllByRoom(room)
+        var logs = logRepository.findAllByRoom(room)
                 .stream()
                 .map(LogResponse::from)
                 .sorted(comparing(LogResponse::createdAt, reverseOrder()))
                 .toList();
+        return LogsWithOutpayResponse.of(room, logs);
     }
 
     @Transactional(readOnly = true)
     public List<Log> findLogsByRoomAndLastId(LogDto request) {
-        Room room = roomRepository.fetchByCode(request.roomCode());
-        Member member = room.getMemberByName(request.username());
+        var room = roomRepository.fetchByCode(request.roomCode());
+        var member = room.getMemberByName(request.username());
         Objects.requireNonNull(member);
-        PageRequest pageRequest = PageRequest.of(0, DEFAULT_CONTENT_SIZE, DEFAULT_SORT);
+        var pageRequest = PageRequest.of(0, DEFAULT_CONTENT_SIZE, DEFAULT_SORT);
         return logRepository.findLogsByRoomAndLastId(room, request.id(), pageRequest);
     }
 
     @Transactional
     public Log update(LogDto request) {
-        Room room = roomRepository.fetchByCode(request.roomCode());
-        Member member = room.getMemberByName(request.username());
-        Log log = logRepository.fetchById(request.id());
+        var room = roomRepository.fetchByCode(request.roomCode());
+        var member = room.getMemberByName(request.username());
+        var log = logRepository.fetchById(request.id());
         validateLogOwner(log, member);
         member.addExpense(request.expense() - log.getExpense());
         log.updateExpense(request.expense());
@@ -88,9 +86,9 @@ public class LogService {
 
     @Transactional
     public void delete(LogDto request) {
-        Room room = roomRepository.fetchByCode(request.roomCode());
-        Member member = room.getMemberByName(request.username());
-        Log log = logRepository.fetchById(request.id());
+        var room = roomRepository.fetchByCode(request.roomCode());
+        var member = room.getMemberByName(request.username());
+        var log = logRepository.fetchById(request.id());
         validateLogOwner(log, member);
         member.subtractExpense(log.getExpense());
         logRepository.delete(log);

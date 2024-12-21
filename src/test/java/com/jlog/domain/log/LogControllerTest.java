@@ -31,6 +31,7 @@ import com.jlog.domain.member.Member;
 import com.jlog.domain.member.Members;
 import com.jlog.domain.room.Room;
 
+@SuppressWarnings("removal")
 @WebMvcTest(LogController.class)
 class LogControllerTest {
 

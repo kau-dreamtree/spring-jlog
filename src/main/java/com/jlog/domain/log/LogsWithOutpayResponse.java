@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jlog.domain.room.Room;
 
+@SuppressWarnings({"removal", "DeprecatedIsStillUsed"})
+@Deprecated(forRemoval = true)
 public record LogsWithOutpayResponse(
         @JsonProperty("balance") OutpayResponse outpayResponse,
         List<LogResponse> logs

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jlog.domain.member.Member;
 import com.jlog.domain.member.Members;
 
+@SuppressWarnings("removal")
 @WebMvcTest(RoomController.class)
 class RoomControllerTest {
 

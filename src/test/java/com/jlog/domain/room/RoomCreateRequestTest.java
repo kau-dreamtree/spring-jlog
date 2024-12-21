@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import com.jlog.ValidationTest;
 
+@SuppressWarnings("removal")
 class RoomCreateRequestTest extends ValidationTest {
 
     private RoomCreateRequest sut;

@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated(forRemoval = true)
 public record LogRequest(
 
         @JsonProperty("log_id")
