@@ -47,7 +47,8 @@ jobs:
         working-directory: /home/zeus/jlog
         run: |
           mv /home/zeus/jlog/spring/test/jlog-1.2.jar /home/zeus/jlog/spring/test/jlog.jar
-          docker compose restart jlog-test
+          docker compose down jlog-test
+          docker compose up -d jlog-test
 
   deploy-prod:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -65,4 +66,5 @@ jobs:
         working-directory: /home/zeus/jlog
         run: |
           mv /home/zeus/jlog/spring/prod/jlog-1.2.jar /home/zeus/jlog/spring/prod/jlog.jar
-          docker compose restart jlog-production
+          docker compose down jlog-production
+          docker compose up -d jlog-production
