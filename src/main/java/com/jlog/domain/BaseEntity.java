@@ -27,10 +27,10 @@ public abstract class BaseEntity {
     }
 
     @CreatedDate
-    @Column(updatable = false, nullable = false)
+    @Column(columnDefinition = "datetime(3)", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(columnDefinition = "datetime(3)", nullable = false)
     private LocalDateTime modifiedAt;
 }
