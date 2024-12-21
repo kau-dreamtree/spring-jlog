@@ -120,7 +120,7 @@ class LogControllerTest {
             var log2 = new Log(2L, room, member2, 2000L, "memo2");
             var logs = List.of(log1, log2);
 
-            doReturn(logs).when(logService).findLogsByRoomAndLastId(any());
+            doReturn(logs).when(logService).findLogsByRoomAfterId(any());
 
             var response = List.of(LogResponseV1.from(log1), LogResponseV1.from(log2));
 

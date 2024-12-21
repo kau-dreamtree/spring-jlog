@@ -27,7 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LogService {
 
     private static final int DEFAULT_CONTENT_SIZE = 20;
-    private static final Sort DEFAULT_SORT = Sort.by(Order.desc("createdAt"));
+    private static final Order DEFAULT_ORDER = Order.desc("id");
+    private static final Sort DEFAULT_SORT = Sort.by(DEFAULT_ORDER);
 
     private final LogRepository logRepository;
     private final RoomRepository roomRepository;
@@ -64,12 +65,12 @@ public class LogService {
     }
 
     @Transactional(readOnly = true)
-    public List<Log> findLogsByRoomAndLastId(LogDto request) {
+    public List<Log> findLogsByRoomAfterId(LogDto request) {
         var room = roomRepository.fetchByCode(request.roomCode());
         var member = room.getMemberByName(request.username());
         Objects.requireNonNull(member);
         var pageRequest = PageRequest.of(0, DEFAULT_CONTENT_SIZE, DEFAULT_SORT);
-        return logRepository.findLogsByRoomAndLastId(room, request.id(), pageRequest);
+        return logRepository.findLogsByRoomAfterId(room, request.id(), pageRequest);
     }
 
     @Transactional

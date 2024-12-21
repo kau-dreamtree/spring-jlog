@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 import com.jlog.domain.room.Room;
 
 public interface LogJpaRepository extends LogRepository, JpaRepository<Log, Long> {
-    @Query("SELECT l FROM Log l WHERE l.room = :room AND l.id > :lastId")
-    List<Log> findLogsByRoomAndLastId(@Param("room") Room room, @Param("lastId") Long lastId, Pageable pageable);
+    @Query("SELECT l FROM Log l WHERE l.room = :room AND (:lastId IS NULL OR l.id < :lastId)")
+    List<Log> findLogsByRoomAfterId(@Param("room") Room room, @Param("lastId") Long lastId, Pageable pageable);
 }

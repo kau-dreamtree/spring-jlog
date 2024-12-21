@@ -87,7 +87,7 @@ class LogServiceTest {
     }
 
     @Test
-    void findLogsByRoomAndLastId() {
+    void findLogsByRoomAfterId() {
         // given
         String roomCode = "ROOM1234";
         String username = "john";
@@ -104,7 +104,7 @@ class LogServiceTest {
         var logRequest = new LogRequestV1(0L, roomCode, username, null, null);
 
         // when
-        List<Log> response = sut.findLogsByRoomAndLastId(logRequest);
+        List<Log> response = sut.findLogsByRoomAfterId(logRequest);
 
         // then
         assertThat(response).hasSize(2);
