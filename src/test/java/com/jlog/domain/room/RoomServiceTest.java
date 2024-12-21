@@ -16,6 +16,7 @@ import com.jlog.domain.member.MemberRepository;
 import com.jlog.domain.member.Members;
 import com.jlog.exception.JLogException;
 
+@SuppressWarnings("removal")
 class RoomServiceTest {
 
     private RoomService sut;

@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.jlog.ValidationTest;
 
+@SuppressWarnings("removal")
 class RoomJoinRequestTest extends ValidationTest {
 
     private static final String roomCode = "roomCode";

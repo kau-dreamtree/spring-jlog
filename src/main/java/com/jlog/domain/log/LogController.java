@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+@SuppressWarnings("removal")
 @RestController
 @RequestMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -62,7 +63,7 @@ public class LogController {
             @RequestBody LogRequestV1 request
     ) {
         request = LogRequestV1.of(roomCode, username, request.expense(), request.memo());
-        Log log = logService.create(request);
+        var log = logService.create(request);
         return LogResponseV1.from(log);
     }
 
@@ -84,8 +85,8 @@ public class LogController {
             @RequestParam("username") String username,
             @RequestBody LogRequestV1 request
     ) {
-        request = new LogRequestV1(id, roomCode, username, request.expense(), request.memo());
-        Log log = logService.update(request);
+        request = LogRequestV1.of(id, roomCode, username, request.expense(), request.memo());
+        var log = logService.update(request);
         return LogResponseV1.from(log);
     }
 

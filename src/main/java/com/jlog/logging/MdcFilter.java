@@ -1,4 +1,4 @@
-package com.jlog.logger;
+package com.jlog.logging;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -24,16 +24,10 @@ public class MdcFilter implements Filter {
         HttpServletRequest httpReq = (HttpServletRequest) request;
         String requestId = httpReq.getHeader("X-Request-ID");
         if (Objects.isNull(requestId) || requestId.isEmpty()) {
-            requestId = length8RandomUUID();
+            requestId = UUID.randomUUID().toString().substring(0, 8);
         }
         MDC.put("requestId", requestId);
         chain.doFilter(request, response);
         MDC.clear();
-    }
-
-    private String length8RandomUUID() {
-        return UUID.randomUUID()
-                .toString()
-                .substring(0, 8);
     }
 }

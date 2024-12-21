@@ -24,7 +24,7 @@ public class JLogExceptionHandler extends ResponseEntityExceptionHandler {
             log.warn(message);
         }
         if (status.is5xxServerError()) {
-            log.error(message, exception);
+            log.error(exception.getMessage(), exception);
         }
         return ResponseEntity.status(status).body(message);
     }
@@ -32,12 +32,15 @@ public class JLogExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleExceptionInternal(
-            @NonNull Exception ex,
+            @NonNull Exception exception,
             @Nullable Object body,
             @NonNull HttpHeaders headers,
             @NonNull HttpStatusCode statusCode,
-            @NonNull WebRequest request) {
-        log.error(ex.getMessage(), ex);
-        return super.handleExceptionInternal(ex, body, headers, statusCode, request);
+            @NonNull WebRequest request
+    ) {
+        if (statusCode.is5xxServerError()) {
+            log.error(exception.getMessage(), exception);
+        }
+        return super.handleExceptionInternal(exception, body, headers, statusCode, request);
     }
 }

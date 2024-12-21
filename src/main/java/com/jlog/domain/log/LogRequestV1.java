@@ -24,15 +24,15 @@ public record LogRequestV1(
 
 ) implements LogDto {
 
-    public static LogRequestV1 of(String roomCode, String username) {
-        return of(null, roomCode, username);
+    public static LogRequestV1 of(Long id, String roomCode, String username, Long expense, String memo) {
+        return new LogRequestV1(id, roomCode, username, expense, memo);
     }
 
     public static LogRequestV1 of(Long id, String roomCode, String username) {
-        return new LogRequestV1(id, roomCode, username, null, null);
+        return of(id, roomCode, username, null, null);
     }
 
     public static LogRequestV1 of(String roomCode, String username, Long expense, String memo) {
-        return new LogRequestV1(null, roomCode, username, expense, memo);
+        return of(null, roomCode, username, expense, memo);
     }
 }
