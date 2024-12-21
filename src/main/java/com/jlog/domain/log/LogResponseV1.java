@@ -14,8 +14,8 @@ public record LogResponseV1(
     public static LogResponseV1 from(Log log) {
         return new LogResponseV1(
                 log.getId(),
-                log.getRoom().getCode(),
-                log.getMember().getName(),
+                log.getRoomCode(),
+                log.getMemberName(),
                 log.getExpense(),
                 log.getMemo(),
                 log.getCreatedAt(),

@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.jlog.ValidationTest;
 
+@SuppressWarnings("removal")
 class LogRequestTest extends ValidationTest {
 
     private static final Long id = 1L;

@@ -18,6 +18,7 @@ import com.jlog.domain.room.Room;
 import com.jlog.domain.room.RoomRepository;
 import com.jlog.exception.JLogException;
 
+@SuppressWarnings("removal")
 class LogServiceTest {
 
     private LogService sut;
