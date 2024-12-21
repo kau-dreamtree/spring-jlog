@@ -1,21 +1,20 @@
-package com.jlog.logger;
+package com.jlog.logging;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Aspect
 @Component
+@Slf4j
 public class MethodLogAspect {
 
-    private static final Logger log = LoggerFactory.getLogger(MethodLogAspect.class);
-
     @Around("execution(* com.jlog..*(..)) && " +
-            "!within(com.jlog.logger.*) && " +
+            "!within(com.jlog.logging.*) && " +
             "!within(com.jlog.exception.*)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         if (!log.isInfoEnabled()) {
