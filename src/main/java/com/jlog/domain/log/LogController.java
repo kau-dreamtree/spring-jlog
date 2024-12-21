@@ -68,7 +68,7 @@ public class LogController {
     }
 
     @GetMapping(path = "/api/v1/logs")
-    public List<LogResponseV1> getLogs(
+    public List<LogResponseV1> findV1(
             @RequestParam("roomCode") String roomCode,
             @RequestParam("username") String username,
             @RequestParam(value = "lastId", required = false) Long lastId
