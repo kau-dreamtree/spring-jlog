@@ -36,8 +36,11 @@ public class JLogExceptionHandler extends ResponseEntityExceptionHandler {
             @Nullable Object body,
             @NonNull HttpHeaders headers,
             @NonNull HttpStatusCode statusCode,
-            @NonNull WebRequest request) {
-        log.error(exception.getMessage(), exception);
+            @NonNull WebRequest request
+    ) {
+        if (statusCode.is5xxServerError()) {
+            log.error(exception.getMessage(), exception);
+        }
         return super.handleExceptionInternal(exception, body, headers, statusCode, request);
     }
 }
