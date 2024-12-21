@@ -10,27 +10,13 @@ create table member
 create table room
 (
     id          bigint      not null auto_increment primary key,
-    member1_id  bigint      not null,
-    member2_id  bigint,
-    code        varchar(8)  not null,
+    member1_id  bigint      not null unique,
+    member2_id  bigint unique,
+    code        varchar(8)  not null unique,
     created_at  datetime(3) not null,
     modified_at datetime(3) not null,
-
-    constraint UKarevbfcloncxciyi0vbx1m4he
-        unique (code),
-
-    constraint UKlanf6uofbre66l90r7v0k9lnp
-        unique (member1_id),
-
-    constraint UKm177vw66ammbkdwbjadchyikk
-        unique (member2_id),
-
-    constraint FKtc3ijuiwm8xemup8jubbupxcl
-        foreign key (member1_id) references member (id),
-
-    constraint FKbijvnohee2ey7eyo42l1ccque
-        foreign key (member2_id) references member (id)
-
+    foreign key (member1_id) references member (id),
+    foreign key (member2_id) references member (id)
 ) engine = InnoDB;
 
 create table log
@@ -42,13 +28,8 @@ create table log
     memo        varchar(255),
     created_at  datetime(3) not null,
     modified_at datetime(3) not null,
-
-    constraint FK51ek4bis8a60qtmopf329fiev
-        foreign key (member_id) references member (id),
-
-    constraint FKa1guu6yj072mudb66ytc7voee
-        foreign key (room_id) references room (id)
-
+    foreign key (member_id) references member (id),
+    foreign key (room_id) references room (id)
 ) engine = InnoDB;
 
 create index log_created_at_idx on log (created_at);

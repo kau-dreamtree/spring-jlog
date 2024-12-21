@@ -56,7 +56,7 @@ public class RoomController {
     }
 
     @GetMapping(path = "/api/v1/rooms")
-    public RoomResponse get(
+    public RoomResponse getV1(
             @RequestParam("roomCode") String roomCode,
             @RequestParam("username") String username
     ) {
