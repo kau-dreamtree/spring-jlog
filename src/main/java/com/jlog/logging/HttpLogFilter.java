@@ -19,8 +19,8 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 @Order(2)
 public class HttpLogFilter extends OncePerRequestFilter {
 
-    private static final String REQUEST_LOG_FORMAT = "[Request] %s %s";
-    private static final String RESPONSE_LOG_FORMAT = "[Response] %s %sms";
+    private static final String REQUEST_LOG_FORMAT = "[Request] %s %s?%s";
+    private static final String RESPONSE_LOG_FORMAT = "[Response] %s %dms";
 
     @Override
     public void doFilterInternal(
@@ -39,7 +39,10 @@ public class HttpLogFilter extends OncePerRequestFilter {
     }
 
     private void logRequest(HttpServletRequest request) {
-        var requestLog = String.format(REQUEST_LOG_FORMAT, request.getMethod(), request.getRequestURI());
+        var requestLog = String.format(REQUEST_LOG_FORMAT,
+                request.getMethod(),
+                request.getRequestURI(),
+                request.getQueryString());
         logger.info(requestLog);
     }
 

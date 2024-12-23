@@ -51,7 +51,7 @@ public class FakeLogRepository implements LogRepository {
     }
 
     @Override
-    public List<Log> findLogsByRoomAndLastId(Room room, Long lastId, Pageable pageable) {
+    public List<Log> findLogsByRoomAfterId(Room room, Long lastId, Pageable pageable) {
         return logs.values()
                 .stream()
                 .filter(log -> Objects.equals(log.getRoom(), room))

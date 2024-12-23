@@ -20,7 +20,7 @@ public interface LogRepository {
 
     List<Log> findAllByRoom(Room room);
 
-    List<Log> findLogsByRoomAndLastId(Room room, Long lastId, Pageable pageable);
+    List<Log> findLogsByRoomAfterId(Room room, Long lastId, Pageable pageable);
 
     default Log fetchById(long id) {
         return findById(id).orElseThrow(() -> new JLogException(LOG_NOT_EXISTS));

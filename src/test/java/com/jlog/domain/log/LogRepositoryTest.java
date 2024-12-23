@@ -28,7 +28,7 @@ class LogRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
-    void findLogsByRoomAndLastId() {
+    void findLogsByRoomAfterId() {
         // given
         Member member = memberRepository.save(new Member("Lizzy"));
         Room room = roomRepository.save(new Room("roomCode", member));
@@ -43,7 +43,7 @@ class LogRepositoryTest {
         var pageRequest = PageRequest.of(0, 20, Direction.DESC, "createdAt");
 
         // when
-        List<Log> actual = logRepository.findLogsByRoomAndLastId(room, 1L, pageRequest);
+        List<Log> actual = logRepository.findLogsByRoomAfterId(room, 1L, pageRequest);
 
         // then
         assertThat(actual).hasSize(2);
