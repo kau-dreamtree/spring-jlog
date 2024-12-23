@@ -46,9 +46,8 @@ jobs:
       - name: Run artifact
         working-directory: /home/zeus/jlog
         run: |
-          mv /home/zeus/jlog/spring/test/jlog-1.2.jar /home/zeus/jlog/spring/test/jlog.jar
-          docker compose down jlog-test
-          docker compose up -d jlog-test
+          mv spring/test/jlog-1.2.jar spring/test/jlog.jar
+          python3 deploy/deploy.py dev
 
   deploy-prod:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -65,6 +64,5 @@ jobs:
       - name: Run artifact
         working-directory: /home/zeus/jlog
         run: |
-          mv /home/zeus/jlog/spring/prod/jlog-1.2.jar /home/zeus/jlog/spring/prod/jlog.jar
-          docker compose down jlog-production
-          docker compose up -d jlog-production
+          mv spring/prod/jlog-1.2.jar spring/prod/jlog.jar
+          python3 deploy/deploy.py prod
