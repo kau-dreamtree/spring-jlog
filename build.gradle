@@ -23,6 +23,8 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.17.0'
 
+    implementation 'com.github.spotbugs:spotbugs-annotations:4.8.6'
+
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.4.0'
     runtimeOnly 'com.h2database:h2'
 
