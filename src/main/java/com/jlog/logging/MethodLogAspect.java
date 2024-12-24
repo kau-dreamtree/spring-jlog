@@ -17,7 +17,7 @@ public class MethodLogAspect {
             "!within(com.jlog.logging.*) && " +
             "!within(com.jlog.exception.*)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        if (!log.isInfoEnabled()) {
+        if (!log.isDebugEnabled()) {
             return joinPoint.proceed();
         }
 
