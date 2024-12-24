@@ -1,6 +1,7 @@
 package com.jlog.logging;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +20,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 @Order(2)
 public class HttpLogFilter extends OncePerRequestFilter {
 
-    private static final String REQUEST_LOG_FORMAT = "[Request] %s %s?%s";
+    private static final String REQUEST_LOG_FORMAT = "[Request] %s %s%s";
     private static final String RESPONSE_LOG_FORMAT = "[Response] %s %dms";
 
     @Override
@@ -39,10 +40,8 @@ public class HttpLogFilter extends OncePerRequestFilter {
     }
 
     private void logRequest(HttpServletRequest request) {
-        var requestLog = String.format(REQUEST_LOG_FORMAT,
-                request.getMethod(),
-                request.getRequestURI(),
-                request.getQueryString());
+        var queryString = Objects.nonNull(request.getQueryString()) ? "?" + request.getQueryString() : "";
+        var requestLog = String.format(REQUEST_LOG_FORMAT, request.getMethod(), request.getRequestURI(), queryString);
         logger.info(requestLog);
     }
 
