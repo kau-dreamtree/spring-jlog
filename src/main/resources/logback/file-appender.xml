@@ -2,7 +2,7 @@
 
 <included>
 
-    <property name="FILE_PATH" value="/Users/zeus/Desktop/dev/java/jlog/logback"/>
+    <property name="FILE_PATH" value="/app/log"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
