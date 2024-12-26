@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.jlog.config.JLogDateTimeDeserializer;
-import com.jlog.config.JLogDateTimeSerializer;
+import com.jlog.config.serialization.UTCDateTimeDeserializer;
+import com.jlog.config.serialization.UTCDateTimeSerializer;
 
 @SuppressWarnings("DeprecatedIsStillUsed")
 @Deprecated(forRemoval = true)
@@ -25,13 +25,13 @@ public record LogResponse(
 
         String memo,
 
-        @JsonSerialize(using = JLogDateTimeSerializer.class)
-        @JsonDeserialize(using = JLogDateTimeDeserializer.class)
+        @JsonSerialize(using = UTCDateTimeSerializer.class)
+        @JsonDeserialize(using = UTCDateTimeDeserializer.class)
         @JsonProperty("created_at")
         LocalDateTime createdAt,
 
-        @JsonSerialize(using = JLogDateTimeSerializer.class)
-        @JsonDeserialize(using = JLogDateTimeDeserializer.class)
+        @JsonSerialize(using = UTCDateTimeSerializer.class)
+        @JsonDeserialize(using = UTCDateTimeDeserializer.class)
         @JsonProperty("modified_at")
         LocalDateTime modifiedAt
 ) {

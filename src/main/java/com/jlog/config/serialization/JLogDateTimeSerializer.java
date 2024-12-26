@@ -1,4 +1,4 @@
-package com.jlog.config;
+package com.jlog.config.serialization;
 
 import java.time.format.DateTimeFormatter;
 

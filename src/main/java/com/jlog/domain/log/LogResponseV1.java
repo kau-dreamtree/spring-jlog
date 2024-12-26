@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.jlog.config.JLogDateTimeDeserializer;
-import com.jlog.config.JLogDateTimeSerializer;
+import com.jlog.config.serialization.JLogDateTimeDeserializer;
+import com.jlog.config.serialization.JLogDateTimeSerializer;
 
 public record LogResponseV1(
 
@@ -18,6 +18,7 @@ public record LogResponseV1(
         long expense,
 
         String memo,
+
         @JsonSerialize(using = JLogDateTimeSerializer.class)
         @JsonDeserialize(using = JLogDateTimeDeserializer.class)
         LocalDateTime createdAt,
