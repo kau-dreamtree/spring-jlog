@@ -52,9 +52,9 @@ public class LogService {
     @SuppressWarnings({"removal", "DeprecatedIsStillUsed"})
     @Deprecated(forRemoval = true)
     @Transactional(readOnly = true)
-    public LogsWithOutpayResponse findAll(String roomCode, String username) {
-        var room = roomRepository.fetchByCode(roomCode);
-        var member = room.getMemberByName(username);
+    public LogsWithOutpayResponse findAll(LogDto request) {
+        var room = roomRepository.fetchByCode(request.roomCode());
+        var member = room.getMemberByName(request.username());
         Objects.requireNonNull(member);
         var logs = logRepository.findAllByRoom(room)
                 .stream()
