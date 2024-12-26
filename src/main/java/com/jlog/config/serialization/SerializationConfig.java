@@ -1,4 +1,4 @@
-package com.jlog.config;
+package com.jlog.config.serialization;
 
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
