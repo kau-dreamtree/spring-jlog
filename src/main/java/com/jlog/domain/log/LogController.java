@@ -4,6 +4,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,17 +31,20 @@ public class LogController {
     @Deprecated(forRemoval = true)
     @PostMapping(path = "/api/log")
     @ResponseStatus(HttpStatus.CREATED)
+    @CacheEvict(cacheNames = "logs", key = "#request.roomCode()")
     public void save(@RequestBody LogRequest request) {
         logService.create(request);
     }
 
     @Deprecated(forRemoval = true)
     @GetMapping(path = "/api/log")
+    @Cacheable(cacheNames = "logs", key = "#roomCode")
     public LogsWithOutpayResponse getLogsWithOutpay(
             @RequestParam("room_code") String roomCode,
             @RequestParam("username") String username
     ) {
-        return logService.findAll(roomCode, username);
+        var request = new LogRequest(null, roomCode, username, null, null);
+        return logService.findAll(request);
     }
 
     @Deprecated(forRemoval = true)
@@ -57,6 +62,7 @@ public class LogController {
 
     @PostMapping(path = "/api/v1/logs")
     @ResponseStatus(HttpStatus.CREATED)
+    @CacheEvict(cacheNames = "logs", key = "#roomCode")
     public LogResponseV1 createV1(
             @RequestParam("roomCode") String roomCode,
             @RequestParam("username") String username,

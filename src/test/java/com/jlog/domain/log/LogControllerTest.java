@@ -71,7 +71,7 @@ class LogControllerTest {
         var member = new Member("zeus");
         var room = new Room("room1234", member);
         var existingLog = new Log(1L, room, member, 1000L, "memo1");
-        var request = new LogRequestV1(null, null, null, 2000L, "new memo");
+        var request = LogRequestV1.of(null, null, 2000L, "new memo");
 
         given(logService.update(any())).willReturn(new Log(existingLog.getId(), room, member, request.expense(), request.memo()));
 
@@ -138,7 +138,7 @@ class LogControllerTest {
                     new LogResponse(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
             );
             var expect = LogsWithOutpayResponse.of(room, logResponses);
-            doReturn(expect).when(logService).findAll(room.getCode(), member1.getName());
+            doReturn(expect).when(logService).findAll(any());
 
             var parameters = "?room_code=room_1234&username=zeus";
             mvc.perform(get(BASE_URL + parameters)
