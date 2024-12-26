@@ -70,14 +70,16 @@ class LogServiceTest {
         Member member = memberRepository.save(new Member(username));
         roomRepository.save(new Room(roomCode, member));
 
-        var request1 = new LogRequest(null, roomCode, username, 1000L, "Memo1");
-        var request2 = new LogRequest(null, roomCode, username, 2000L, "Memo2");
+        var createRequest1 = new LogRequest(null, roomCode, username, 1000L, "Memo1");
+        var createRequest2 = new LogRequest(null, roomCode, username, 2000L, "Memo2");
 
-        sut.create(request1);
-        sut.create(request2);
+        sut.create(createRequest1);
+        sut.create(createRequest2);
+
+        var findRequest = new LogRequest(null, roomCode, username, null, null);
 
         // when
-        LogsWithOutpayResponse actual = sut.findAll(roomCode, username);
+        LogsWithOutpayResponse actual = sut.findAll(findRequest);
 
         // then
         assertThat(actual).isNotNull();
@@ -95,13 +97,13 @@ class LogServiceTest {
         Member member = memberRepository.save(new Member(username));
         roomRepository.save(new Room(roomCode, member));
 
-        var request1 = new LogRequestV1(null, roomCode, username, 1000L, "Memo1");
-        var request2 = new LogRequestV1(null, roomCode, username, 2000L, "Memo2");
+        var request1 = LogRequestV1.of(roomCode, username, 1000L, "Memo1");
+        var request2 = LogRequestV1.of(roomCode, username, 2000L, "Memo2");
 
         sut.create(request1);
         sut.create(request2);
 
-        var logRequest = new LogRequestV1(0L, roomCode, username, null, null);
+        var logRequest = LogRequestV1.of(0L, roomCode, username, null, null);
 
         // when
         List<Log> response = sut.findLogsByRoomAfterId(logRequest);
