@@ -3,6 +3,8 @@ package com.jlog.domain.log;
 import static java.time.LocalDateTime.now;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,6 +38,7 @@ import com.jlog.domain.room.Room;
 class LogControllerTest {
 
     private static final String BASE_URL = "/api/log";
+    private static final String BASE_URL_V1 = "/api/v1/logs";
 
     @Autowired
     private MockMvc mvc;
@@ -46,6 +49,55 @@ class LogControllerTest {
     @MockBean
     private LogService logService;
 
+
+    @Test
+    void createV1() throws Exception {
+        var member = new Member("zeus");
+        var room = new Room("room1234", member);
+        var request = LogRequestV1.of(null, null, 1000L, "memo1");
+
+        given(logService.create(any())).willReturn(new Log(1L, room, member, request.expense(), request.memo()));
+
+        var requestUri = BASE_URL_V1 + "?roomCode=" + request.roomCode() + "&username=" + request.username();
+        mvc.perform(post(requestUri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void updateV1() throws Exception {
+        var member = new Member("zeus");
+        var room = new Room("room1234", member);
+        var existingLog = new Log(1L, room, member, 1000L, "memo1");
+        var request = LogRequestV1.of(null, null, 2000L, "new memo");
+
+        given(logService.update(any())).willReturn(new Log(existingLog.getId(), room, member, request.expense(), request.memo()));
+
+        var requestUri = BASE_URL_V1 + "/" + existingLog.getId() + "?roomCode=" + request.roomCode() + "&username=" + request.username();
+        mvc.perform(put(requestUri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteV1() throws Exception {
+        var member = new Member("zeus");
+        var room = new Room("room1234", member);
+        var existingLog = new Log(1L, room, member, 1000L, "memo1");
+
+        willDoNothing().given(logService).delete(any());
+
+        var requestUri = BASE_URL_V1 + "/" + existingLog.getId() + "?roomCode=" + room.getCode() + "&username=" + member.getName();
+        mvc.perform(delete(requestUri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
     @Nested
     @DisplayName("Request to create a log")
     class Create {
@@ -54,7 +106,6 @@ class LogControllerTest {
         @DisplayName("Request to create a log responds 201")
         void create() throws Exception {
             var request = new LogRequest(null, "room_1234", "member1", 1000L, null);
-
             mvc.perform(post(BASE_URL)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +138,7 @@ class LogControllerTest {
                     new LogResponse(2L, room.getCode(), member2.getName(), 2000L, "memo2", now(), now())
             );
             var expect = LogsWithOutpayResponse.of(room, logResponses);
-            doReturn(expect).when(logService).findAll(any(), any());
+            doReturn(expect).when(logService).findAll(any());
 
             var parameters = "?room_code=room_1234&username=zeus";
             mvc.perform(get(BASE_URL + parameters)
