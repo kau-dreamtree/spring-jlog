@@ -16,7 +16,7 @@ public record RoomResponse(
         var members = new ArrayList<MemberDto>();
         room.getMembers()
                 .stream()
-                .map(member -> new MemberResponse(member.getName(), member.getExpense()))
+                .map(MemberResponse::from)
                 .forEach(members::add);
         return new RoomResponse(room.getCode(), members, room.outpayer(), room.outpayAmount());
     }
