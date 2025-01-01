@@ -49,6 +49,7 @@ public class LogController {
 
     @Deprecated(forRemoval = true)
     @PutMapping(path = "/api/log")
+    @CacheEvict(cacheNames = "logs", key = "#request.roomCode()")
     public void update(@RequestBody LogRequest request) {
         logService.update(request);
     }
@@ -56,6 +57,7 @@ public class LogController {
     @Deprecated(forRemoval = true)
     @DeleteMapping(path = "/api/log")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(cacheNames = "logs", key = "#request.roomCode()")
     public void delete(@RequestBody LogRequest request) {
         logService.delete(request);
     }
@@ -85,6 +87,7 @@ public class LogController {
     }
 
     @PutMapping(path = "/api/v1/logs/{id}")
+    @CacheEvict(cacheNames = "logs", key = "#request.roomCode()")
     public LogResponseV1 updateV1(
             @PathVariable Long id,
             @RequestParam("roomCode") String roomCode,
@@ -98,6 +101,7 @@ public class LogController {
 
     @DeleteMapping(path = "/api/v1/logs/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(cacheNames = "logs", key = "#roomCode")
     public void deleteV1(
             @PathVariable Long id,
             @RequestParam("roomCode") String roomCode,
