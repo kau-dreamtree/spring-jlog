@@ -27,15 +27,13 @@ public record LogResponseV1(
         @JsonDeserialize(using = JLogDateTimeDeserializer.class)
         LocalDateTime modifiedAt
 ) {
-    public static LogResponseV1 from(Log log) {
-        return new LogResponseV1(
-                log.getId(),
+    public LogResponseV1(Log log) {
+        this(log.getId(),
                 log.getRoomCode(),
                 log.getMemberName(),
                 log.getExpense(),
                 log.getMemo(),
                 log.getCreatedAt(),
-                log.getModifiedAt()
-        );
+                log.getModifiedAt());
     }
 }

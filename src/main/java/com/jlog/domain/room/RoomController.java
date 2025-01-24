@@ -42,7 +42,7 @@ public class RoomController {
     @ResponseStatus(HttpStatus.CREATED)
     public RoomResponse createV1(@RequestBody @Valid RoomRequestV1 request) {
         var room = roomService.create(request);
-        return RoomResponse.from(room);
+        return new RoomResponse(room);
     }
 
     @PutMapping(path = "/api/v1/rooms")
@@ -52,7 +52,7 @@ public class RoomController {
     ) {
         request = new RoomRequestV1(roomCode, request.username());
         var room = roomService.join(request);
-        return RoomResponse.from(room);
+        return new RoomResponse(room);
     }
 
     @GetMapping(path = "/api/v1/rooms")
@@ -62,6 +62,6 @@ public class RoomController {
     ) {
         var request = new RoomRequestV1(roomCode, username);
         var room = roomService.get(request);
-        return RoomResponse.from(room);
+        return new RoomResponse(room);
     }
 }

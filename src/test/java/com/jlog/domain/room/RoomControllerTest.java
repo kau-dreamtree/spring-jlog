@@ -110,7 +110,7 @@ class RoomControllerTest {
             var request = new RoomRequestV1(room.getCode(), member1.getName());
             doReturn(room).when(roomService).get(request);
 
-            var response = RoomResponse.from(room);
+            var response =  new RoomResponse(room);
             mvc.perform(get("/api/v1/rooms")
                     .param("roomCode", room.getCode())
                     .param("username", member1.getName())

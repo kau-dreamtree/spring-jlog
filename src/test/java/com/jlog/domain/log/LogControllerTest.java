@@ -173,7 +173,7 @@ class LogControllerTest {
 
             doReturn(logs).when(logService).findLogsByRoomAfterId(any());
 
-            var response = List.of(LogResponseV1.from(log1), LogResponseV1.from(log2));
+            var response = List.of(new LogResponseV1(log1), new LogResponseV1(log2));
 
             mvc.perform(get(parameters)
                             .accept(MediaType.APPLICATION_JSON)

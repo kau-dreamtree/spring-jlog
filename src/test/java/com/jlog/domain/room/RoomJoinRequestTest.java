@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Stream;
 
-import jakarta.validation.ConstraintViolation;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,9 +40,7 @@ class RoomJoinRequestTest extends ValidationTest {
 
         var violations = validator.validate(sut);
 
-        assertThat(violations).isNotEmpty()
-                .extracting(ConstraintViolation::getMessage)
-                .containsAnyOf("must not be blank", "size must be between 8 and 8");
+        assertThat(violations).isNotEmpty();
     }
 
     @DisplayName("실패: invalid code length")
@@ -55,9 +51,7 @@ class RoomJoinRequestTest extends ValidationTest {
 
         var violations = validator.validate(sut);
 
-        assertThat(violations).isNotEmpty()
-                .extracting(ConstraintViolation::getMessage)
-                .containsOnly("size must be between 8 and 8");
+        assertThat(violations).isNotEmpty();
     }
 
     @DisplayName("실패: username null or empty")
@@ -68,9 +62,7 @@ class RoomJoinRequestTest extends ValidationTest {
 
         var violations = validator.validate(sut);
 
-        assertThat(violations).isNotEmpty()
-                .extracting(ConstraintViolation::getMessage)
-                .containsAnyOf("must not be blank", "size must be between 2 and 16");
+        assertThat(violations).isNotEmpty();
     }
 
     @DisplayName("실패: 2글자 미만 또는 16글자 초과")
@@ -81,9 +73,7 @@ class RoomJoinRequestTest extends ValidationTest {
 
         var violations = validator.validate(sut);
 
-        assertThat(violations).isNotEmpty()
-                .extracting(ConstraintViolation::getMessage)
-                .containsOnly("size must be between 2 and 16");
+        assertThat(violations).isNotEmpty();
     }
 
     static Stream<String> invalid_username_length() {

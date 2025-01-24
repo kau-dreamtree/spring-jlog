@@ -72,7 +72,7 @@ public class LogController {
     ) {
         request = LogRequestV1.of(roomCode, username, request.expense(), request.memo());
         var log = logService.create(request);
-        return LogResponseV1.from(log);
+        return new LogResponseV1(log);
     }
 
     @GetMapping(path = "/api/v1/logs")
@@ -83,7 +83,7 @@ public class LogController {
     ) {
         var request = LogRequestV1.of(lastId, roomCode, username);
         var logs = logService.findLogsByRoomAfterId(request);
-        return logs.stream().map(LogResponseV1::from).toList();
+        return logs.stream().map(LogResponseV1::new).toList();
     }
 
     @PutMapping(path = "/api/v1/logs/{id}")
@@ -96,7 +96,7 @@ public class LogController {
     ) {
         request = LogRequestV1.of(id, roomCode, username, request.expense(), request.memo());
         var log = logService.update(request);
-        return LogResponseV1.from(log);
+        return new LogResponseV1(log);
     }
 
     @DeleteMapping(path = "/api/v1/logs/{id}")
