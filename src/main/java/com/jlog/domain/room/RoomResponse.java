@@ -7,7 +7,7 @@ import com.jlog.domain.member.MemberResponse;
 
 public record RoomResponse(
         String roomCode,
-        List<MemberDto> getMembers,
+        List<MemberDto> members,
         String outpayer,
         long outpayAmount
 ) {
